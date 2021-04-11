@@ -1,0 +1,91 @@
+image: maven:3.6.1
+
+clone:
+  depth: full              # SonarCloud scanner needs the full history to assign issues properly
+
+definitions:
+  caches:
+    sonar: ~/.sonar/cache  # Caching SonarCloud artifacts will speed up your build
+  steps:
+  
+    - step: &build-test
+        name: Build and test
+        caches:
+          - maven
+        script:
+          - mvn -B verify -DskipTests
+        artifacts:
+          - target/**
+
+    - step: &build-test-sonarcloud
+        name: Build, test and analyze on SonarCloud
+        caches:
+          - maven
+          - sonar
+        script:
+          - mvn -B org.jacoco:jacoco-maven-plugin:prepare-agent verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -DskipTests
+        artifacts:
+          - target/**
+
+    - step: &dev-docker-build
+        name: Build and push docker imag 
+        trigger: manual
+        caches:
+          - docker 
+        services:
+          - docker 
+        script:
+            # build the Docker image 
+            - export IMAGE_NAME=zeguru/mpesa-gateway:dev-$BITBUCKET_COMMIT
+            #- export IMAGE_NAME=zeguru/mpesa-gateway:$BITBUCKET_BUILD_NUMBER
+            - docker build -t $IMAGE_NAME .
+            # authenticate with the Docker Hub registry   
+            - docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
+            # push the new Docker image to the Docker registry
+            - docker push $IMAGE_NAME
+
+
+    #- step: &deploy-dev
+    #   name: Deploy docker stack
+    #    trigger: manual
+    #    script:
+    #        - echo 'Authenticating at portainer'
+    #        - AUTH = `curl -d "{\"Username\":\"pipeline_user\",\"Password\":\"pipe123\!\"}" -H "Content-Type:application/json" -X POST http://192.180.3.222:9099/api/auth`
+    #        - echo "$AUTH"
+    #        - RESPONSE = `curl -H "Authorization: Bearer $AUTH" -X POST http://192.180.4.17:9099/api/endpoints/1/docker/containers/json`
+    #        - echo "$RESPONSE"
+
+
+    - step: &prod-docker-build
+        name: Build and push docker imag 
+        trigger: manual
+        caches:
+          - docker 
+        services:
+          - docker 
+        script:
+            # build the Docker image 
+            - export IMAGE_NAME=zeguru/mpesa-gateway:$BITBUCKET_BUILD_NUMBER
+            - docker build -t $IMAGE_NAME .
+            # authenticate with the Docker Hub registry   
+            - docker login --username $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
+            # push the new Docker image to the Docker registry
+            - docker push $IMAGE_NAME
+
+pipelines:
+  default:
+    - step: *build-test
+  branches:
+    dev:
+      - step: *build-test-sonarcloud
+      - step: *dev-docker-build
+      #- step: *deploy-dev
+    master:
+      - step: *build-test-sonarcloud
+      - step: *prod-docker-build
+  pull-requests:
+    '**':
+      - step: *build-test-sonarcloud
+
+options:
+  docker: true

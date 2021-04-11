@@ -1,0 +1,54 @@
+spring:
+  #datasource:
+    #url: jdbc:mysql://localhost:3306/mpesa_gateway
+    # url: jdbc:postgresql://localhost:5432/mpesa_gateway
+    #url: jdbc:derby:memory:local;create=true
+    #driver-class-name: org.apache.derby.jdbc.EmbeddedDriver
+    #driver-class-name: org.apache.derby.jdbc.ClientDriver
+    #continue-on-error: false 
+    #generate-unique-name: false
+    # username: dev_user
+    # password: 
+  jpa:
+    database: default
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        # multiTenancy: SCHEMA 
+        # tenant_identifier_resolver: "com.softel.mpesa.multitenancy.TenantIdentifierResolver"
+        # multi_tenant_connection_provider: "com.softel.mpesa.multitenancy.AnotherMultiTenantConnectionProvider"
+
+mpesa:
+  consumer-key: i6gf08kJ28qPfKpaivh1cDuUhVeEw4WX
+  consumer-secret: BrvAjmjO7sYnK6BG
+  base-url: https://sandbox.safaricom.co.ke
+  short-code: 174379
+  passkey: bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919
+  token:
+    duration:
+      seconds: 3600
+  client-credentials:
+    oauth-url: /oauth/v1/generate?grant_type=client_credentials
+  mpesa-express:
+    request-url: https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest
+    callback-url: https://api.softwareelegance.net/
+    query-url: https://sandbox.safaricom.co.ke/mpesa/stkpushquery/v1/query
+  b2c:
+    initiator-name: testapi
+    password: wip
+    shortcode: 600584
+    security-credential: Safaricom584!#
+    msisdn: 254708374149
+    request-url: /mpesa/b2c/v1/paymentrequest
+    result-url: /mpesa-gateway/mpesa-b2c/result-callback
+    queue-timeout-url: /mpesa-gateway/mpesa-b2c/queue-timeout-callback
+    
+    
+softel:
+  api:
+    base-url: https://softwareelegance.net/api/v1
+
+

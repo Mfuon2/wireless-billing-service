@@ -1,0 +1,42 @@
+#Root
+/db/
+/docs/
+/redis/
+/ussd-covid-delete/
+.DS_Store
+
+##Nested
+**/.circleci/
+**/.settings/
+**/.mvn/
+**/redis/
+**/target/
+**/mvnw*
+**/*.log
+**/*.gz
+
+
+# ### STS ###
+**/.apt_generated
+**/.classpath
+**/.factorypath
+**/.project
+**/.settings
+**/.springBeans
+**/.sts4-cache
+
+# ### IntelliJ IDEA ###
+**/.idea
+**/*.iws
+**/*.iml
+**/*.ipr
+
+# ### VS Code ###
+**/.vscode/
+**/*.jar
+**/.DS_Store
+
+**/.gradle
+**/bin
+**/.vscode
+

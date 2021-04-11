@@ -1,0 +1,80 @@
+version: '3.9'
+
+services:
+
+  mpesa:
+    build: mpesa-gateway/
+    container_name: app_mpesa_vuka
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - redis
+    links:
+      - db
+      - redis
+    networks:
+      - app-network
+    env_file:
+      - mpesa-gateway/mpesa.env
+
+  # api:
+  #   build: mpesa-api/
+  #   container_name: app_ussd_api
+  #   restart: unless-stopped
+  #   ports:
+  #     - "9090:9090"
+  #   depends_on:
+  #     - db
+  #     - redis
+  #   links:
+  #     - db
+  #     - redis
+  #   networks:
+  #     - app-network
+  #   # env_file:
+  #   #   - ussd-dev.env
+  #   environment:
+  #     - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/ussd_covid
+  #     - SPRING_DATASOURCE_USERNAME=dev_user
+  #     - SPRING_DATASOURCE_PASSWORD=caro_kann
+  #     - SPRING_APPLICATION_JSON={"spring.redis.host":"redis", "spring.redis.port":"6379"}
+  #     - SPRING_PROFILES_ACTIVE=dev
+
+
+  redis:
+    image: redis
+    container_name: app_redis_vuka
+    command: [ "redis-server", "--protected-mode", "no" ]
+    hostname: redis
+    expose: 
+      - "6379"
+    ports:
+      - "6379:6379"
+    volumes:
+      - $PWD/redis/redis-data:/var/lib/redis
+      - $PWD/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    networks:
+      - app-network
+
+
+  db:
+    image: postgres:12
+    container_name: app_db_vuka
+    hostname: db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/pgdemo:/var/lib/postgresql/data
+    networks:
+      - app-network
+    env_file:
+      - postgres-configs/pg.env
+    volumes:
+      - ./postgres-configs/scripts:/docker-entrypoint-initdb.d
+
+networks:
+  app-network:
+    driver: "bridge"
