@@ -1,37 +1,24 @@
 #Use alpine
-#FROM openjdk:8-jdk-alpine
+
 FROM openjdk:14-jdk
 
-#FROM openjdk:11
 ARG DOCKER_SPRING_PROFILES_ACTIVE
 ENV SPRING_PROFILES_ACTIVE $DOCKER_SPRING_PROFILES_ACTIVE
 
 ENV TZ Africa/Nairobi
 
-#RUN apk update
-#RUN apk add --no-cache tzdata
 
-# ENV TZ Africa/Nairobi
-
-# Add Maintainer info
+# Add Labels
+LABEL project="Vuka Wireless Billing"
 LABEL maintainer="itambo.ibrahim@gmail.com"
 
 # Add a volume pointing to /tmp
 VOLUME /tmp
 
-# WORKDIR /usr/src/java-code
-# COPY . /usr/src/java-code/
-# RUN mvn package -DskipTests
-
-# WORKDIR /usr/src/java-app
-# RUN cp /usr/src/java-code/target/*.jar ./app.jar
-
 # Make port 8761 available to the world outside this container
 EXPOSE 8080
 
 # The fat jar
-#ARG JAR_FILE=target/ussd-rc2.jar
-#ARG JAR_FILE=target/ussd-snapshot.jar
 ARG JAR_FILE=target/*.jar
 
 # Add the application's jar to the container
