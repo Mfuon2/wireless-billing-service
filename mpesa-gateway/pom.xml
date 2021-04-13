@@ -76,6 +76,13 @@
 			<groupId>org.jetbrains.kotlinx</groupId>
 			<artifactId>kotlinx-coroutines-reactor</artifactId>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.keycloak/keycloak-spring-boot-starter -->
+		<dependency>
+			<groupId>org.keycloak</groupId>
+			<artifactId>keycloak-spring-boot-starter</artifactId>
+			<version>12.0.4</version>
+		</dependency>
+
 		<!--okhttp-->
 		<dependency>
 			<groupId>com.squareup.okhttp3</groupId>

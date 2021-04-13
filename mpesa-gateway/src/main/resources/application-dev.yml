@@ -1,14 +1,4 @@
 spring:
-  #datasource:
-    #url: jdbc:mysql://localhost:3306/mpesa_gateway
-    # url: jdbc:postgresql://localhost:5432/mpesa_gateway
-    #url: jdbc:derby:memory:local;create=true
-    #driver-class-name: org.apache.derby.jdbc.EmbeddedDriver
-    #driver-class-name: org.apache.derby.jdbc.ClientDriver
-    #continue-on-error: false 
-    #generate-unique-name: false
-    # username: dev_user
-    # password: 
   jpa:
     database: default
     generate-ddl: true

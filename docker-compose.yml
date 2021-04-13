@@ -67,13 +67,21 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./db/pgdemo:/var/lib/postgresql/data
+      - ./pgdata:/var/lib/postgresql/data
+      - ./postgres-configs/scripts:/docker-entrypoint-initdb.d
     networks:
       - app-network
     env_file:
       - postgres-configs/pg.env
-    volumes:
-      - ./postgres-configs/scripts:/docker-entrypoint-initdb.d
+
+  # adminer:
+  #     image: adminer
+  #     restart: always
+  #     depends_on:
+  #     - db
+  #     ports:
+  #       - 8080:8888
+
 
 networks:
   app-network:

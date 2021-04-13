@@ -1,8 +1,8 @@
 #Root
-/db/
+/pgdata/
 /docs/
 /redis/
-/ussd-covid-delete/
+
 .DS_Store
 
 ##Nested

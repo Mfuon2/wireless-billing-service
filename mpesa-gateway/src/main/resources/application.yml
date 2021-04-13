@@ -15,7 +15,6 @@ spring:
 #       registerWithEureka: true
 #       fetchRegistry: true
 
-
 management:
   endpoint:
     health:

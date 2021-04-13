@@ -1,6 +1,6 @@
 package com.softel.mpesa.config
 
-import com.softel.mpesa.interceptor.RequestInterceptor
+import com.softel.mpesa.interceptor.DevRequestInterceptor
 
 
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,7 +20,7 @@ class InterceptorConfig: WebMvcConfigurer {
 
 
     @Autowired
-    lateinit var requestInterceptor: RequestInterceptor
+    lateinit var requestInterceptor: DevRequestInterceptor
 
     override fun addInterceptors( registry: InterceptorRegistry) {
         registry.addInterceptor(requestInterceptor)
