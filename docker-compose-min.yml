@@ -3,7 +3,9 @@ version: '3.9'
 services:
 
   mpesa:
-    build: mpesa-gateway/
+    build:
+      context: ./mpesa-gateway/
+      dockerfile: Dockerfile.min
     container_name: app_mpesa_vuka
     restart: unless-stopped
     ports:

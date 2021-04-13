@@ -18,8 +18,8 @@ Projects
 # Running in local dev
 
 ```
-#. Fastest / Useless
-docker-compose build && docker-compose up
+#. Fastest, Requires `mvn clean package`
+docker-compose -f docker-compose-min.yml build && docker-compose -f docker-compose-min.yml up
 
 # Rebuild everytime
 docker-compose build && docker-compose up --force-recreate
@@ -28,5 +28,4 @@ docker-compose build && docker-compose up --force-recreate
 docker-compose build --no-cache && docker-compose up --force-recreate
 ```
 
-# Running in uat / smart 
-file: docker-compose-covid-ussd-uat.yml
+# Running in uat / digital ocean / aws
