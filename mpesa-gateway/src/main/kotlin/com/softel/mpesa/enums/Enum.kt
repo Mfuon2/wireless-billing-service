@@ -1,10 +1,17 @@
 package com.softel.mpesa.enums
 
 enum class ServiceTypeEnum{
-    FREE,
-    BASIC,
-    PRO
+    ADHOC,          
+    PRE_PAID,       
+    POST_PAID       
 }
+
+enum class SubscriptionPlan(val plan: String) {
+    DEMO("Demo"),
+    PERSONAL("Personal"),
+    BUSINESS("Business"),
+    PLATINUM("Platinum")        //Big biz, trusted and very flexible payments... cheque etc
+    }
 
 enum class AccountTransactionType(val type: String){
     DEBIT("DR"),
@@ -44,3 +51,4 @@ enum class PaymentStatusEnum {
     SUCCESSFUL,
     FAILED
 }
+

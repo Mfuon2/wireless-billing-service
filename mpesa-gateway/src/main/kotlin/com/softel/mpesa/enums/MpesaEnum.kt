@@ -10,20 +10,20 @@ enum class MpesaCommandID(val command: String){
 }
 
 enum class MpesaTokenCacheEnum(val type: String){
-    FREE_TOKEN("motorMpesaAuthToken"),
-    BASIC_TOKEN("lifeMpesaAuthToken"),
-    PRO_TOKEN("healthMpesaAuthToken");
+    ADHOC_TOKEN("motorMpesaAuthToken"),
+    PRE_PAID_TOKEN("lifeMpesaAuthToken"),
+    POST_PAID_TOKEN("healthMpesaAuthToken");
     companion object {
         fun getCacheType(service: ServiceTypeEnum): MpesaTokenCacheEnum =
                 when(service) {
-                    ServiceTypeEnum.FREE -> FREE_TOKEN
-                    ServiceTypeEnum.BASIC -> BASIC_TOKEN
-                    ServiceTypeEnum.PRO -> PRO_TOKEN
+                    ServiceTypeEnum.ADHOC -> ADHOC_TOKEN
+                    ServiceTypeEnum.PRE_PAID -> PRE_PAID_TOKEN
+                    ServiceTypeEnum.POST_PAID -> POST_PAID_TOKEN
                 }
     }
 }
 
 enum class StkRequestType{
-    DEPOSIT,
+    DEPOSIT,            //wallet deposit
     PAYMENT
 }

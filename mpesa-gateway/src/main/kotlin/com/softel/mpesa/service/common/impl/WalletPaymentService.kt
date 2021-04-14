@@ -63,11 +63,11 @@ class WalletPaymentService: IWalletPaymentService {
                         reference       = reference,
                         description     = StatementTag.PAYMENT.type,
                         tag             = PaymentType.WALLET.name,
-                        serviceType     = ServiceTypeEnum.BASIC
+                        serviceType     = ServiceTypeEnum.PRE_PAID
                 )
         )
         return if (result.success) {
-            val wallet = walletRepository.findByAccountNumber(request.idNumber, ServiceTypeEnum.BASIC)
+            val wallet = walletRepository.findByAccountNumber(request.idNumber, ServiceTypeEnum.PRE_PAID)
 
             val walletPayment = walletPaymentRepository.save(
                     WalletPayment(
@@ -76,7 +76,7 @@ class WalletPaymentService: IWalletPaymentService {
                             amount                  = request.payableAmount,
                             accountReference        = request.serviceAccountNumber,
                             transactionDescription  = request.description,
-                            serviceType             = ServiceTypeEnum.BASIC,
+                            serviceType             = ServiceTypeEnum.PRE_PAID,
                             serviceRequestStatus    = ServiceRequestStatusEnum.PENDING
                     )
             )

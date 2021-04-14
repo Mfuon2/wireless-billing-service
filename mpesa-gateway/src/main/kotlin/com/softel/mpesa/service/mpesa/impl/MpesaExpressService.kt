@@ -77,6 +77,7 @@ class MpesaExpressService : IMpesaExpressService {
     override fun processPaymentRequest(stkRequestDto: MpesaStkRequestDto): Result<MpesaExpressResponse> {
         logger.info("###Stk payment dto->${gson.toJson(stkRequestDto)}")
         logger.info("###activeProfile->$activeProfile")
+        val subscriptionPlan = stkRequestDto.subscriptionPlan.toUpperCase()
         val serviceType = stkRequestDto.serviceType.toUpperCase()
         val timestamp   = LocalDateTime.now()
         val shortCode   = propertyService.getBusinessShortCode(serviceType).toInt()
@@ -84,10 +85,10 @@ class MpesaExpressService : IMpesaExpressService {
         val authToken   = cacheService.getAuthToken(serviceType)
                 ?: return ResultFactory.getFailResult(msg = "Authentication failed")
 
-        if(serviceType == ServiceTypeEnum.FREE.name && stkRequestDto.idNumber.isNullOrEmpty()) {
-            //Vuka Account number is required too
-            return  ResultFactory.getFailResult(msg = "ID number required.")
-        }
+        if((subscriptionPlan == SubscriptionPlan.PERSONAL.name || subscriptionPlan == SubscriptionPlan.BUSINESS.name) && stkRequestDto.fullName.isNullOrEmpty()) {
+            return  ResultFactory.getFailResult(msg = "Name is required for PERSONAL and BUSINESS subscriptions")
+            }
+
 
         val mpesaExpressRequest = MpesaExpressRequest(
                 businessShortCode   = shortCode,
@@ -114,7 +115,7 @@ class MpesaExpressService : IMpesaExpressService {
         return when(mpesaResponse.success) {
             true -> {
                 //when(ServiceTypeEnum.valueOf(serviceType)){
-                    // ServiceTypeEnum.MOTOR -> {
+                    // ServiceTypeEnum.PRE_PAID -> {
                     //     saveRequestDetails(
                     //             request         = mpesaExpressRequest,
                     //             response        = mpesaResponse.data!!,
@@ -129,7 +130,9 @@ class MpesaExpressService : IMpesaExpressService {
                                 response        = mpesaResponse.data!!,
                                 stkRequestType  = StkRequestType.valueOf(stkRequestDto.transactionType.toUpperCase()),
                                 serviceType     = ServiceTypeEnum.valueOf(serviceType),
-                                accountNumber   = stkRequestDto.accountReference
+                                accountNumber   = stkRequestDto.accountReference,
+                                fullName        = stkRequestDto.fullName,
+                                subscriptionPlan = SubscriptionPlan.valueOf(stkRequestDto.subscriptionPlan.toUpperCase())
                         )
                     //}
                 //}
@@ -146,7 +149,10 @@ class MpesaExpressService : IMpesaExpressService {
             response: MpesaExpressResponse,
             stkRequestType: StkRequestType,
             serviceType: ServiceTypeEnum,
-            accountNumber: String
+            accountNumber: String,
+            fullName: String?,
+            subscriptionPlan: SubscriptionPlan
+
     ) {
         val wallet = walletService.findOrCreateWallet(
                 accountNumber   = accountNumber,
@@ -174,7 +180,10 @@ class MpesaExpressService : IMpesaExpressService {
                 paymentStatus           = PaymentStatusEnum.PENDING,
                 serviceRequestStatus    = ServiceRequestStatusEnum.PENDING,
                 servicePaymentStatus    = null,
-                requestType             = stkRequestType
+                requestType             = stkRequestType,
+
+                fullName                = fullName,
+                subscriptionPlan        = subscriptionPlan
         )
         val transaction = mpesaExpressRepository.save(mpesaExpress)
         processServiceRequest(transaction)
