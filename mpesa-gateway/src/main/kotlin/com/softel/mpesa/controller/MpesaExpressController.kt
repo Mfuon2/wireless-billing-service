@@ -32,7 +32,7 @@ class MpesaExpressController {
     fun processPaymentRequest(@Valid @RequestBody stkRequest: MpesaStkRequestDto): Result<MpesaExpressResponse> =
             mpesaExpressService.processPaymentRequest(stkRequestDto = stkRequest)
 
-    @Operation(summary = "Callback", description = "This endpoint is the callback interface for mpesa express")
+    @Operation(summary = "Callback", description = "This endpoint is the callback interface for mpesa express. Requires registration ?")
     @PostMapping(value = ["/callback"])
     fun updateTransactionDetails(@RequestBody result: String) =
             mpesaExpressService.processCallbackDetails(result)

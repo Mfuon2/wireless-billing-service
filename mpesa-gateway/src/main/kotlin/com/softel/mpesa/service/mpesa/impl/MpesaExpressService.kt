@@ -85,6 +85,7 @@ class MpesaExpressService : IMpesaExpressService {
                 ?: return ResultFactory.getFailResult(msg = "Authentication failed")
 
         if(serviceType == ServiceTypeEnum.FREE.name && stkRequestDto.idNumber.isNullOrEmpty()) {
+            //Vuka Account number is required too
             return  ResultFactory.getFailResult(msg = "ID number required.")
         }
 
@@ -104,6 +105,7 @@ class MpesaExpressService : IMpesaExpressService {
 
         logger.info("###Mpesa Express request->${gson.toJson(mpesaExpressRequest)}")
 
+        //this should be part of a reactive callback
         val mpesaResponse: Result<MpesaExpressResponse> = sendStkPush(
                 request = mpesaExpressRequest.copy(amount = getRequestAmount(stkRequestDto.payableAmount.toInt())),
                 token   = authToken
@@ -279,7 +281,7 @@ class MpesaExpressService : IMpesaExpressService {
         }
     }
 
-
+    //this should return Mono
     override fun sendStkPush(request: MpesaExpressRequest, token: String): Result<MpesaExpressResponse> {
         val body = gson.toJson(request, MpesaExpressRequest::class.java)
         val response = getWebClient(mpesaBaseUrl).method(HttpMethod.POST)
@@ -288,7 +290,7 @@ class MpesaExpressService : IMpesaExpressService {
                 .body(Mono.just(body), String::class.java)
                 .exchange()
                 .block()!!.bodyToMono(String::class.java)
-                .block()
+                .block()        //do not block here in future, 
 
         logger.info("###Mpesa Express response->{}", getJsonObject(response))
 

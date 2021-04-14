@@ -19,7 +19,7 @@ Projects
 
 ```
 #. Fastest, Requires `mvn clean package`
-docker-compose -f docker-compose-min.yml build && docker-compose -f docker-compose-min.yml up
+docker-compose build && docker-compose up
 
 # Rebuild everytime
 docker-compose build && docker-compose up --force-recreate
