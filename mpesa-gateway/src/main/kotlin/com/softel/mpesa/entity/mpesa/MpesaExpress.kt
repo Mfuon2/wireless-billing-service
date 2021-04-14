@@ -6,6 +6,7 @@ import com.softel.mpesa.enums.PaymentStatusEnum
 import com.softel.mpesa.enums.ServiceRequestStatusEnum
 import com.softel.mpesa.enums.ServiceTypeEnum
 import com.softel.mpesa.enums.StkRequestType
+import com.softel.mpesa.enums.SubscriptionPlan
 import com.softel.mpesa.entity.Wallet
 import java.time.LocalDateTime
 import javax.persistence.CascadeType
@@ -109,9 +110,16 @@ class MpesaExpress(
         @Enumerated(EnumType.STRING)
         var requestType: StkRequestType,
 
+        @Column(nullable = true)
+        @ColumnTransformer(
+                write = "pgp_sym_encrypt(?, 'mySecretKey')",
+                read = "pgp_sym_decrypt(account_reference::bytea, 'mySecretKey')"
+                )
+        var fullName: String?,
 
-  
-
+        @Column(nullable = false)
+        @Enumerated(EnumType.STRING)
+        var subscriptionPlan: SubscriptionPlan,
 
         @JsonIgnore
         @Version

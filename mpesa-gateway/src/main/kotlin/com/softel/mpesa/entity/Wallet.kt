@@ -28,7 +28,7 @@ class Wallet(
         @Column(nullable = false)
         var accountNumber: String,
 
-        @Column(nullable = false, columnDefinition = "varchar(255) default 'BASIC'")
+        @Column(nullable = false, columnDefinition = "varchar(255) default 'PRE_PAID'")
         @Enumerated(EnumType.STRING)
         var serviceType: ServiceTypeEnum,
 
