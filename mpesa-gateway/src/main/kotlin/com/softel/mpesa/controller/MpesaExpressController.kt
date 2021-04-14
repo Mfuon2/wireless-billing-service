@@ -37,7 +37,7 @@ class MpesaExpressController {
     fun updateTransactionDetails(@RequestBody result: String) =
             mpesaExpressService.processCallbackDetails(result)
 
-    @Operation(summary = "Check Transaction Status", description = "Manualy force checking the status of a specific transactions")
+    @Operation(summary = "Check Status of transaction at MPESA", description = "Manualy force checking the status of a specific transaction on the mpesa API")
     @GetMapping(value = ["/transaction-status"], produces = ["application/json"])
     fun queryTransactionStatus(@Parameter(description = "The `checkoutRequestId` from a previous mpesa response") @RequestParam checkoutRequestId: String): Result<MpesaExpressQueryResponse> =
             mpesaExpressService.queryTransactionStatus(checkoutRequestId = checkoutRequestId)
