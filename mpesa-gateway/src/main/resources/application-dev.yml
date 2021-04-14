@@ -12,8 +12,8 @@ spring:
         # multi_tenant_connection_provider: "com.softel.mpesa.multitenancy.AnotherMultiTenantConnectionProvider"
 
 mpesa:
-  consumer-key: i6gf08kJ28qPfKpaivh1cDuUhVeEw4WX
-  consumer-secret: BrvAjmjO7sYnK6BG
+  consumer-key: v6ATAMABgYG4bRSXT382kybEwqgwhoyR
+  consumer-secret: 5Ef3WOQAAKAFyV5k
   base-url: https://sandbox.safaricom.co.ke
   short-code: 174379
   passkey: bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919
@@ -28,14 +28,17 @@ mpesa:
     query-url: https://sandbox.safaricom.co.ke/mpesa/stkpushquery/v1/query
   b2c:
     initiator-name: testapi
-    password: wip
+    password: Safaricom584!#
     shortcode: 600584
     security-credential: Safaricom584!#
     msisdn: 254708374149
     request-url: /mpesa/b2c/v1/paymentrequest
     result-url: /mpesa-gateway/mpesa-b2c/result-callback
     queue-timeout-url: /mpesa-gateway/mpesa-b2c/queue-timeout-callback
-    
+  c2b:
+    simulate-c2b-url: wip
+    validation-url: wip
+    confirmation-url: wip
     
 softel:
   api:
