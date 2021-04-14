@@ -3,7 +3,9 @@ version: '3.9'
 services:
 
   mpesa:
-    build: mpesa-gateway/
+    build:
+      context: ./mpesa-gateway/
+      dockerfile: Dockerfile
     container_name: app_mpesa_vuka
     restart: unless-stopped
     ports:
@@ -50,15 +52,43 @@ services:
     env_file:
       - postgres-configs/pg.env
 
-  # adminer:
-  #     image: adminer
-  #     restart: always
-  #     depends_on:
-  #     - db
-  #     ports:
-  #       - 8888:8080
+  
+  adminer:
+      image: adminer
+      container_name: vuka_adminer
+      restart: always
+      depends_on:
+        - db
+      ports:
+        - 8888:8080
+      environment:
+        ADMINER_DEFAULT_DB_DRIVER: pgsql
+        ADMINER_DEFAULT_DB_HOST: db
+        ADMINER_DEFAULT_DB_NAME: mpesa_gateway
+      networks:
+        - app-network
 
-
+  keycloak:
+      image: quay.io/keycloak/keycloak:latest
+      container_name: vuka_keycloak
+      environment:
+        DB_VENDOR: POSTGRES
+        DB_ADDR: db
+        DB_DATABASE: mpesa_gateway
+        DB_USER: dev_user
+        DB_PASSWORD: caro_kann
+        DB_SCHEMA: public
+        KEYCLOAK_USER: admin
+        KEYCLOAK_PASSWORD: Pa55w0rd
+        # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
+        #JDBC_PARAMS: "ssl=true"
+      ports:
+        - 9009:8080
+      depends_on:
+        - db
+      networks:
+        - app-network
+        
 networks:
   app-network:
     driver: "bridge"
