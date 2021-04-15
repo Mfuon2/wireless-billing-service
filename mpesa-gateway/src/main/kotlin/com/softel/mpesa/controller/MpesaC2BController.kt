@@ -22,18 +22,13 @@ class MpesaB2CController {
     @Autowired
     lateinit var mpesaC2BService: IMpesaC2BService
 
-    // @Operation(summary = "Register C2B URLs", description = "Register ")
-    // @PostMapping(value = ["/payment-request"], produces = ["application/json"])
-    // fun registerURLs(@Valid @RequestBody b2cRequest: MpesaB2CRequestDto): Result<MpesaB2CResponse> =
-    //         mpesaC2BService.processB2CRequest(b2cRequest)
-
-    // @Operation(summary = "Validate Payment", description = "This endpoint processes timed-out request")
-    // @PostMapping(value = ["/validate-payment-callback"])
-    // fun validatePaybillPayment(@RequestBody result: String) =
-    //         mpesaC2BService.processTimedOutRequest(result)
-
-    @Operation(summary = "Validate Payment", description = "This endpoint validates paybill payment")
+    @Operation(summary = "Validate Paybill Payment", description = "This endpoint validates paybill payment in real time")
     @PostMapping(value = ["/validate-payment-callback"])
     fun validatePaybillPayment(@RequestBody result: String) =
             mpesaC2BService.validatePaybillPayment(result)
+
+    @Operation(summary = "Confirm Paybill Payment", description = "This endpoint confirms paybill payment in real time")
+    @PostMapping(value = ["/confirm-payment-callback"])
+    fun confirmPaybillPayment(@RequestBody result: String) =
+            mpesaC2BService.confirmPaybillPayment(result)
 }

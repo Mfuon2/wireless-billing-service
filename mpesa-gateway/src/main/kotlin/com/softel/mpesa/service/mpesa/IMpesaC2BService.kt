@@ -8,6 +8,6 @@ import com.softel.mpesa.util.Result
 interface IMpesaC2BService {
 
     fun validatePaybillPayment(paybillCallback: String): MpesaC2BValidationResponse
-    //fun confirmPaybillPayment(@Valid @RequestBody paybillCallback: PaybillCallback): MpesaC2BConfirmationResponse
+    fun confirmPaybillPayment(paybillCallback: String): MpesaC2BConfirmationResponse
 
 }
