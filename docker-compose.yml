@@ -55,7 +55,7 @@ services:
   
   adminer:
       image: adminer
-      container_name: vuka_adminer
+      container_name: app_adminer_vuka
       restart: always
       depends_on:
         - db
@@ -70,7 +70,7 @@ services:
 
   keycloak:
       image: quay.io/keycloak/keycloak:latest
-      container_name: vuka_keycloak
+      container_name: app_keycloak_vuka
       environment:
         DB_VENDOR: POSTGRES
         DB_ADDR: db
