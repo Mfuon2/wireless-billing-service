@@ -27,8 +27,13 @@ import com.softel.mpesa.util.AlphanumericSequenceGenerator
 class ClientAccount(
 
         @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
-        var id: Long = 0,
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_account_seq")
+        @GenericGenerator(
+                name = "client_account_seq", 
+                strategy = "com.softel.mpesa.util.AlphanumericSequenceGenerator"
+                )
+        @Column(nullable = false)
+        var accountNumber: String,
 
         @Column(nullable = false)
         var msisdn: String,
@@ -39,17 +44,7 @@ class ClientAccount(
         @Column(nullable = true)
         var shortCode: String?,                 //will assist in differentiating clients across shortcodes
 
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_account_seq")
-        @GenericGenerator(
-                name = "client_account_seq", 
-                strategy = "com.softel.mpesa.util.AlphanumericSequenceGenerator", 
-                parameters = {
-                                Parameter(name = AlphanumericSequenceGenerator.VALUE_PREFIX_PARAMETER, value = "VUKA")
-                                Parameter(name = AlphanumericSequenceGenerator.NUMBER_FORMAT_PARAMETER, value = "%05d")
-                                }
-                )
-        @Column(nullable = false)
-        var accountNumber: String,
+       
 
         @Column(nullable = false, columnDefinition = "varchar(255) default 'PRE_PAID'")
         @Enumerated(EnumType.STRING)

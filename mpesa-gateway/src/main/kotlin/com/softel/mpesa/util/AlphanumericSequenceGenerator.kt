@@ -15,6 +15,8 @@ class AlphanumericSequenceGenerator:SequenceStyleGenerator() {
 
   lateinit var valuePrefix:String
   lateinit var numberFormat:String
+  lateinit var incrementParam:String
+
 
   @Throws(HibernateException::class)
   override fun generate(session:SharedSessionContractImplementor, `object`:Any):Serializable {
@@ -26,12 +28,17 @@ class AlphanumericSequenceGenerator:SequenceStyleGenerator() {
     super.configure(LongType.INSTANCE, params, serviceRegistry)
     valuePrefix = ConfigurationHelper.getString(VALUE_PREFIX_PARAMETER, params, VALUE_PREFIX_DEFAULT)
     numberFormat = ConfigurationHelper.getString(NUMBER_FORMAT_PARAMETER, params, NUMBER_FORMAT_DEFAULT)
+    incrementParam = ConfigurationHelper.getString(INCREMENT_PARAM_PARAMETER, params, INCREMENT_PARAM_DEFAULT)
   }
   
   companion object {
     val VALUE_PREFIX_PARAMETER = "valuePrefix"
-    val VALUE_PREFIX_DEFAULT = ""
+    val VALUE_PREFIX_DEFAULT = "VUKA"
+
     val NUMBER_FORMAT_PARAMETER = "numberFormat"
-    val NUMBER_FORMAT_DEFAULT = "%d"
+    val NUMBER_FORMAT_DEFAULT = "%05d"
+
+    val INCREMENT_PARAM_PARAMETER = "incrementParam"
+    val INCREMENT_PARAM_DEFAULT = "50"
   }
 }
