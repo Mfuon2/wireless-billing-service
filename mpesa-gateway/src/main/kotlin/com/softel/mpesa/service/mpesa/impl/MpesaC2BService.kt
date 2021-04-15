@@ -13,10 +13,13 @@ import com.softel.mpesa.enums.ServiceTypeEnum
 import com.softel.mpesa.enums.SubscriptionPlan
 import com.softel.mpesa.enums.StatementTag
 import com.softel.mpesa.enums.WithdrawalType
+import com.softel.mpesa.enums.MpesaCallbackEnum
 import com.softel.mpesa.entity.Wallet
-import com.softel.mpesa.entity.ClientAccount
 
+import com.softel.mpesa.entity.ClientAccount
+import com.softel.mpesa.entity.mpesa.MpesaC2BCallback
 import com.softel.mpesa.entity.mpesa.MpesaB2C
+
 import com.softel.mpesa.remote.mpesa.MpesaB2CRequest
 import com.softel.mpesa.remote.mpesa.MpesaB2CResponse
 import com.softel.mpesa.remote.mpesa.MpesaB2CResult
@@ -26,7 +29,7 @@ import com.softel.mpesa.remote.mpesa.MpesaC2BValidationResponse
 import com.softel.mpesa.repository.MpesaB2CRepository
 import com.softel.mpesa.repository.WalletRepository
 import com.softel.mpesa.repository.ClientAccountRepository
-
+import com.softel.mpesa.repository.C2BCallbackRepository
 import com.softel.mpesa.service.common.IPropertyService
 import com.softel.mpesa.service.common.IWalletService
 import com.softel.mpesa.service.mpesa.ICacheService
@@ -49,6 +52,7 @@ import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.reactive.function.client.WebClient
+import com.github.dozermapper.core.Mapper
 import reactor.core.publisher.Mono
 import java.time.LocalDateTime
 
@@ -56,21 +60,14 @@ import java.time.LocalDateTime
 class MpesaC2BService: IMpesaC2BService {
     val logger: Logger = LoggerFactory.getLogger(MpesaC2BService::class.java)
 
-
-//     @Autowired
-//     lateinit var propertyService: IPropertyService
-
         @Autowired
         lateinit var clientAccountRepository: ClientAccountRepository
 
-//     @Autowired
-//     lateinit var mpesaC2BRepository: MpesaC2BRepository
-
-//     @Autowired
-//     lateinit var walletRepository: WalletRepository
-
-//     @Autowired
-//     lateinit var walletService: IWalletService
+        @Autowired
+        lateinit var callbackRepo: C2BCallbackRepository
+          
+        @Autowired
+        lateinit var mapper: Mapper
 
     @Value("\${softel.api.base-url}")
     lateinit var softelBaseUrl: String
@@ -111,19 +108,18 @@ class MpesaC2BService: IMpesaC2BService {
                 val result              = gson.fromJson(paybillCallback, PaybillCallback::class.java)
                 logger.info("###result json = {}", result)
 
-                val transAmount          = result.transAmount
-                val transactionType     = result.transactionType
-                val transactionID       = result.transactionID
-                val transTime           = result.transTime
+                // val transAmount          = result.transAmount
+                // val transactionType     = result.transactionType
+                // val transactionID       = result.transactionID
+                // val transTime           = result.transTime
                 val businessShortCode   = result.businessShortCode
-                val billRefNumber       = result.billRefNumber
+                // val billRefNumber       = result.billRefNumber
                 val msisdn              = result.msisdn
                 val firstName            = result.firstName
                 val middleName           = result.middleName
                 val lastName             = result.lastName
 
                 val client    = clientAccountRepository.findByMsisdnAndShortcode(msisdn,businessShortCode)
-                // //val client    = clientAccountRepository.findByBillRefNumber(billRefNumber)
 
                 logger.info("###client json = {}", client)
 
@@ -144,7 +140,13 @@ class MpesaC2BService: IMpesaC2BService {
                     logger.info("###client exists")
                     }
 
-                
+                //use mapper then add the callbackType
+                var validationObj = mapper.map(result, MpesaC2BCallback::class.java)
+                validationObj.callbackType = MpesaCallbackEnum.C2B_VALIDATION
+                validationObj.createdAt = LocalDateTime.now()
+                validationObj.updatedAt = LocalDateTime.now()
+                callbackRepo.save(validationObj)
+
                 val validationResponse = MpesaC2BValidationResponse(
                     resultCode = 0,
                     resultDesc = "Validated"

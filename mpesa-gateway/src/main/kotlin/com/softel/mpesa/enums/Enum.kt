@@ -13,6 +13,11 @@ enum class SubscriptionPlan(val plan: String) {
     PLATINUM("Platinum")        //Big biz, trusted and very flexible payments... cheque etc
     }
 
+enum class MpesaCallbackEnum(val type: String){
+    C2B_VALIDATION("Validation"),
+    C2B_CONFIRMATION("Confirmation") 
+    }
+
 enum class AccountTransactionType(val type: String){
     DEBIT("DR"),
     CREDIT("CR")
