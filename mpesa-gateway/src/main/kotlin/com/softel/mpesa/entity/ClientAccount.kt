@@ -22,7 +22,7 @@ import com.softel.mpesa.util.AlphanumericSequenceGenerator
 
 @Entity
 @Table( name = "client_account",
-        uniqueConstraints = [UniqueConstraint(columnNames = ["accountNumber", "msisdn"])]
+        uniqueConstraints = [UniqueConstraint(columnNames = ["accountNumber", "msisdn", "shortCode"])]
 )
 class ClientAccount(
 
@@ -41,18 +41,18 @@ class ClientAccount(
         @Column(nullable = true)
         var accountName: String?,
 
+        // val fullName = "$firstName $lastName"
+
+
         @Column(nullable = true)
         var shortCode: String?,                 //will assist in differentiating clients across shortcodes
 
-       
+        @Column(nullable = true)
+        var emailAddress: String?,
 
-        @Column(nullable = false, columnDefinition = "varchar(255) default 'PRE_PAID'")
+        @Column(nullable = false, columnDefinition = "varchar(20) default 'PRE_PAID'")
         @Enumerated(EnumType.STRING)
         var serviceType: ServiceTypeEnum,
-
-        @Column(nullable = false, columnDefinition = "varchar(255) default 'PERSONAL'")
-        @Enumerated(EnumType.STRING)
-        var subscriptionPlan: SubscriptionPlan,
 
         @JsonIgnore
         @Version
