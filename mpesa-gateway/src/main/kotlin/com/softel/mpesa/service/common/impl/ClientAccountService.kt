@@ -45,7 +45,7 @@ class ClientAccountService: IClientAccountService {
 
     override fun createClientAccount(clientDto: ClientAccountDto): Result<ClientAccount>{
 
-        val client = mapper.map(clientDto, ClientAccount::class.java)
+        var client = mapper.map(clientDto, ClientAccount::class.java)
         client.createdAt = LocalDateTime.now()
         client.updatedAt = LocalDateTime.now()
         val newClient = clientAccountRepository.save(client);
@@ -53,9 +53,25 @@ class ClientAccountService: IClientAccountService {
         return if (newClient != null)
             ResultFactory.getSuccessResult(msg = "Request successfully processed", data = newClient)
         else
-            ResultFactory.getFailResult(msg = "No client account found with the given mobile and short code")
+            ResultFactory.getFailResult(msg = "Could not create account")
         }
 
+    // override fun updateClientAccount(accountNumber:String, clientUpdateDto: ClientAccountDto): Result<ClientAccount>{
+
+    //     // logger.info("updating client account")
+
+    //     val account = clientAccountRepository.findByAccountNumber(accountNumber)
+        
+    //     val mappedAccount = mapper.map(clientUpdateDto, ClientAccount::class.java)
+    //     mappedAccount.updatedAt = LocalDateTime.now()
+    //     val updatedClient = clientAccountRepository.save(mappedAccount);
+
+    //     return if (updatedClient != null)
+    //         ResultFactory.getSuccessResult(msg = "Request successfully processed", data = updatedClient)
+    //     else
+    //         ResultFactory.getFailResult(msg = "Could not update")
+    //     }
+    
 
     override fun findOrCreateClientAccount(msisdn: String, accountName:String?, shortCode: String, accountNumber: String, emailAddress: String, serviceType: ServiceTypeEnum): ClientAccount {
         return clientAccountRepository.findByMsisdnAndShortcode(msisdn,shortCode)

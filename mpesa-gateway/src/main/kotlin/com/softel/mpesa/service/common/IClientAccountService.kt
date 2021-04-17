@@ -14,7 +14,7 @@ interface IClientAccountService {
     fun getClientAccount(accountNumber: String): Result<ClientAccount>
     fun getClientAccountByMsisdnAndShortcode(msisdn: String, shortCode: String): Result<ClientAccount>
     fun createClientAccount(clientDto: ClientAccountDto): Result<ClientAccount>
-
+    //fun updateClientAccount(accountNumber: String, clientUpdateDto: ClientAccountDto): Result<ClientAccount>
     fun findOrCreateClientAccount(msisdn: String, accountName:String?, shortCode: String, accountNumber: String, emailAddress: String, serviceType: ServiceTypeEnum): ClientAccount 
 
 }

@@ -10,6 +10,7 @@ import com.softel.mpesa.service.common.IClientAccountService
 import com.softel.mpesa.util.Result
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -43,7 +44,17 @@ class ClientAccountController {
         
     @Operation(summary = "Create a new client account", description = "Allows creation of a new client account")
     @PostMapping(value = ["/create"], produces = ["application/json"])      
-    fun makeWalletPayment(@Valid @RequestBody clientDto: ClientAccountDto
+    fun createClientAccount(@Valid @RequestBody clientDto: ClientAccountDto
     ):Result<ClientAccount> = clientService.createClientAccount(clientDto)
+
+
+    // @Operation(summary = "Create a new client account", description = "Allows creation of a new client account")
+    // @PutMapping(value = ["/update"], produces = ["application/json"])      
+    // fun updateClientAccount( 
+    //     @Parameter(name = "accountNumber",description = "Account number", example="VUKA0003", required = true)
+    //     @RequestParam accountNumber: String,
+    //     @Valid @RequestBody clientDto: ClientAccountDto
+    // ):Result<ClientAccount> = clientService.updateClientAccount(accountNumber,clientDto)
+    
 
 }
