@@ -43,15 +43,21 @@ class PackageService: IPackage {
         }
 
 
+    override fun getPackage(id: Long): Result<ServicePackage> {
+        val pack = packageRepository.findById(id)
+        return if(pack.isPresent())
+            ResultFactory.getSuccessResult(msg = "Request successfully processed", data = pack.get())
+        else
+            ResultFactory.getFailResult(msg = "No pack found with the given id")
+        }
+
+
     override fun getPackageByCode(code: String): Result<ServicePackage> {
-
         val pack = packageRepository.findByCode(code)
-
         return if (pack != null)
             ResultFactory.getSuccessResult(msg = "Request successfully processed", data = pack)
         else
             ResultFactory.getFailResult(msg = "No package found with the given code")
-
         }
 
 
