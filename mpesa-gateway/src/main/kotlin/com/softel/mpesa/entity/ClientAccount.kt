@@ -41,9 +41,6 @@ class ClientAccount(
         @Column(nullable = true)
         var accountName: String?,
 
-        // val fullName = "$firstName $lastName"
-
-
         @Column(nullable = true)
         var shortCode: String?,                 //will assist in differentiating clients across shortcodes
 

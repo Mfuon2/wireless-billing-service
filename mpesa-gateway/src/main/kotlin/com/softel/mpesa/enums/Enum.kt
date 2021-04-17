@@ -1,6 +1,6 @@
 package com.softel.mpesa.enums
 
-enum class ServiceTypeEnum{
+enum class ServiceTypeEnum{ //TODO refactor to BillingTypeEnum
     ADHOC,          
     PRE_PAID,       
     POST_PAID       

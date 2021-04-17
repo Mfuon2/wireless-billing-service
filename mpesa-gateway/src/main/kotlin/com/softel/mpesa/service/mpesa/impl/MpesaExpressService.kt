@@ -58,7 +58,7 @@ class MpesaExpressService : IMpesaExpressService {
     // lateinit var slackService: ISlackService
 
     @Autowired
-    lateinit var subscriptionService: ISubscriptionService
+    lateinit var clientAccountService: IClientAccountService
 
     @Value("\${mpesa.mpesa-express.request-url}")
     lateinit var mpesaStkPushUrl: String
@@ -149,7 +149,7 @@ class MpesaExpressService : IMpesaExpressService {
 
     ) {
 
-        val client    = subscriptionService.findOrCreateClientAccount(
+        val client    = clientAccountService.findOrCreateClientAccount(
             msisdn = request.partyB.toString(),
             accountName = fullName,
             shortCode = request.partyA.toString(),
