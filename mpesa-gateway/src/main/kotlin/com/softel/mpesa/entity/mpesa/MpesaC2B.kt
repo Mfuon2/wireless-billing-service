@@ -19,6 +19,7 @@ import javax.persistence.Table
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Version
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.annotations.ColumnTransformer
 
 @Entity
@@ -31,6 +32,11 @@ class MpesaC2BCallback (
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Long = 0,
+
+        @JsonIgnore
+        @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
+        @JoinColumn(name = "wallet_id", nullable = false, referencedColumnName = "id")
+        var wallet: Wallet,
 
         @Column(nullable = false)
         @Enumerated(EnumType.STRING)

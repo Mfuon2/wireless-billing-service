@@ -11,5 +11,7 @@ interface IWalletService {
     // fun creditWallet(walletDto: WalletDto)
     // fun debitWallet(walletDto: WalletDto): Result<String>
     // fun getWalletDetails(accountNumber: String, serviceType: String): Result<Wallet>
+    
+    fun createWallet(walletDto: WalletDto): Result<Wallet>
     fun findOrCreateWallet(clientAccount: ClientAccount, balance: Double, serviceType: ServiceTypeEnum): Wallet
 }

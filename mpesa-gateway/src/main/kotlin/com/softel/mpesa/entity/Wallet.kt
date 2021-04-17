@@ -39,15 +39,15 @@ class Wallet(
         @JoinColumn(name = "client_account_id", nullable = false, referencedColumnName = "accountNumber")
         var clientAccount: ClientAccount,
 
-        // @Column(nullable = false)
-        // var accountNumber: String,
-
         @Column(nullable = false, columnDefinition = "varchar(255) default 'PRE_PAID'")
         @Enumerated(EnumType.STRING)
         var serviceType: ServiceTypeEnum,
 
         @Column(nullable = false)
         var balance: Double,
+
+        // @Column(nullable = true)
+        // var description: String?,
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
         @Column(nullable = false, columnDefinition = "timestamp default CURRENT_TIMESTAMP")

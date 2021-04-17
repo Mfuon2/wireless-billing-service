@@ -33,17 +33,14 @@ class WalletPayment (
         var id: Long = 0,
 
         @JsonIgnore
-        @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
-        @JoinColumn(name = "client_account_id", nullable = false, referencedColumnName = "accountNumber")
-        var clientAccount: ClientAccount,
+        @ManyToOne(fetch = FetchType.EAGER)
+        @JoinColumn(name = "wallet_id", nullable = false, referencedColumnName = "id")
+        var wallet: Wallet,
 
         @JsonIgnore
         @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
         @JoinColumn(name = "client_subscription_id", nullable = false, referencedColumnName = "id")
         var subscription: Subscription,
-
-        @Column(nullable = false, unique = true)
-        var transactionId: String,
 
         @Column(nullable = false)
         var amount: Double,
@@ -53,10 +50,6 @@ class WalletPayment (
 
         @Column(nullable = true)
         var transactionDescription: String?,
-
-        // @Column(nullable = true)
-        // @Enumerated(EnumType.STRING)
-        // var serviceType: ServiceTypeEnum?,
 
         @Column(nullable = true)
         @Enumerated(EnumType.STRING)
