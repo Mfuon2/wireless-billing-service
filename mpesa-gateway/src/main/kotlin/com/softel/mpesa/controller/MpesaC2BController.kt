@@ -1,4 +1,4 @@
-package com.softel.mpesa.web.controller
+package com.softel.mpesa.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -16,7 +16,7 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/mpesa-c2b")
-@Tag(name = "M-Pesa C2B", description = "M-Pesa Customer to Business API. Allows validation and confirmation of customers paybill transactions in real time")
+@Tag(name = "MPesa C2B", description = "MPesa Customer to Business API. Allows validation and confirmation of customers paybill transactions in real time")
 class MpesaB2CController {
 
     @Autowired
@@ -31,4 +31,5 @@ class MpesaB2CController {
     @PostMapping(value = ["/confirm-payment-callback"])
     fun confirmPaybillPayment(@RequestBody result: String) =
             mpesaC2BService.confirmPaybillPayment(result)
+
 }

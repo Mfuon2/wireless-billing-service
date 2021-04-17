@@ -2,27 +2,30 @@ package com.softel.mpesa.entity
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.softel.mpesa.enums.ServiceRequestStatusEnum
 import com.softel.mpesa.enums.ServiceTypeEnum
+import com.softel.mpesa.enums.SubscriptionPlan
+import com.softel.mpesa.enums.BillingCycle
 import java.time.LocalDateTime
-import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
-import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.Table
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
+import javax.persistence.UniqueConstraint
 import javax.persistence.Version
 import org.hibernate.annotations.ColumnTransformer
+import org.hibernate.annotations.GenericGenerator
+import org.hibernate.annotations.Parameter
+import com.softel.mpesa.util.AlphanumericSequenceGenerator
 
 @Entity
-@Table(name = "client_wallet_payment")
-class WalletPayment (
+@Table( name = "service_package",
+        uniqueConstraints = [UniqueConstraint(columnNames = ["code", "cycle"])]
+)
+class ServicePackage(
 
         @JsonIgnore
         @Version
@@ -32,35 +35,21 @@ class WalletPayment (
         @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Long = 0,
 
-        @JsonIgnore
-        @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
-        @JoinColumn(name = "client_account_id", nullable = false, referencedColumnName = "accountNumber")
-        var clientAccount: ClientAccount,
-
-        @JsonIgnore
-        @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
-        @JoinColumn(name = "client_subscription_id", nullable = false, referencedColumnName = "id")
-        var subscription: Subscription,
-
-        @Column(nullable = false, unique = true)
-        var transactionId: String,
+        @Column(nullable = false)
+        var name: String,               //name must take note of the billing cycle
 
         @Column(nullable = false)
-        var amount: Double,
+        var code: String,
 
         @Column(nullable = true)
-        var accountReference: String?,
+        var description: String?,                 //will assist in differentiating clients across shortcodes
 
         @Column(nullable = true)
-        var transactionDescription: String?,
+        var price: Long,  
 
-        // @Column(nullable = true)
-        // @Enumerated(EnumType.STRING)
-        // var serviceType: ServiceTypeEnum?,
-
-        @Column(nullable = true)
+        @Column(nullable = false, columnDefinition = "varchar(20) default 'WEEKLY'")
         @Enumerated(EnumType.STRING)
-        var serviceRequestStatus: ServiceRequestStatusEnum?,
+        var cycle: BillingCycle,
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
         @Column(nullable = false, columnDefinition = "timestamp default CURRENT_TIMESTAMP")

@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 @Schema(name = "MpesaStkRequestDto", description = "STK push dto")
 data class MpesaStkRequestDto(
 
-        @field:Schema(name = "fullName", description = "Full name for individual or enterprise", example="John K Doe")
+        @field:Schema(name = "fullName", description = "Full name for individual or enterprise", example="John K Doe, SALIM ENTERPRISES")
         val fullName: String? = null,
 
         @field:Schema(name = "customerPhoneNumber", description = "Safaricom mobile number starting with 254", example="254722691495")
@@ -20,7 +20,7 @@ data class MpesaStkRequestDto(
         @field:Size(min = 12, max = 13, message = "Phone number must be between 12 and 13 characters")
         val customerPhoneNumber: String,
 
-        @field:Schema(name = "accountReference", description = "Account number", example="ABC123")
+        @field:Schema(name = "accountReference", description = "Account number", example="VUKA00123")
         @field:NotBlank(message = "Vuka Account number required")
         @field:Size(min = 1, max = 12, message = "Account reference must be between 1 and 12 characters")
         val accountReference: String,
@@ -37,7 +37,7 @@ data class MpesaStkRequestDto(
         @field:NotBlank(message = "Service type required")
         val serviceType: String = ServiceTypeEnum.PRE_PAID.name,
 
-        @field:Schema(name = "idNumber", description = "National ID Number", example="22492345")
+        @field:Schema(name = "idNumber", description = "National ID number / Passport. Optional", example="22492345")
         val idNumber: String? = null,
 
         @field:Schema(name = "description", description = "Short description here", example="Testing")
@@ -45,6 +45,7 @@ data class MpesaStkRequestDto(
         @field:Size(min = 1, max = 13, message = "Description must be between 1 and 13 characters")
         val description: String,
         
+        //Deprecated? coz all payments must pass through the wallet and wallet payment
         @field:Schema(name = "transactionType", description = "Type of transaction, PAYMENT or DEPOSIT", example="PAYMENT")
         val transactionType: String = StkRequestType.PAYMENT.name
 )

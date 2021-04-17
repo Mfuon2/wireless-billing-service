@@ -14,19 +14,33 @@ import javax.persistence.Id
 import javax.persistence.Table
 import javax.persistence.UniqueConstraint
 import javax.persistence.Version
+import javax.persistence.ManyToOne
+import javax.persistence.FetchType
+import javax.persistence.CascadeType
+import javax.persistence.JoinColumn
 import org.hibernate.annotations.ColumnTransformer
 
 @Entity
-@Table( name = "wallet",
-        uniqueConstraints = [UniqueConstraint(columnNames = ["accountNumber", "serviceType"])]
+@Table( name = "client_wallet",
+        uniqueConstraints = [UniqueConstraint(columnNames = ["client_account_id", "serviceType"])]
 )
 class Wallet(
+
+        @JsonIgnore
+        @Version
+        var version: Long = 0,
+
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Long = 0,
 
-        @Column(nullable = false)
-        var accountNumber: String,
+        @JsonIgnore
+        @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
+        @JoinColumn(name = "client_account_id", nullable = false, referencedColumnName = "accountNumber")
+        var clientAccount: ClientAccount,
+
+        // @Column(nullable = false)
+        // var accountNumber: String,
 
         @Column(nullable = false, columnDefinition = "varchar(255) default 'PRE_PAID'")
         @Enumerated(EnumType.STRING)
@@ -34,10 +48,6 @@ class Wallet(
 
         @Column(nullable = false)
         var balance: Double,
-
-        @JsonIgnore
-        @Version
-        var version: Long = 0,
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
         @Column(nullable = false, columnDefinition = "timestamp default CURRENT_TIMESTAMP")

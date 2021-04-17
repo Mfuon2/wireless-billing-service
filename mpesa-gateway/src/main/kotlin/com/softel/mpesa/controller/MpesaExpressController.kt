@@ -21,7 +21,7 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/mpesa-express")
-@Tag(name = "M-Pesa Express", description = "Exposes all Mpesa Express functionality")
+@Tag(name = "MPesa Express", description = "Exposes all Mpesa Express functionality")
 class MpesaExpressController {
 
     @Autowired
