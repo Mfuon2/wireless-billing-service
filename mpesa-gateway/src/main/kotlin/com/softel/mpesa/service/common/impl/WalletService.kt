@@ -11,6 +11,7 @@ import com.softel.mpesa.entity.ClientAccount
 
 // import com.softel.mpesa.repository.StatementAccountRepository
 import com.softel.mpesa.repository.WalletRepository
+import com.softel.mpesa.repository.ClientAccountRepository
 
 import com.softel.mpesa.service.common.IWalletService
 import com.softel.mpesa.util.Result
@@ -19,16 +20,39 @@ import com.softel.mpesa.util.ResultFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import com.github.dozermapper.core.Mapper
 
 import java.time.LocalDateTime
 
 @Service
 class WalletService: IWalletService {
+
     @Autowired
     lateinit var walletRepository: WalletRepository
 
-    // @Autowired
-    // lateinit var statementAccountRepository: StatementAccountRepository
+    @Autowired
+    lateinit var clientAccountRepo: ClientAccountRepository
+
+    @Autowired
+    lateinit var mapper: Mapper
+
+    override fun createWallet(walletDto: WalletDto): Result<Wallet>{
+
+        var wallet = mapper.map(walletDto, Wallet::class.java)
+        
+        val clientAccount = clientAccountRepo.findByAccountNumber(walletDto.accountNumber)?: return ResultFactory.getFailResult(msg = "Account not found")
+
+        wallet.clientAccount = clientAccount
+        wallet.createdAt = LocalDateTime.now()
+        wallet.updatedAt = LocalDateTime.now()
+
+        val newWallet = walletRepository.save(wallet)
+
+        return if (newWallet != null)
+            ResultFactory.getSuccessResult(msg = "Request successfully processed", data = newWallet)
+        else
+            ResultFactory.getFailResult(msg = "Could not create wallet")
+        }
 
     // @Transactional
     // override fun creditWallet(walletDto: WalletDto) {
@@ -118,7 +142,8 @@ class WalletService: IWalletService {
     // }
 
     override fun findOrCreateWallet(clientAccount: ClientAccount, balance: Double, serviceType: ServiceTypeEnum): Wallet {
-        return walletRepository.findByClientAccount(clientAccount, serviceType)
+        //return walletRepository.findByClientAccount(clientAccount, serviceType)
+        return walletRepository.findByAccountNumber(clientAccount.accountNumber, serviceType)
                 ?: walletRepository.save(
                         Wallet(
                                 clientAccount   = clientAccount,
@@ -126,5 +151,6 @@ class WalletService: IWalletService {
                                 serviceType     = serviceType
                         )
                 )
-    }
+        }
+
 }

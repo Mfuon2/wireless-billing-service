@@ -7,6 +7,8 @@ import com.softel.mpesa.entity.Subscription
 import com.softel.mpesa.dto.SubscriptionDto
 
 import com.softel.mpesa.repository.SubscriptionRepository
+import com.softel.mpesa.repository.ServicePackageRepository
+import com.softel.mpesa.repository.ClientAccountRepository
 
 import com.softel.mpesa.service.common.ISubscription
 import com.softel.mpesa.util.Result
@@ -26,13 +28,25 @@ class SubscriptionService: ISubscription {
     lateinit var subscriptionRepo: SubscriptionRepository
 
     @Autowired
+    lateinit var clientAccountRepo: ClientAccountRepository
+
+    @Autowired
+    lateinit var packageRepository: ServicePackageRepository
+
+    @Autowired
     lateinit var mapper: Mapper
 
     override fun createSubscription(subscriptionDto: SubscriptionDto): Result<Subscription>{
 
         var sub = mapper.map(subscriptionDto, Subscription::class.java)
-        //need to get client and service first...
         
+        //we need error handling here...
+        val clientAccount = clientAccountRepo.findByAccountNumber(subscriptionDto.accountNumber)?: return ResultFactory.getFailResult(msg = "Account not found")
+        val servicePackage = packageRepository.findByCode(subscriptionDto.serviceCode)?: return ResultFactory.getFailResult(msg = "Package not found")
+
+        sub.clientAccount = clientAccount
+        sub.servicePackage = servicePackage
+
         sub.createdAt = LocalDateTime.now()
         sub.updatedAt = LocalDateTime.now()
 
