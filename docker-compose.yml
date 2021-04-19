@@ -1,23 +1,35 @@
 version: '3.9'
 
 services:
-
-  mpesa:
-    build: mpesa-gateway/
-    container_name: app_mpesa_vuka
-    restart: unless-stopped
+  admin-portal:
+    container_name: admin-portal
+    build:
+      context: ./admin-portal
+      dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - '4200:4200'
     depends_on:
-      - db
-      - redis
-    links:
       - db
       - redis
     networks:
       - app-network
-    env_file:
-      - mpesa-gateway/mpesa.env
+
+#  mpesa:
+#    build: mpesa-gateway/
+#    container_name: app_mpesa_vuka
+#    restart: unless-stopped
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - db
+#      - redis
+#    links:
+#      - db
+#      - redis
+#    networks:
+#      - app-network
+#    env_file:
+#      - mpesa-gateway/mpesa.env
 
   # api:
   #   build: mpesa-api/
@@ -66,8 +78,8 @@ services:
     restart: unless-stopped
     ports:
       - "5432:5432"
-    volumes:
-      - ./db/pgdemo:/var/lib/postgresql/data
+#    volumes:
+#      - ./db/pgdemo:/var/lib/postgresql/data
     networks:
       - app-network
     env_file:
