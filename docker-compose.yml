@@ -1,6 +1,18 @@
 version: '3.9'
 
 services:
+  admin-portal:
+    container_name: admin-portal
+    build:
+      context: ./admin-portal
+      dockerfile: Dockerfile
+    ports:
+      - '4200:4200'
+    depends_on:
+      - db
+      - redis
+    networks:
+      - app-network
 
   mpesa:
     build:
