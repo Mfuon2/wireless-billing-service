@@ -1,0 +1,326 @@
+<div (mouseout)="sidebarHover()" (mouseover)="sidebarHover()"
+     [class]="'app-sidebar sidebar-shadow ' + (config$ | async).sidebarTheme">
+    <div class="app-header__logo">
+        <div class="logo-src"></div>
+        <div class="header__pane ml-auto">
+            <button (click)="toggleSidebar()" [ngClass]="{'is-active' : globals.toggleSidebar}"
+                    class="hamburger close-sidebar-btn hamburger--elastic" type="button">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+            </button>
+        </div>
+    </div>
+    <div class="app-sidebar-content">
+        <div class="app-sidebar-scroll">
+            <perfect-scrollbar [autoPropagation]="true">
+                <div class="v-sidebar-menu vsm-default">
+                    <div class="vsm-list">
+                        <ngb-accordion [activeIds]="extraParameter" [closeOthers]="true" [destroyOnHide]="false">
+                            <ngb-panel>
+                                <ng-template ngbPanelHeader>
+                                    <div class="vsm-header">Navigation</div>
+                                </ng-template>
+                            </ngb-panel>
+                            <ngb-panel id="dashboardsMenu">
+                                <ng-template ngbPanelHeader>
+                                    <button class="vsm-link" ngbPanelToggle>
+                                        <i class="vsm-icon pe-7s-display1"></i>
+                                        <span class="vsm-title">Dashboards</span>
+                                        <i class="vsm-arrow"></i>
+                                    </button>
+                                </ng-template>
+                                <ng-template ngbPanelContent>
+                                    <div class="vsm-dropdown">
+                                        <div class="vsm-list">
+                                            <div class="vsm-item"><a [routerLinkActiveOptions]="{exact: true}" class="vsm-link"
+                                                                     routerLink="/layout"
+                                                                     routerLinkActive="active-item"><span
+                                                    class="vsm-title">General</span></a>
+                                            </div>
+                                          <div class="vsm-item"><a [routerLinkActiveOptions]="{exact: true}" class="vsm-link"
+                                                                   routerLink="/financial"
+                                                                   routerLinkActive="active-item"><span
+                                                  class="vsm-title">Financial</span></a>
+                                          </div>
+                                          <div class="vsm-item"><a [routerLinkActiveOptions]="{exact: true}" class="vsm-link"
+                                                                   routerLink="/usage"
+                                                                   routerLinkActive="active-item"><span
+                                                  class="vsm-title">Usage</span></a>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngb-panel>
+                            <ngb-panel>
+                                <ng-template ngbPanelHeader>
+                                    <div class="vsm-header">Administration</div>
+                                </ng-template>
+                            </ngb-panel>
+                            <ngb-panel id="administrationMenu">
+                                <ng-template ngbPanelHeader>
+                                    <button class="vsm-link" ngbPanelToggle>
+                                        <i class="vsm-icon pe-7s-users"></i>
+                                        <span class="vsm-title">General</span>
+                                        <i class="vsm-arrow"></i>
+                                    </button>
+                                </ng-template>
+                                <ng-template ngbPanelContent>
+                                    <div class="vsm-dropdown">
+                                        <div class="vsm-list">
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/general/users"
+                                                   routerLinkActive="active-item"> <span
+                                                        class="vsm-title">Users</span></a>
+                                            </div>
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/general/guests"
+                                                   routerLinkActive="active-item"> <span
+                                                        class="vsm-title">Guest Users</span></a>
+                                            </div>
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/general/contacts"
+                                                   routerLinkActive="active-item"><span
+                                                        class="vsm-title">Contacts</span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngb-panel>
+                            <ngb-panel id="resourcesMenu">
+                                <ng-template ngbPanelHeader>
+                                    <button class="vsm-link" ngbPanelToggle>
+                                        <i class="vsm-icon pe-7s-diamond"></i>
+                                        <span class="vsm-title">Service Plans</span>
+                                        <i class="vsm-arrow"></i>
+                                    </button>
+                                </ng-template>
+                                <ng-template ngbPanelContent>
+                                    <div class="vsm-dropdown">
+                                        <div class="vsm-list">
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/resources/sites"
+                                                   routerLinkActive="active-item"> <span
+                                                        class="vsm-title">Plans</span></a>
+                                            </div>
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/resources/other"
+                                                   routerLinkActive="active-item"> <span
+                                                        class="vsm-title">Active Subscriptions</span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngb-panel>
+                            <ngb-panel>
+                                <ng-template ngbPanelHeader>
+                                    <div class="vsm-header">Support</div>
+                                </ng-template>
+                            </ngb-panel>
+                            <ngb-panel id="supportMenu">
+                                <ng-template ngbPanelHeader>
+                                    <button class="vsm-link" ngbPanelToggle>
+                                        <i class="vsm-icon pe-7s-mail-open-file"></i>
+                                        <span class="vsm-title">Clients</span>
+                                        <i class="vsm-arrow"></i>
+                                    </button>
+                                </ng-template>
+                                <ng-template ngbPanelContent>
+                                    <div class="vsm-dropdown">
+                                        <div class="vsm-list">
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/clients/active"
+                                                   routerLinkActive="active-item">
+                                                    <span class="vsm-title">Active Clients</span></a>
+                                            </div>
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/clients/discontinued"
+                                                   routerLinkActive="active-item">
+                                                    <span class="vsm-title">Discontinued</span></a>
+                                            </div>
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/clients/setups"
+                                                   routerLinkActive="active-item">
+                                                    <span class="vsm-title">Setups</span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <ng-template ngbPanelHeader>
+                                    <button class="vsm-link" ngbPanelToggle>
+                                        <i class="vsm-icon pe-7s-mail-open-file"></i>
+                                        <span class="vsm-title">Tickets</span>
+                                        <i class="vsm-arrow"></i>
+                                    </button>
+                                </ng-template>
+                                <ng-template ngbPanelContent>
+                                    <div class="vsm-dropdown">
+                                        <div class="vsm-list">
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/tickets/active"
+                                                   routerLinkActive="active-item">
+                                                    <span class="vsm-title">Active Tickets</span></a>
+                                            </div>
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/tickets/closed"
+                                                   routerLinkActive="active-item">
+                                                    <span class="vsm-title">Closed Tickets</span></a>
+                                            </div>
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/tickets/setups"
+                                                   routerLinkActive="active-item">
+                                                    <span class="vsm-title">Setups</span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngb-panel>
+                            <ngb-panel id="Payments">
+                                <ng-template ngbPanelHeader>
+                                    <button class="vsm-link" ngbPanelToggle>
+                                        <i class="vsm-icon pe-7s-cash"></i>
+                                        <span class="vsm-title">Payment</span>
+                                        <i class="vsm-arrow"></i>
+                                    </button>
+                                </ng-template>
+                                <ng-template ngbPanelContent>
+                                    <div class="vsm-dropdown">
+                                        <div class="vsm-list">
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/payments/due/"
+                                                   routerLinkActive="active-item">
+                                                    <span class="vsm-title">Due Payments</span></a>
+                                            </div>
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/payments/received"
+                                                   routerLinkActive="active-item">
+                                                    <span class="vsm-title">Received</span></a>
+                                            </div>
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/payments/reports"
+                                                   routerLinkActive="active-item">
+                                                    <span class="vsm-title">Reports</span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngb-panel>
+                            <ngb-panel>
+                                <ng-template ngbPanelHeader>
+                                    <div class="vsm-header">Billing</div>
+                                </ng-template>
+                            </ngb-panel>
+                            <ngb-panel id="billingMenu">
+                                <ng-template ngbPanelHeader>
+                                    <button class="vsm-link" ngbPanelToggle>
+                                        <i class="vsm-icon pe-7s-graph2"></i>
+                                        <span class="vsm-title">Main</span>
+                                        <i class="vsm-arrow"></i>
+                                    </button>
+                                </ng-template>
+                                <ng-template ngbPanelContent>
+                                    <div class="vsm-dropdown">
+                                        <div class="vsm-list">
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/billing/subscriptions"
+                                                   routerLinkActive="active-item">
+                                                    <span class="vsm-title">Subscriptions</span></a>
+                                            </div>
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/billing/payments"
+                                                   routerLinkActive="active-item">
+                                                    <span class="vsm-title">Payments</span></a>
+                                            </div>
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/billing/invoices"
+                                                   routerLinkActive="active-item">
+                                                    <span class="vsm-title">Invoices</span></a>
+                                            </div>
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/billing/licenses"
+                                                   routerLinkActive="active-item">
+                                                    <span class="vsm-title">Licenses</span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngb-panel>
+                            <ngb-panel id="billingReportsMenu">
+                                <ng-template ngbPanelHeader>
+                                    <button class="vsm-link" ngbPanelToggle>
+                                        <i class="vsm-icon pe-7s-news-paper"></i>
+                                        <span class="vsm-title">Reports</span>
+                                        <i class="vsm-arrow"></i>
+                                    </button>
+                                </ng-template>
+                                <ng-template ngbPanelContent>
+                                    <div class="vsm-dropdown">
+                                        <div class="vsm-list">
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/reports/subscriptions/"
+                                                   routerLinkActive="active-item">
+                                                    <span class="vsm-title">Subscriptions Reports</span></a>
+                                            </div>
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/reports/bills"
+                                                   routerLinkActive="active-item">
+                                                    <span class="vsm-title">Bills Reports</span></a>
+                                            </div>
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/reports/licenses"
+                                                   routerLinkActive="active-item">
+                                                    <span class="vsm-title">Licenses Reports</span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngb-panel>
+                            <ngb-panel>
+                                <ng-template ngbPanelHeader>
+                                    <div class="vsm-header">Settings</div>
+                                </ng-template>
+                            </ngb-panel>
+                            <ngb-panel id="settingsMenu">
+                                <ng-template ngbPanelHeader>
+                                    <button class="vsm-link" ngbPanelToggle>
+                                        <i class="vsm-icon pe-7s-config"></i>
+                                        <span class="vsm-title">Configurations</span>
+                                        <i class="vsm-arrow"></i>
+                                    </button>
+                                </ng-template>
+                                <ng-template ngbPanelContent>
+                                    <div class="vsm-dropdown">
+                                        <div class="vsm-list">
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/billing/subscriptions"
+                                                   routerLinkActive="active-item">
+                                                    <span class="vsm-title">User Settings</span></a>
+                                            </div>
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/billing/bills"
+                                                   routerLinkActive="active-item">
+                                                    <span class="vsm-title">System Setup</span></a>
+                                            </div>
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="/billing/licenses"
+                                                   routerLinkActive="active-item">
+                                                    <span class="vsm-title">Licenses</span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngb-panel>
+                        </ngb-accordion>
+<!--                        <div class="vsm-header">Charts</div>-->
+<!--                        <div class="vsm-item">-->
+<!--                            <a class="vsm-link" routerLink="/charts/chartjs" routerLinkActive="active-item">-->
+<!--                                <i class="vsm-icon pe-7s-graph2"></i>-->
+<!--                                <span class="vsm-title">ChartJS</span>-->
+<!--                            </a>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+            </perfect-scrollbar>
+        </div>
+    </div>
+</div>
