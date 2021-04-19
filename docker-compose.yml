@@ -14,22 +14,22 @@ services:
     networks:
       - app-network
 
-#  mpesa:
-#    build: mpesa-gateway/
-#    container_name: app_mpesa_vuka
-#    restart: unless-stopped
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      - db
-#      - redis
-#    links:
-#      - db
-#      - redis
-#    networks:
-#      - app-network
-#    env_file:
-#      - mpesa-gateway/mpesa.env
+  mpesa:
+    build: mpesa-gateway/
+    container_name: app_mpesa_vuka
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - redis
+    links:
+      - db
+      - redis
+    networks:
+      - app-network
+    env_file:
+      - mpesa-gateway/mpesa.env
 
   # api:
   #   build: mpesa-api/
