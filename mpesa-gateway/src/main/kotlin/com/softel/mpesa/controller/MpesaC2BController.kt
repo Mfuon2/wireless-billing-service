@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/mpesa-c2b")
+@RequestMapping("/c2b")
 @Tag(name = "MPesa C2B", description = "MPesa Customer to Business API. Allows validation and confirmation of customers paybill transactions in real time")
 class MpesaB2CController {
 
