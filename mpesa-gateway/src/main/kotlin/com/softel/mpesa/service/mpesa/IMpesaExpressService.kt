@@ -3,6 +3,7 @@ package com.softel.mpesa.service.mpesa
 import com.softel.mpesa.dto.MpesaStkRequestDto
 import com.softel.mpesa.enums.ServiceTypeEnum
 import com.softel.mpesa.enums.StkRequestType
+import com.softel.mpesa.enums.SubscriptionPlan
 import com.softel.mpesa.entity.mpesa.MpesaExpress
 import com.softel.mpesa.remote.mpesa.MpesaExpressQueryResponse
 import com.softel.mpesa.remote.mpesa.MpesaExpressRequest
@@ -14,15 +15,18 @@ import java.time.LocalDateTime
 interface IMpesaExpressService {
     fun processPaymentRequest(stkRequestDto: MpesaStkRequestDto): Result<MpesaExpressResponse>
     fun processCallbackDetails(response: String)
-    fun processServiceRequest(transaction: MpesaExpress)
-    fun processProductPayment(transaction: MpesaExpress)
+    //fun processServiceRequest(transaction: MpesaExpress)
+    //fun processProductPayment(transaction: MpesaExpress)
     fun sendStkPush(request: MpesaExpressRequest, token: String): Result<MpesaExpressResponse>
     fun getPassword(serviceType: String, dateTime: LocalDateTime): String
     fun saveRequestDetails(request: MpesaExpressRequest,
                            response: MpesaExpressResponse,
                            stkRequestType: StkRequestType,
                            serviceType: ServiceTypeEnum,
-                           accountNumber: String)
+                           accountNumber: String,
+                           fullName: String?,
+                           subscriptionPlan: SubscriptionPlan
+                           )
     fun getWebClient(baseUrl: String): WebClient
     fun queryTransactionStatus(checkoutRequestId: String): Result<MpesaExpressQueryResponse>
     fun getTransactionDetails(checkoutRequestId: String): Result<MpesaExpress>

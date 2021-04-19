@@ -18,10 +18,14 @@ Projects
 # Running in local dev
 
 ```
+#. Fastest, Requires `mvn clean package`
 docker-compose build && docker-compose up
+
+# Rebuild everytime
 docker-compose build && docker-compose up --force-recreate
+
+# Build everything from scratch, without using cache, ouch !
 docker-compose build --no-cache && docker-compose up --force-recreate
 ```
 
-# Running in uat / smart 
-file: docker-compose-covid-ussd-uat.yml
+# Running in uat / digital ocean / aws

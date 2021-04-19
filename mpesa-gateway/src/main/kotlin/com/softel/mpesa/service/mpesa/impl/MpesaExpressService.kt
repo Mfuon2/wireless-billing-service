@@ -25,6 +25,7 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
 import java.time.LocalDateTime
@@ -47,8 +48,8 @@ class MpesaExpressService : IMpesaExpressService {
     @Autowired
     lateinit var walletService: IWalletService
 
-    @Autowired
-    lateinit var accountService: IAccountService
+    // @Autowired
+    // lateinit var accountService: IAccountService
 
     @Autowired
     lateinit var mpesaExpressRepository: MpesaExpressRepository
@@ -56,8 +57,8 @@ class MpesaExpressService : IMpesaExpressService {
     // @Autowired
     // lateinit var slackService: ISlackService
 
-    // @Autowired
-    // lateinit var notificationService: INotificationService
+    @Autowired
+    lateinit var clientAccountService: IClientAccountService
 
     @Value("\${mpesa.mpesa-express.request-url}")
     lateinit var mpesaStkPushUrl: String
@@ -77,6 +78,7 @@ class MpesaExpressService : IMpesaExpressService {
     override fun processPaymentRequest(stkRequestDto: MpesaStkRequestDto): Result<MpesaExpressResponse> {
         logger.info("###Stk payment dto->${gson.toJson(stkRequestDto)}")
         logger.info("###activeProfile->$activeProfile")
+        val subscriptionPlan = stkRequestDto.subscriptionPlan.toUpperCase()
         val serviceType = stkRequestDto.serviceType.toUpperCase()
         val timestamp   = LocalDateTime.now()
         val shortCode   = propertyService.getBusinessShortCode(serviceType).toInt()
@@ -84,9 +86,10 @@ class MpesaExpressService : IMpesaExpressService {
         val authToken   = cacheService.getAuthToken(serviceType)
                 ?: return ResultFactory.getFailResult(msg = "Authentication failed")
 
-        if(serviceType == ServiceTypeEnum.FREE.name && stkRequestDto.idNumber.isNullOrEmpty()) {
-            return  ResultFactory.getFailResult(msg = "ID number required.")
-        }
+        if((subscriptionPlan == SubscriptionPlan.PERSONAL.name || subscriptionPlan == SubscriptionPlan.BUSINESS.name) && stkRequestDto.fullName.isNullOrEmpty()) {
+            return  ResultFactory.getFailResult(msg = "Name is required for PERSONAL and BUSINESS subscriptions")
+            }
+
 
         val mpesaExpressRequest = MpesaExpressRequest(
                 businessShortCode   = shortCode,
@@ -104,33 +107,26 @@ class MpesaExpressService : IMpesaExpressService {
 
         logger.info("###Mpesa Express request->${gson.toJson(mpesaExpressRequest)}")
 
+        //this should be part of a reactive callback
         val mpesaResponse: Result<MpesaExpressResponse> = sendStkPush(
                 request = mpesaExpressRequest.copy(amount = getRequestAmount(stkRequestDto.payableAmount.toInt())),
                 token   = authToken
         )
 
+
         return when(mpesaResponse.success) {
             true -> {
-                //when(ServiceTypeEnum.valueOf(serviceType)){
-                    // ServiceTypeEnum.MOTOR -> {
-                    //     saveRequestDetails(
-                    //             request         = mpesaExpressRequest,
-                    //             response        = mpesaResponse.data!!,
-                    //             stkRequestType  = StkRequestType.valueOf(stkRequestDto.transactionType.toUpperCase()),
-                    //             serviceType     = ServiceTypeEnum.valueOf(serviceType),
-                    //             accountNumber   = stkRequestDto.idNumber!!
-                    //     )
-                    // }
-                    // else -> {
-                        saveRequestDetails(
-                                request         = mpesaExpressRequest,
-                                response        = mpesaResponse.data!!,
-                                stkRequestType  = StkRequestType.valueOf(stkRequestDto.transactionType.toUpperCase()),
-                                serviceType     = ServiceTypeEnum.valueOf(serviceType),
-                                accountNumber   = stkRequestDto.accountReference
-                        )
-                    //}
-                //}
+
+                    saveRequestDetails(
+                            request         = mpesaExpressRequest,
+                            response        = mpesaResponse.data!!,
+                            stkRequestType  = StkRequestType.valueOf(stkRequestDto.transactionType.toUpperCase()),
+                            serviceType     = ServiceTypeEnum.valueOf(serviceType),
+                            accountNumber   = stkRequestDto.accountReference,
+                            fullName        = stkRequestDto.fullName,
+                            subscriptionPlan = SubscriptionPlan.valueOf(stkRequestDto.subscriptionPlan.toUpperCase())
+                    )
+       
                 mpesaResponse
             }
             false ->
@@ -138,19 +134,37 @@ class MpesaExpressService : IMpesaExpressService {
         }
     }
 
-    @Transactional
+    //@Transactional
+    //@Transactional(propagation = Propagation.REQUIRES_NEW)
+
+    @Async
     override fun saveRequestDetails(
             request: MpesaExpressRequest,
             response: MpesaExpressResponse,
             stkRequestType: StkRequestType,
             serviceType: ServiceTypeEnum,
-            accountNumber: String
+            accountNumber: String,
+            fullName: String?,
+            subscriptionPlan: SubscriptionPlan
+
     ) {
+
+        val client    = clientAccountService.findOrCreateClientAccount(
+            msisdn = request.partyB.toString(),
+            accountName = fullName,
+            shortCode = request.partyA.toString(),
+            accountNumber = "VUKA", //needs to be autogenerated
+            emailAddress = "test@example.com",
+            serviceType = serviceType
+            )
+
+        
         val wallet = walletService.findOrCreateWallet(
-                accountNumber   = accountNumber,
-                balance         = 0.0,
-                serviceType     = serviceType
+            clientAccount   = client,
+            serviceType     = serviceType, 
+            balance         = 0.0
         )
+
         val mpesaExpress = MpesaExpress(
                 wallet                  = wallet,
                 shortCode               = request.businessShortCode,
@@ -172,10 +186,13 @@ class MpesaExpressService : IMpesaExpressService {
                 paymentStatus           = PaymentStatusEnum.PENDING,
                 serviceRequestStatus    = ServiceRequestStatusEnum.PENDING,
                 servicePaymentStatus    = null,
-                requestType             = stkRequestType
+                requestType             = stkRequestType,
+
+                fullName                = fullName,
+                subscriptionPlan        = subscriptionPlan
         )
         val transaction = mpesaExpressRepository.save(mpesaExpress)
-        processServiceRequest(transaction)
+        //processServiceRequest(transaction)        //disabled temporarily
     }
 
     override fun processCallbackDetails(response: String) {
@@ -199,6 +216,9 @@ class MpesaExpressService : IMpesaExpressService {
                             .findFirst()
                     mpesaTransaction.paymentStatus      = PaymentStatusEnum.SUCCESSFUL
                     mpesaTransaction.mpesaReceiptNumber = mpesaReceiptItem.get().value
+
+                    //CREDIT WALLET HERE....(if missing, create the wallet first)
+                    logger.info("TODO: credit the wallet")
                 }
                 else -> {
                     mpesaTransaction.paymentStatus  = PaymentStatusEnum.FAILED
@@ -206,7 +226,7 @@ class MpesaExpressService : IMpesaExpressService {
             }
             val updatedTransaction = mpesaExpressRepository.save(mpesaTransaction)
             if (mpesaTransaction.serviceRequestStatus != ServiceRequestStatusEnum.COMPLETED) {
-                processServiceRequest(updatedTransaction)
+                //processServiceRequest(updatedTransaction)
             }
         } else {
             logger.error("###MpesaExpressTransaction with given checkoutRequestId not found->${getJsonObject(response)}")
@@ -279,7 +299,7 @@ class MpesaExpressService : IMpesaExpressService {
         }
     }
 
-
+    //this should return Mono
     override fun sendStkPush(request: MpesaExpressRequest, token: String): Result<MpesaExpressResponse> {
         val body = gson.toJson(request, MpesaExpressRequest::class.java)
         val response = getWebClient(mpesaBaseUrl).method(HttpMethod.POST)
@@ -288,7 +308,7 @@ class MpesaExpressService : IMpesaExpressService {
                 .body(Mono.just(body), String::class.java)
                 .exchange()
                 .block()!!.bodyToMono(String::class.java)
-                .block()
+                .block()        //do not block here in future, 
 
         logger.info("###Mpesa Express response->{}", getJsonObject(response))
 
@@ -303,111 +323,30 @@ class MpesaExpressService : IMpesaExpressService {
         return Helper.encodeToBase64String(bytes)
     }
 
-    override fun processServiceRequest(transaction: MpesaExpress) {
-        val paymentStatus = transaction.paymentStatus!!
-        when(transaction.requestType) {
-            StkRequestType.DEPOSIT -> {
-                if (paymentStatus == PaymentStatusEnum.SUCCESSFUL) {
-                    walletService.creditWallet(
-                            walletDto = WalletDto(
-                                    amount          = transaction.amount,
-                                    accountNumber   = transaction.wallet.accountNumber,
-                                    reference       = transaction.checkoutRequestId,
-                                    description     = StatementTag.TOP_UP.type,
-                                    tag             = PaymentType.MPESA_EXPRESS.name,
-                                    serviceType     = transaction.serviceType!!
-                            )
-                    )
-                    transaction.serviceRequestStatus = ServiceRequestStatusEnum.COMPLETED
-                    mpesaExpressRepository.save(transaction)
-                } else if (paymentStatus == PaymentStatusEnum.FAILED) {
-                    transaction.serviceRequestStatus = ServiceRequestStatusEnum.COMPLETED
-                    mpesaExpressRepository.save(transaction)
-                }
-            }
-            StkRequestType.PAYMENT -> {
-                processProductPayment(transaction = transaction)
-            }
-        }
-    }
+    // override fun processServiceRequest(transaction: MpesaExpress) {
+    //     val paymentStatus = transaction.paymentStatus!!
+    //     when(transaction.requestType) {     //WE should be updating the Wallet
 
-    override fun processProductPayment(transaction: MpesaExpress) {
-        val paymentStatus = transaction.paymentStatus!!
-        if (paymentStatus == PaymentStatusEnum.SUCCESSFUL) {
-            accountService.saveStatement(
-                    wallet                  = transaction.wallet,
-                    transactionAmount       = transaction.amount,
-                    transactionReference    = transaction.checkoutRequestId,
-                    transactionType         = AccountTransactionType.DEBIT.type,
-                    description             = StatementTag.PAYMENT.type,
-                    tag                     = PaymentType.MPESA_EXPRESS.name
-            )
-        }
-        //when(transaction.serviceType) {
-            // ServiceTypeEnum.MOTOR -> {
-            //     // sending motor payment notification to slack channel
-            //     if (paymentStatus == PaymentStatusEnum.SUCCESSFUL) {
-            //         val funnelEvent = "```4. Success! ${transaction.mpesaReceiptNumber} payment amount of ${transaction.amount} received for vehicle registration number ${transaction.accountReference}```"
-            //         slackService.sendMessage(SlackMessageRequest(text = funnelEvent))
-            //     }
-            //     motorService.sendPaymentDetailsToQuotation(
-            //             paymentDetail   = getPaymentDetail(transaction, paymentStatus),
-            //             paymentType     = PaymentType.MPESA_EXPRESS
-            //     )
-            // }
+    //         StkRequestType.PAYMENT -> {
+    //             processProductPayment(transaction = transaction)
+    //         }
+    //     }
+    // }
 
-            // ServiceTypeEnum.LIFE -> {
-            //     if (paymentStatus == PaymentStatusEnum.SUCCESSFUL) {
-
-            //         var details = USSDCallbackDetail(
-            //                 paymentDate            = transaction.transactionDate,
-            //                 paymentRef             = transaction.checkoutRequestId,
-            //                 paymentType            = transaction.serviceType!!.name,
-            //                 amount                 = transaction.amount,
-            //                 transactionReference   = transaction.accountReference,
-            //                 transactionDescription = transaction.transactionDescription,
-            //                 paymentStatus          = transaction.paymentStatus!!.name,
-            //                 mpesaReceiptNumber     = transaction.mpesaReceiptNumber,
-            //                 transactionPhoneNumber = transaction.msisdn
-            //         )
-
-            //         val response = getWebClient(ussdBaseUrl)
-            //                 .method(HttpMethod.POST)
-            //                 .uri("/ussd/payment/callback")
-            //                 .body(Mono.just(details),USSDCallbackDetail::class.java)
-            //                 .exchange()
-            //                 .block()!!
-            //                 .bodyToMono(String::class.java)
-            //                 .block()
-
-            //         val description = transaction.transactionDescription.split("-")
-            //         when(description[0]){
-            //             "rfq" -> {
-            //                 notificationService.sendSMS(
-            //                         SMSRequest(
-            //                                 to = transaction.msisdn,
-            //                                 text = "To complete the process Dial *507*18#\n" +
-            //                                         "Many thanks for the payment. Your Upendo Life quotation number is ${description[1]}\n" +
-            //                                         "Payment is confirmed.",
-            //                                 serviceType = ServiceTypeEnum.LIFE.name
-            //                         )
-            //                 )
-            //             }
-            //         }
-
-            //         logger.info("### Callback response to USSD service $response")
-
-            //     } else if (paymentStatus == PaymentStatusEnum.PENDING){
-            //         logger.info("### Life transaction pending")
-            //     }
-            // }
-
-            // ServiceTypeEnum.HEALTH -> {
-            //     logger.info("###Health payment processing to be implemented")
-            // }
-        //}
-
-    }
+    // override fun processProductPayment(transaction: MpesaExpress) {
+    //     val paymentStatus = transaction.paymentStatus!!
+    //     if (paymentStatus == PaymentStatusEnum.SUCCESSFUL) {
+    //         accountService.saveStatement(
+    //                 wallet                  = transaction.wallet,
+    //                 transactionAmount       = transaction.amount,
+    //                 transactionReference    = transaction.checkoutRequestId,
+    //                 transactionType         = AccountTransactionType.DEBIT.type,
+    //                 description             = StatementTag.PAYMENT.type,
+    //                 tag                     = PaymentType.MPESA_EXPRESS.name
+    //         )
+    //     }
+       
+    // }
 
     override fun updateTransactionDetails(transaction: MpesaExpress, queryResponse: MpesaExpressQueryResponse) {
         transaction.responseCode        = queryResponse.responseCode
@@ -424,7 +363,7 @@ class MpesaExpressService : IMpesaExpressService {
             }
         }
         val updatedTransaction  = mpesaExpressRepository.save(transaction)
-        processServiceRequest(updatedTransaction)
+        //processServiceRequest(updatedTransaction)
     }
 
     fun getRequestAmount(amount: Int): Int {

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozermapper.github.io/schema/bean-mapping"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozermapper.github.io/schema/bean-mapping http://dozermapper.github.io/schema/bean-mapping.xsd">
+
+    <mapping map-null="false">
+        <class-a>com.softel.mpesa.remote.mpesa.PaybillCallback</class-a>
+        <class-b>com.softel.mpesa.entity.mpesa.MpesaC2BCallback</class-b>
+    </mapping>
+
+    <mapping map-null="false" map-empty-string="false">
+        <class-a>com.softel.mpesa.dto.ClientAccountDto</class-a>
+        <class-b>com.softel.mpesa.entity.ClientAccount</class-b>
+        <field-exclude> 
+            <a>createdAt</a> 
+            <b>createdAt</b> 
+        </field-exclude>   
+        <field-exclude> 
+            <a>updatedAt</a> 
+            <b>updatedAt</b> 
+        </field-exclude>   
+    </mapping>
+
+</mappings>

@@ -15,7 +15,9 @@ services:
       - app-network
 
   mpesa:
-    build: mpesa-gateway/
+    build:
+      context: ./mpesa-gateway/
+      dockerfile: Dockerfile
     container_name: app_mpesa_vuka
     restart: unless-stopped
     ports:
@@ -30,29 +32,6 @@ services:
       - app-network
     env_file:
       - mpesa-gateway/mpesa.env
-
-  # api:
-  #   build: mpesa-api/
-  #   container_name: app_ussd_api
-  #   restart: unless-stopped
-  #   ports:
-  #     - "9090:9090"
-  #   depends_on:
-  #     - db
-  #     - redis
-  #   links:
-  #     - db
-  #     - redis
-  #   networks:
-  #     - app-network
-  #   # env_file:
-  #   #   - ussd-dev.env
-  #   environment:
-  #     - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/ussd_covid
-  #     - SPRING_DATASOURCE_USERNAME=dev_user
-  #     - SPRING_DATASOURCE_PASSWORD=caro_kann
-  #     - SPRING_APPLICATION_JSON={"spring.redis.host":"redis", "spring.redis.port":"6379"}
-  #     - SPRING_PROFILES_ACTIVE=dev
 
 
   redis:
@@ -78,15 +57,51 @@ services:
     restart: unless-stopped
     ports:
       - "5432:5432"
-#    volumes:
-#      - ./db/pgdemo:/var/lib/postgresql/data
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+      - ./postgres-configs/scripts:/docker-entrypoint-initdb.d
     networks:
       - app-network
     env_file:
       - postgres-configs/pg.env
-    volumes:
-      - ./postgres-configs/scripts:/docker-entrypoint-initdb.d
 
+  
+  adminer:
+      image: adminer
+      container_name: app_adminer_vuka
+      restart: always
+      depends_on:
+        - db
+      ports:
+        - 8888:8080
+      environment:
+        ADMINER_DEFAULT_DB_DRIVER: pgsql
+        ADMINER_DEFAULT_DB_HOST: db
+        ADMINER_DEFAULT_DB_NAME: mpesa_gateway
+      networks:
+        - app-network
+
+  keycloak:
+      image: quay.io/keycloak/keycloak:latest
+      container_name: app_keycloak_vuka
+      environment:
+        DB_VENDOR: POSTGRES
+        DB_ADDR: db
+        DB_DATABASE: mpesa_gateway
+        DB_USER: dev_user
+        DB_PASSWORD: caro_kann
+        DB_SCHEMA: public
+        KEYCLOAK_USER: admin
+        KEYCLOAK_PASSWORD: Pa55w0rd
+        # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
+        #JDBC_PARAMS: "ssl=true"
+      ports:
+        - 9009:8080
+      depends_on:
+        - db
+      networks:
+        - app-network
+        
 networks:
   app-network:
     driver: "bridge"

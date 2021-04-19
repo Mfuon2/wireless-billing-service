@@ -21,19 +21,26 @@ import javax.persistence.Version
 import org.hibernate.annotations.ColumnTransformer
 
 @Entity
-@Table(name = "wallet_payment")
+@Table(name = "client_wallet_payment")
 class WalletPayment (
+
+        @JsonIgnore
+        @Version
+        var version: Long = 0,
+
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Long = 0,
 
         @JsonIgnore
-        @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
+        @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "wallet_id", nullable = false, referencedColumnName = "id")
         var wallet: Wallet,
 
-        @Column(nullable = false, unique = true)
-        var transactionId: String,
+        @JsonIgnore
+        @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
+        @JoinColumn(name = "client_subscription_id", nullable = false, referencedColumnName = "id")
+        var subscription: Subscription,
 
         @Column(nullable = false)
         var amount: Double,
@@ -46,15 +53,7 @@ class WalletPayment (
 
         @Column(nullable = true)
         @Enumerated(EnumType.STRING)
-        var serviceType: ServiceTypeEnum?,
-
-        @Column(nullable = true)
-        @Enumerated(EnumType.STRING)
         var serviceRequestStatus: ServiceRequestStatusEnum?,
-
-        @JsonIgnore
-        @Version
-        var version: Long = 0,
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
         @Column(nullable = false, columnDefinition = "timestamp default CURRENT_TIMESTAMP")

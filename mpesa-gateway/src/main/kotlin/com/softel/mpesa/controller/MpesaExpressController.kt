@@ -21,7 +21,7 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/mpesa-express")
-@Tag(name = "M-Pesa Express", description = "Exposes all Mpesa Express functionality")
+@Tag(name = "MPesa Express", description = "Exposes all Mpesa Express functionality")
 class MpesaExpressController {
 
     @Autowired
@@ -32,12 +32,12 @@ class MpesaExpressController {
     fun processPaymentRequest(@Valid @RequestBody stkRequest: MpesaStkRequestDto): Result<MpesaExpressResponse> =
             mpesaExpressService.processPaymentRequest(stkRequestDto = stkRequest)
 
-    @Operation(summary = "Callback", description = "This endpoint is the callback interface for mpesa express")
+    @Operation(summary = "Callback", description = "This endpoint is the callback interface for mpesa express. Requires registration ?")
     @PostMapping(value = ["/callback"])
     fun updateTransactionDetails(@RequestBody result: String) =
             mpesaExpressService.processCallbackDetails(result)
 
-    @Operation(summary = "Check Transaction Status", description = "Manualy force checking the status of a specific transactions")
+    @Operation(summary = "Check Status of transaction at MPESA", description = "Manualy force checking the status of a specific transaction on the mpesa API")
     @GetMapping(value = ["/transaction-status"], produces = ["application/json"])
     fun queryTransactionStatus(@Parameter(description = "The `checkoutRequestId` from a previous mpesa response") @RequestParam checkoutRequestId: String): Result<MpesaExpressQueryResponse> =
             mpesaExpressService.queryTransactionStatus(checkoutRequestId = checkoutRequestId)

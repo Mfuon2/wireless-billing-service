@@ -1,10 +1,36 @@
 package com.softel.mpesa.enums
 
-enum class ServiceTypeEnum{
-    FREE,
-    BASIC,
-    PRO
+enum class ServiceTypeEnum{ //TODO refactor to BillingTypeEnum
+    ADHOC,          
+    PRE_PAID,       
+    POST_PAID       
 }
+
+enum class SubscriptionPlan(val plan: String) {
+    DEMO("Demo"),
+    PERSONAL("Personal"),
+    BUSINESS("Business"),
+    PLATINUM("Platinum")        //Big biz, trusted and very flexible payments... cheque etc
+    }
+
+enum class MpesaCallbackEnum(val type: String){
+    C2B_VALIDATION("Validation"),
+    C2B_CONFIRMATION("Confirmation") 
+    }
+
+enum class BillingCycle{
+    ADHOC,          //works with USAGE_*      
+    WEEKLY,       
+    MONTHLY, 
+    ANNUAL       
+    }
+
+enum class RenewalCycleType{            //move to Subscription
+    FIXED,       
+    ANNIVERSARY,
+    USAGE_ONCE,             //use with usage
+    USAGE_AUTORENEW         //usage auto renew
+    }
 
 enum class AccountTransactionType(val type: String){
     DEBIT("DR"),
@@ -18,8 +44,10 @@ enum class ServiceRequestStatusEnum {
 }
 
 enum class PaymentType {
-    MPESA_EXPRESS,
-    WALLET
+    MPESA_EXPRESS,  //stk push
+    MPESA_C2B,      //paybill
+    WALLET          //from wallet
+    //cash, cheque ?
 }
 
 enum class StatementTag(val type: String) {
@@ -44,3 +72,4 @@ enum class PaymentStatusEnum {
     SUCCESSFUL,
     FAILED
 }
+

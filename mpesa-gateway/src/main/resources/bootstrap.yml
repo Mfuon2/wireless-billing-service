@@ -14,9 +14,4 @@ server:
   #     # server:
   #     #   git:
   #     #     refreshRate: 60
-  # redis:
-  #   database: 0
-  #   host: localhost
-  #   port: 6379
-  #   password: t0ps3cret 
-  #   timeout: 60000
+
