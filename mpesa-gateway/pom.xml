@@ -13,7 +13,7 @@
 	<artifactId>mpesa</artifactId>
 	<version>0.3</version>
 	<name>mpesa-gateway</name>
-	<description>Multitenant MPESA gateway. Pilot with Vuka</description>
+	<description>Multitenant MPESA gateway</description>
 
 
 	<properties>

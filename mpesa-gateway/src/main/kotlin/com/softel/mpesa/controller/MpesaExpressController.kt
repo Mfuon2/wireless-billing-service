@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/mpesa-express")
+@RequestMapping("/express")
 @Tag(name = "MPesa Express", description = "Exposes all Mpesa Express functionality")
 class MpesaExpressController {
 

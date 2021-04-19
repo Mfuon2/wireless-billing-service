@@ -27,7 +27,6 @@ class ClientAccountService: IClientAccountService {
     @Autowired
     lateinit var mapper: Mapper
 
-
     override fun getClientAccount(accountNumber: String): Result<ClientAccount> {
         val clientAccount = clientAccountRepository.findByAccountNumber(accountNumber)
         return if (clientAccount != null)

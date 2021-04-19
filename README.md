@@ -1,19 +1,19 @@
 MONO REPO
 
-Projects
-<!-- 1. USSD flow
+# Projects
+1. Mpesa gateway
 
 ```
-    cd ussd-flow
+    cd mpesa-gateway
     mvn clean package
 ```
 
-2. USSD rest api 
+2. Portal rest api
 
 ```
-    cd ussd-api
+    cd portal-api
     mvn clean package
-``` -->
+```
 
 # Running in local dev
 

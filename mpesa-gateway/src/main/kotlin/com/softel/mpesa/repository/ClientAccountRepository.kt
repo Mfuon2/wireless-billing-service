@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query
 
 interface ClientAccountRepository: JpaRepository<ClientAccount, String> {
 
-
     @Query("SELECT c FROM ClientAccount c WHERE c.accountNumber=:accountNumber")
     fun findByAccountNumber(accountNumber: String): ClientAccount?
 
