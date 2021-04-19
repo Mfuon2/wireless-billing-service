@@ -32,9 +32,9 @@ object MpesaEncryption {
 
     private fun getCertificateResource(activeProfile: String): Resource {
         return when(EnvironmentProfile.valueOf(activeProfile.toUpperCase())) {
-            EnvironmentProfile.DEV   -> ClassPathResource("mpesa-certificate/sandbox.mabura.zeguru.cer")
-            EnvironmentProfile.UAT   -> ClassPathResource("mpesa-certificate/sandbox.mabura.zeguru.cer")
-            EnvironmentProfile.PROD  -> ClassPathResource("mpesa-certificate/prod.mabura.zeguru.cer")
+            EnvironmentProfile.DEV   -> ClassPathResource("mpesa-certificate/sandbox.vuka.cert.cer")
+            EnvironmentProfile.UAT   -> ClassPathResource("mpesa-certificate/sandbox.vuka.cert.cer")
+            EnvironmentProfile.PROD  -> ClassPathResource("mpesa-certificate/prod.vuka.cer")
         }
     }
 }
