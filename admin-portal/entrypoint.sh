@@ -7,6 +7,6 @@ sleep 10
 echo " "
 echo "<<<<<<<<<<< :recycle: Starting Admin Portal :recycle: >>>>>>>>>>>>>"
 echo " "
-npm start --host 0.0.0.0
+npm start
 
 exit 0
