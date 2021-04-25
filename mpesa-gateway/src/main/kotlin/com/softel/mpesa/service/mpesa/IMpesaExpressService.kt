@@ -1,5 +1,10 @@
 package com.softel.mpesa.service.mpesa
 
+
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+
 import com.softel.mpesa.dto.MpesaStkRequestDto
 import com.softel.mpesa.enums.ServiceTypeEnum
 import com.softel.mpesa.enums.StkRequestType
@@ -32,4 +37,7 @@ interface IMpesaExpressService {
     fun getTransactionDetails(checkoutRequestId: String): Result<MpesaExpress>
     fun processPendingTransactions()
     fun updateTransactionDetails(transaction: MpesaExpress, queryResponse: MpesaExpressQueryResponse)
+
+    fun findAllPaged(pageable: Pageable): Page<MpesaExpress?>
+
 }

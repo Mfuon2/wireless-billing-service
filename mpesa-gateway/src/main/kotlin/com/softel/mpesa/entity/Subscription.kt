@@ -39,12 +39,12 @@ class Subscription(
         @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Long = 0,
 
-        @JsonIgnore
+        // @JsonIgnore
         @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
         @JoinColumn(name = "client_account_id", nullable = false, referencedColumnName = "accountNumber")
         var clientAccount: ClientAccount,
 
-        @JsonIgnore
+        // @JsonIgnore
         @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
         @JoinColumn(name = "service_package_id", nullable = false, referencedColumnName = "id")
         var servicePackage: ServicePackage,

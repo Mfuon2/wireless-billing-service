@@ -1,5 +1,9 @@
 package com.softel.mpesa.service.common.impl
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 import com.softel.mpesa.enums.AccountTransactionType
 import com.softel.mpesa.enums.ServiceTypeEnum
 
@@ -28,6 +32,20 @@ class PackageService: IPackage {
     @Autowired
     lateinit var mapper: Mapper
 
+
+    override fun findAllPaged(pageable: Pageable): Page<ServicePackage?>{
+        return packageRepository.findAll(pageable);
+        }
+
+    override fun getPackage(id: Long): Result<ServicePackage> {
+        val pack = packageRepository.findById(id)
+        return if(pack.isPresent())
+            ResultFactory.getSuccessResult(msg = "Request successfully processed", data = pack.get())
+        else
+            ResultFactory.getFailResult(msg = "No pack found with the given id")
+        }
+
+            
     override fun createPackage(packageDto: PackageDto): Result<ServicePackage>{
 
         var pack = mapper.map(packageDto, ServicePackage::class.java)
@@ -43,13 +61,6 @@ class PackageService: IPackage {
         }
 
 
-    override fun getPackage(id: Long): Result<ServicePackage> {
-        val pack = packageRepository.findById(id)
-        return if(pack.isPresent())
-            ResultFactory.getSuccessResult(msg = "Request successfully processed", data = pack.get())
-        else
-            ResultFactory.getFailResult(msg = "No pack found with the given id")
-        }
 
 
     override fun getPackageByCode(code: String): Result<ServicePackage> {
@@ -60,6 +71,6 @@ class PackageService: IPackage {
             ResultFactory.getFailResult(msg = "No package found with the given code")
         }
 
-
+    
 
 }

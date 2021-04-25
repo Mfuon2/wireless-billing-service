@@ -1,4 +1,8 @@
-package com.softel.mpesaweb.controller
+package com.softel.mpesa.controller
+
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -27,9 +31,21 @@ class WalletController {
     @Autowired
     lateinit var walletService: IWalletService
 
-    // @Autowired
-    // lateinit var walletPaymentService: IWalletPaymentService
+    @Operation(summary = "Get paged list", description = "Get a paged list of wallets")
+    @GetMapping(value = ["/paged"], produces = ["application/json"])
+    fun getPagedSubscriptions(
+        //@Parameter(name = "pageable",description = "Paging and sorting parameters", required = false)
+        //@PageableDefault(page=0, size=50, sort = ["accountName"], direction = Sort.Direction.ASC)
+        pageable: Pageable): Page<Wallet?> = walletService.findAllPaged(pageable)
 
+    
+    @Operation(summary = "Get Subscription", description = "Get wallet by id")
+    @GetMapping(value = ["/get"], produces = ["application/json"])
+    fun getSubscription(
+        @Parameter(name = "id",description = "Identifier", required = true)
+        @RequestParam id: Long): Result<Wallet?> = walletService.getWallet(id)
+
+            
     @Operation(summary = "Create a new wallet", description = "Allows creation of a new wallet")
     @PostMapping(value = ["/create"], produces = ["application/json"])      
     fun createWallet(@Valid @RequestBody walletDto: WalletDto

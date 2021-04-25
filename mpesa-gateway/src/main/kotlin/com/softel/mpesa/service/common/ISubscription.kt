@@ -4,6 +4,11 @@
  */
 package com.softel.mpesa.service.common
 
+
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+
 import com.softel.mpesa.dto.SubscriptionDto
 import com.softel.mpesa.enums.ServiceTypeEnum
 import com.softel.mpesa.entity.Subscription
@@ -13,6 +18,8 @@ interface ISubscription {
 
     fun getSubscription(id: Long): Result<Subscription>
     fun createSubscription(subscriptionDto: SubscriptionDto): Result<Subscription>
+
+    fun findAllPaged(pageable: Pageable): Page<Subscription?>
 
     // fun getClientAccountByMsisdnAndShortcode(msisdn: String, shortCode: String): Result<ClientAccount>
     // fun createClientAccount(clientDto: ClientAccountDto): Result<ClientAccount>

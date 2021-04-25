@@ -7,6 +7,10 @@ import com.softel.mpesa.entity.ClientAccount
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 interface WalletRepository: JpaRepository<Wallet, Long> {
 
     // @Query("SELECT w FROM Wallet w INNER JOIN ClientAccount c ON w = c.wallet WHERE w.accountNumber=:accountNumber AND w.serviceType=:serviceType")
@@ -17,5 +21,8 @@ interface WalletRepository: JpaRepository<Wallet, Long> {
 
     // @Query("SELECT w FROM Wallet w WHERE w.clientAccount=:clientAccount AND w.serviceType=:serviceType")
     // fun findByClientAccount(clientAccount: ClientAccount, serviceType: ServiceTypeEnum): Wallet?
+
+    override fun findAll(pageable: Pageable): Page<Wallet?>
+
 
 }
