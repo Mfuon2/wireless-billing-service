@@ -1,5 +1,9 @@
 package com.softel.mpesa.service.common.impl
 
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+
 import com.softel.mpesa.enums.AccountTransactionType
 import com.softel.mpesa.enums.ServiceTypeEnum
 
@@ -36,6 +40,19 @@ class SubscriptionService: ISubscription {
     @Autowired
     lateinit var mapper: Mapper
 
+
+    override fun findAllPaged(pageable: Pageable): Page<Subscription?>{
+        return subscriptionRepo.findAll(pageable);
+        }
+    
+    override fun getSubscription(id: Long): Result<Subscription> {
+        val sub = subscriptionRepo.findById(id)
+        return if(sub.isPresent())
+            ResultFactory.getSuccessResult(msg = "Request successfully processed", data = sub.get())
+        else
+            ResultFactory.getFailResult(msg = "No package found with the given code")
+        }
+
     override fun createSubscription(subscriptionDto: SubscriptionDto): Result<Subscription>{
 
         var sub = mapper.map(subscriptionDto, Subscription::class.java)
@@ -59,17 +76,6 @@ class SubscriptionService: ISubscription {
         }
 
 
-    override fun getSubscription(id: Long): Result<Subscription> {
-
-        val sub = subscriptionRepo.findById(id)
-
-        return if(sub.isPresent())
-            ResultFactory.getSuccessResult(msg = "Request successfully processed", data = sub.get())
-        else
-            ResultFactory.getFailResult(msg = "No package found with the given code")
-
-        }
-
-
+   
 
 }

@@ -1,5 +1,9 @@
 package com.softel.mpesa.controller
 
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import io.swagger.v3.oas.annotations.Parameter
@@ -26,6 +30,14 @@ class MpesaExpressController {
 
     @Autowired
     lateinit var mpesaExpressService: IMpesaExpressService
+
+    @Operation(summary = "Get paged list", description = "Get a paged list of STK requests")
+    @GetMapping(value = ["/paged"], produces = ["application/json"])
+    fun getPagedSubscriptions(
+        //@Parameter(name = "pageable",description = "Paging and sorting parameters", required = false)
+        //@PageableDefault(page=0, size=50, sort = ["accountName"], direction = Sort.Direction.ASC)
+        pageable: Pageable): Page<MpesaExpress?> = mpesaExpressService.findAllPaged(pageable)
+
 
     @Operation(summary = "Stk Push", description = "This endpoint initiates STK Push")
     @PostMapping(value = ["/payment-request"], produces = ["application/json"])

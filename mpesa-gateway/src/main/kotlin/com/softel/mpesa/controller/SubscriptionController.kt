@@ -1,5 +1,9 @@
 package com.softel.mpesa.controller
 
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -27,6 +31,13 @@ class SubscriptionController {
     @Autowired
     lateinit var subscriptionService: ISubscription
 
+    @Operation(summary = "Get paged list", description = "Get a paged list of subscriptions")
+    @GetMapping(value = ["/paged"], produces = ["application/json"])
+    fun getPagedSubscriptions(
+        //@Parameter(name = "pageable",description = "Paging and sorting parameters", required = false)
+        //@PageableDefault(page=0, size=50, sort = ["accountName"], direction = Sort.Direction.ASC)
+        pageable: Pageable): Page<Subscription?> = subscriptionService.findAllPaged(pageable)
+
     @Operation(summary = "Get Subscription", description = "Get Subscription")
     @GetMapping(value = ["/get"], produces = ["application/json"])
     fun getSubscription(
@@ -38,5 +49,5 @@ class SubscriptionController {
     fun createSubscription(@Valid @RequestBody subscriptionDto: SubscriptionDto
     ):Result<Subscription> = subscriptionService.createSubscription(subscriptionDto)
 
-
+    //update
 }

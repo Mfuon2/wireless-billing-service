@@ -1,5 +1,9 @@
 package com.softel.mpesa.service.common.impl
 
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+
 import com.softel.mpesa.enums.AccountTransactionType
 import com.softel.mpesa.enums.ServiceTypeEnum
 
@@ -27,6 +31,10 @@ class ClientAccountService: IClientAccountService {
     @Autowired
     lateinit var mapper: Mapper
 
+    override fun findPagedClientAccount(pageable: Pageable): Page<ClientAccount?>{
+        return clientAccountRepository.findAll(pageable);
+        }
+        
     override fun getClientAccount(accountNumber: String): Result<ClientAccount> {
         val clientAccount = clientAccountRepository.findByAccountNumber(accountNumber)
         return if (clientAccount != null)
@@ -55,6 +63,8 @@ class ClientAccountService: IClientAccountService {
         else
             ResultFactory.getFailResult(msg = "Could not create account")
         }
+
+
 
     // override fun updateClientAccount(accountNumber:String, clientUpdateDto: ClientAccountDto): Result<ClientAccount>{
 
