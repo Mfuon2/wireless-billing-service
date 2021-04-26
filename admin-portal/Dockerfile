@@ -1,38 +1,35 @@
-## 1. BUILD STAGE
-# base image
-FROM node:14.15.0-alpine AS build
+# Stage 1
+# pull node from alpine
+FROM node:14.15.0-alpine as node
 
-LABEL maintainer="Mfuon Leonard" MAINTAINER="mfuon leonard"
-LABEL application="admin-portal"
+# Maintainer Labels
+LABEL project="Vuka Wireless Billing"
+LABEL maintainer="mfolee@gmail.com"
 
-EXPOSE 4200
-ENV APP_HOME=/home/node/app
-RUN mkdir -p $APP_HOME && chown -R node:node $APP_HOME
-WORKDIR $APP_HOME
+# define app working directory
+WORKDIR /usr/src/app
 
-# update the alpine image and install curl
-RUN apk update && apk add curl
+# copy dependancies file from local
+COPY package*.json ./
 
-# installing Alpine Dependencies, but the context for the command from `npm install` is explained above
-RUN apk add --no-cache --virtual .build-deps1 g++ gcc libgcc libstdc++ linux-headers make python && \
-    apk add --no-cache --virtual .npm-deps npm cairo-dev jpeg-dev libjpeg-turbo-dev pango pango-dev && \
-    apk add bash
+# install yarn package installer
+RUN npm install yarn
 
-RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.9/main' >> /etc/apk/repositories
-RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.9/community' >> /etc/apk/repositories
+# copy project files to our image
+COPY . .
 
-RUN apk upgrade --update
-RUN apk add --no-cache mongodb
-RUN apk add --no-cache mongodb-tools && \
-    rm -rf /var/cache/apk/*
+# install node packages for the portal
+RUN yarn install
 
-# Set non-root user and folder
-USER node
-# Copy source code (and all other relevant files)
-COPY --chown=node:node . ./
-RUN npm install --frozen-lockfile
-# Build code
-RUN npm build
+# build the project
+RUN yarn build
 
-RUN chmod 777 /home/node/app/entrypoint.sh
-ENTRYPOINT ["/home/node/app/entrypoint.sh"]
+# Stage 2
+# Install the load balancer nginx from alpine
+FROM nginx:1.13.12-alpine
+
+# copy the build from a previous image created for admin portal
+COPY --from=node /usr/src/app/dist/admin-dashboard /usr/share/nginx/html
+
+# copy the nginx configurations to the deocker image
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
