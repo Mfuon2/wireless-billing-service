@@ -1,5 +1,9 @@
 package com.softel.mpesa.controller
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -26,6 +30,13 @@ class PackageController {
 
     @Autowired
     lateinit var packageService: IPackage
+
+    @Operation(summary = "Get paged list", description = "Get a paged list of packages")
+    @GetMapping(value = ["/paged"], produces = ["application/json"])
+    fun getPagedPackages(
+        //@Parameter(name = "pageable",description = "Paging and sorting parameters", required = false)
+        //@PageableDefault(page=0, size=50, sort = ["accountName"], direction = Sort.Direction.ASC)
+        pageable: Pageable): Page<ServicePackage?> = packageService.findAllPaged(pageable)
 
     @Operation(summary = "Get Service Package", description = "Get package details using code")
     @GetMapping(value = ["/get"], produces = ["application/json"])

@@ -1,5 +1,11 @@
 package com.softel.mpesa.controller
 
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+
+import org.springframework.data.web.PageableDefault
+
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -26,6 +32,13 @@ class ClientAccountController {
 
     @Autowired
     lateinit var clientService: IClientAccountService
+
+    @Operation(summary = "Get paged list", description = "Get a paged list of account details")
+    @GetMapping(value = ["/paged"], produces = ["application/json"])
+    fun getPagedClientAccounts(
+        //@Parameter(name = "pageable",description = "Paging and sorting parameters", required = false)
+        //@PageableDefault(page=0, size=50, sort = ["accountName"], direction = Sort.Direction.ASC)
+        pageable: Pageable): Page<ClientAccount?> = clientService.findPagedClientAccount(pageable)
 
     @Operation(summary = "Get Client Account", description = "Get account details using account number")
     @GetMapping(value = ["/get"], produces = ["application/json"])
@@ -56,5 +69,10 @@ class ClientAccountController {
     //     @Valid @RequestBody clientDto: ClientAccountDto
     // ):Result<ClientAccount> = clientService.updateClientAccount(accountNumber,clientDto)
     
+    // @Hidden
+    // @Operation(summary = "Create a new client account", description = "Allows creation of a new client account")
+    // @PostMapping(value = ["/create"], produces = ["application/json"])      
+    // fun deleteClientAccount(accountNumber: String
+    // ):Result<ClientAccount> = clientService.deleteClientAccount(accountNumber)
 
 }

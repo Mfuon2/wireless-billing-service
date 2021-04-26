@@ -1,5 +1,9 @@
 package com.softel.mpesa.service.mpesa.impl
 
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+
 import com.softel.mpesa.config.WebClientConfig
 import com.softel.mpesa.config.getJsonObject
 import com.softel.mpesa.config.gson
@@ -74,6 +78,10 @@ class MpesaExpressService : IMpesaExpressService {
 
     @Value("\${spring.profiles.active:dev}")
     lateinit var activeProfile: String
+
+    override fun findAllPaged(pageable: Pageable): Page<MpesaExpress?>{
+        return mpesaExpressRepository.findAll(pageable);
+        }
 
     override fun processPaymentRequest(stkRequestDto: MpesaStkRequestDto): Result<MpesaExpressResponse> {
         logger.info("###Stk payment dto->${gson.toJson(stkRequestDto)}")

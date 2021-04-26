@@ -1,5 +1,10 @@
 package com.softel.mpesa.service.mpesa.impl
 
+
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+
 import com.softel.mpesa.config.WebClientConfig
 import com.softel.mpesa.config.getJsonObject
 import com.softel.mpesa.config.gson
@@ -99,6 +104,10 @@ class MpesaC2BService: IMpesaC2BService {
 
     @Value("\${mpesa.b2c.msisdn}")
     lateinit var defaultPartyB: String
+
+    override fun findAllPaged(type: MpesaCallbackEnum, pageable: Pageable): Page<MpesaC2BCallback?>{
+        return callbackRepo.findAllPagedCallback(type, pageable);
+        }
 
     override fun validatePaybillPayment(paybillCallback: String): MpesaC2BValidationResponse {
         logCallback(paybillCallback, MpesaCallbackEnum.C2B_VALIDATION)

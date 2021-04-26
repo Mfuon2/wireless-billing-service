@@ -1,5 +1,9 @@
 package com.softel.mpesa.service.common.impl
 
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+
 import com.softel.mpesa.dto.WalletDto
 
 import com.softel.mpesa.enums.AccountTransactionType
@@ -35,6 +39,18 @@ class WalletService: IWalletService {
 
     @Autowired
     lateinit var mapper: Mapper
+
+    override fun findAllPaged(pageable: Pageable): Page<Wallet?>{
+        return walletRepository.findAll(pageable);
+        }
+
+    override fun getWallet(id: Long): Result<Wallet?> {
+        val wallet = walletRepository.findById(id)
+        return if(wallet.isPresent())
+            ResultFactory.getSuccessResult(msg = "Request successfully processed", data = wallet.get())
+        else
+            ResultFactory.getFailResult(msg = "No wallet found with the given id")
+        }
 
     override fun createWallet(walletDto: WalletDto): Result<Wallet>{
 
