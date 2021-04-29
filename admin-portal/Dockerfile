@@ -12,17 +12,14 @@ WORKDIR /usr/src/app
 # copy dependancies file from local
 COPY package*.json ./
 
-# install yarn package installer
-RUN npm install yarn
-
 # copy project files to our image
 COPY . .
 
 # install node packages for the portal
-RUN yarn install
+RUN yarn install --link-duplicates
 
 # build the project
-RUN yarn build
+RUN yarn build --stats-json --source-map=false --aot
 
 # Stage 2
 # Install the load balancer nginx from alpine
