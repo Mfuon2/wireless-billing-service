@@ -6,21 +6,18 @@ import {PagesLayoutComponent} from './Layout/pages-layout/pages-layout.component
 
 // DEMO PAGES
 // Dashboards
-import {AnalyticsComponent} from './DemoPages/Dashboards/analytics/analytics.component';
+import {AnalyticsComponent} from './Pages/Dashboards/analytics/analytics.component';
 
 // Pages
-import {ForgotPasswordBoxedComponent} from './DemoPages/UserPages/forgot-password-boxed/forgot-password-boxed.component';
-import {LoginBoxedComponent} from './DemoPages/UserPages/login-boxed/login-boxed.component';
-import {RegisterBoxedComponent} from './DemoPages/UserPages/register-boxed/register-boxed.component';
+import {ForgotPasswordBoxedComponent} from './Pages/UserPages/forgot-password-boxed/forgot-password-boxed.component';
+import {LoginBoxedComponent} from './Pages/UserPages/login-boxed/login-boxed.component';
+import {RegisterBoxedComponent} from './Pages/UserPages/register-boxed/register-boxed.component';
 
 // Components
-import {AccordionsComponent} from './DemoPages/Components/accordions/accordions.component';
-// import {TabsComponent} from './DemoPages/Components/tabs/tabs.component';
-import {CarouselComponent} from './DemoPages/Components/carousel/carousel.component';
-import {ModalsComponent} from './DemoPages/Components/modals/modals.component';
-import {ProgressBarComponent} from './DemoPages/Components/progress-bar/progress-bar.component';
-import {PaginationComponent} from './DemoPages/Components/pagination/pagination.component';
-import {TooltipsPopoversComponent} from './DemoPages/Components/tooltips-popovers/tooltips-popovers.component';
+import {ModalsComponent} from './Pages/Components/modals/modals.component';
+import {ProgressBarComponent} from './Pages/Components/progress-bar/progress-bar.component';
+import {ClientsComponent} from './Pages/clients/clients.component';
+import {ServicePackagesComponent} from './Pages/service-packages/service-packages.component';
 
 const routes: Routes = [
   {
@@ -39,15 +36,12 @@ const routes: Routes = [
 
       {path: '', component: AnalyticsComponent, data: {extraParameter: 'dashboardsMenu'}},
 
-      // Components
+      // Clients
+      {path: 'clients/account', component: ClientsComponent, data: {extraParameter: 'clientMenu'}},
+      {path: 'service/packages', component: ServicePackagesComponent, data: {extraParameter: 'serviceMenu'}},
 
-      // {path: 'components/tabs', component: TabsComponent, data: {extraParameter: 'componentsMenu'}},
-      {path: 'components/accordions', component: AccordionsComponent, data: {extraParameter: 'componentsMenu'}},
       {path: 'components/modals', component: ModalsComponent, data: {extraParameter: 'componentsMenu'}},
       {path: 'components/progress-bar', component: ProgressBarComponent, data: {extraParameter: 'componentsMenu'}},
-      {path: 'components/tooltips-popovers', component: TooltipsPopoversComponent, data: {extraParameter: 'componentsMenu'}},
-      {path: 'components/carousel', component: CarouselComponent, data: {extraParameter: 'componentsMenu'}},
-      {path: 'components/pagination', component: PaginationComponent, data: {extraParameter: 'componentsMenu'}},
 
     ]
 

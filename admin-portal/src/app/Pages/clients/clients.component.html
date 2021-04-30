@@ -1,0 +1,12 @@
+<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"></app-page-title>
+<div class="row">
+    <div class="col-md-12">
+        <div class="main-card mb-3 card card-body border-alternate">
+            <div class="card-header">Client Accounts</div>
+            <div class="card-body">
+                <input #search class="search" type="text" placeholder="Search..." (keydown.enter)="onSearch(search.value)">
+                <ng2-smart-table [settings]="settings" [source]="data"></ng2-smart-table>
+            </div>
+        </div>
+    </div>
+</div>

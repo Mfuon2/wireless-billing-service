@@ -53,23 +53,21 @@ import {FooterComponent} from './Layout/Components/footer/footer.component';
 
 // Dashboards
 
-import {AnalyticsComponent} from './DemoPages/Dashboards/analytics/analytics.component';
+import {AnalyticsComponent} from './Pages/Dashboards/analytics/analytics.component';
 
 // Pages
 
-import {ForgotPasswordBoxedComponent} from './DemoPages/UserPages/forgot-password-boxed/forgot-password-boxed.component';
-import {LoginBoxedComponent} from './DemoPages/UserPages/login-boxed/login-boxed.component';
-import {RegisterBoxedComponent} from './DemoPages/UserPages/register-boxed/register-boxed.component';
+import {ForgotPasswordBoxedComponent} from './Pages/UserPages/forgot-password-boxed/forgot-password-boxed.component';
+import {LoginBoxedComponent} from './Pages/UserPages/login-boxed/login-boxed.component';
+import {RegisterBoxedComponent} from './Pages/UserPages/register-boxed/register-boxed.component';
 
 // Components
 
-import {AccordionsComponent} from './DemoPages/Components/accordions/accordions.component';
-import {TabsComponent} from './DemoPages/Components/tabs/tabs.component';
-import {CarouselComponent} from './DemoPages/Components/carousel/carousel.component';
-import {ModalsComponent} from './DemoPages/Components/modals/modals.component';
-import {ProgressBarComponent} from './DemoPages/Components/progress-bar/progress-bar.component';
-import {PaginationComponent} from './DemoPages/Components/pagination/pagination.component';
-import {TooltipsPopoversComponent} from './DemoPages/Components/tooltips-popovers/tooltips-popovers.component';
+import {ModalsComponent} from './Pages/Components/modals/modals.component';
+import {ProgressBarComponent} from './Pages/Components/progress-bar/progress-bar.component';
+import { ClientsComponent } from './Pages/clients/clients.component';
+import {Ng2SmartTableModule} from 'ng2-smart-table';
+import { ServicePackagesComponent } from './Pages/service-packages/service-packages.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -113,14 +111,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     RegisterBoxedComponent,
 
     // Components
-
-    AccordionsComponent,
-    TabsComponent,
-    CarouselComponent,
     ModalsComponent,
     ProgressBarComponent,
-    PaginationComponent,
-    TooltipsPopoversComponent,
+    ClientsComponent,
+    ServicePackagesComponent,
   ],
   imports: [
     BrowserModule,
@@ -142,7 +136,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     // Charts
 
     ChartsModule,
-    NvD3Module
+    NvD3Module,
+    // Tables
+    Ng2SmartTableModule
   ],
   providers: [
     {

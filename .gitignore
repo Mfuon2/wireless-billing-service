@@ -40,4 +40,6 @@
 **/bin
 **/.vscode
 
+## ADMIN PORTAL
 admin-portal/node_modules/
+admin-portal/dist/

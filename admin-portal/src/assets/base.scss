@@ -95,3 +95,51 @@
 // DEMO
 
 @import "demo-ui/demo";
+
+
+.card-header .header-icon {
+  font-size: 1.65rem;
+  margin-right: .625rem;
+}
+
+[class^="lnr-"], [class*=" lnr-"] {
+  font-family: 'Linearicons-Free', serif;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.bg-plum-plate {
+  background-image: linear-gradient(
+                  135deg
+          , #667eea 0%, #764ba2 100%) !important;
+}
+
+.icon-gradient {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+.card-header, .card-title {
+  text-transform: uppercase;
+  color: rgba(13,27,62,0.7);
+  font-weight: bold;
+  font-size: .88rem;
+}
+.card-header {
+  padding: .75rem 1.25rem;
+  margin-bottom: 0;
+  color: inherit;
+  background-color: #fff;
+  border-bottom: 1px solid rgba(26,54,126,0.125);
+}
+*, *::before, *::after {
+  box-sizing: border-box;
+}
