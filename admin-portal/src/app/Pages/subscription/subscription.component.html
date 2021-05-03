@@ -6,7 +6,7 @@
             <div class="card-header">Client Accounts</div>
             <div class="card-body">
 
-                <p-table #dt  *ngIf="datasource" [customSort]="true"
+                <p-table #dt  [customSort]="true"
                          [globalFilterFields]="['clientAccount.accountName','servicePackage.price','servicePackage.name','clientAccount.serviceType','subscriptionPlan','clientAccount.accountNumber']"
                          [loading]="loading"
                          [paginator]="true"

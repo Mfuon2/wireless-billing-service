@@ -5,7 +5,7 @@
         <div class="main-card mb-3 card card-body border-alternate">
             <div class="card-header">Service Packages</div>
             <div class="card-body">
-                <p-table #dt *ngIf="datasource" [customSort]="true"
+                <p-table #dt [customSort]="true"
                          [globalFilterFields]="['name','code', 'description', 'price','cycle']"
                          [loading]="loading"
                          [paginator]="true"

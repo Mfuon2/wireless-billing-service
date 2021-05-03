@@ -6,7 +6,7 @@
             <div class="card-header">Client Accounts</div>
             <div class="card-body">
 
-                <p-table #dt (sortFunction)="customSort($event)" *ngIf="datasource" [customSort]="true"
+                <p-table #dt (sortFunction)="customSort($event)"  [customSort]="true"
                          [globalFilterFields]="['accountNumber','accountName', 'shortCode', 'emailAddress','serviceType']"
                          [loading]="loading"
                          [paginator]="true"
