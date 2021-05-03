@@ -1,6 +1,9 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {LocalDataSource} from 'ng2-smart-table';
+import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {ClientsService} from './clients.service';
+import {Content} from '../../Models/Clients/clients';
+import {MessageService, SortEvent} from 'primeng/api';
+import {Table} from 'primeng/table';
+import {Utils} from '../Components/Utils';
 
 @Component({
     selector: 'app-clients',
@@ -8,94 +11,99 @@ import {ClientsService} from './clients.service';
     encapsulation: ViewEncapsulation.None
 })
 export class ClientsComponent implements OnInit {
-
-
     heading = 'Clients Accounts';
     subheading = 'Lists all Clients Accounts';
     icon = 'pe-7s-users icon-gradient bg-tempting-azure';
+    clientData: Content;
+    datasource: Content[];
+    totalRecords: number;
+    cols: any[];
+    loading: boolean;
+    submitted: boolean;
+    clientDialog: boolean;
+    serviceTypes: any[];
+    errorOnCreation: boolean;
+    errorMessage: string;
 
+    constructor(private clientService: ClientsService, private messageService: MessageService, private utils: Utils) {
 
-    settings = {
-        actions: {
-            position: 'right',
-            columnTitle: 'ACTIONS',
-            custom: [
-                {
-                    name: 'add',
-                    title: '<i class="pe-7s-album text-white opacity-8">Add</i>'
-                },
-                {
-                    name: 'editAction',
-                    title: '<i class="ion-edit" title="Edit"></i>'
-                },
-                {
-                    name: 'deleteAction',
-                    title: '<i class="far fa-trash-alt" title="delete"></i>'
-                }
-            ]
-        },
-        edit: {
-            createButtonContent: {
-                title: 'Edit',
-                content: '<i class="pe-7s-album btn btn-outline-success text-white opacity-8">Add</i>'
-            }
-        },
-        attr: {
-            class: 'table table-bordered table-striped table-sm'
-        },
-        pager: {
-            display: true,
-            perPage: 12
-        },
-        columns: {
-          accountNumber: {title: 'Account No'},
-          accountName: {title: 'Account Name'},
-          shortCode: {title: 'Code'},
-          emailAddress: {title: 'Email'},
-          serviceType: {title: 'Service Type'},
-          createdAt: {title: 'Date Created'}
-        }
-    };
-
-    data = [];
-
-    private source: LocalDataSource;
-
-    constructor(private clientService: ClientsService) {
+        this.serviceTypes = [
+            {label: 'PRE PAID SERVICE', value: 'PRE_PAID'},
+            {label: 'ADHOC SERVICE', value: 'ADHOC'},
+            {label: 'POST PAID SERVICE', value: 'POST_PAID'}
+        ];
     }
 
     ngOnInit(): void {
+        this.loading = true;
         this.loadClients();
-        this.source = new LocalDataSource(this.data);
-    }
-
-    onSearch(query: string = '') {
-        this.source.setFilter([
-            {
-                field: 'accountNumber',
-                search: query
-            },
-            {
-                field: 'accountName',
-                search: query
-            },
-            {
-                field: 'emailAddress',
-                search: query
-            },
-            {
-                field: 'serviceType',
-                search: query
-            }
-        ], false);
-
     }
 
     // Get clients list
     loadClients() {
-        return this.clientService.GetPagedClients().subscribe((data) => {
-            this.data = data.content;
+        return this.clientService.GetPagedClients(0,1000)
+            .subscribe((data) => {
+            this.datasource = data.content;
+            this.totalRecords = data.totalElements;
+            this.loading = false;
         });
     }
 
+    saveClientAccount() {
+        this.submitted = true;
+        return this.clientService.SaveClientsAccount(JSON.stringify(this.clientData))
+            .subscribe((clientResponse) => {
+                    if(clientResponse.success){
+                        this.utils.showSuccess(clientResponse.msg)
+                        this.hideDialog()
+                    }else {
+                        this.errorOnCreation = true;
+                        this.errorMessage = clientResponse.msg
+                        this.utils.showError(clientResponse.msg)
+                    }
+                }, (error) => {
+                    this.errorOnCreation = true;
+                    this.errorMessage = error
+                    this.utils.showError(error)
+                }, () => {
+                this.reload ()
+                })
+    }
+
+    openNew() {
+        // @ts-ignore
+        this.clientData = {};
+        this.submitted = false;
+        this.clientDialog = true;
+    }
+
+    hideDialog() {
+        this.clientDialog = false;
+        this.submitted = false;
+    }
+
+    customSort(event: SortEvent) {
+        event.data.sort((data1, data2) => {
+            let value1 = data1[event.field];
+            let value2 = data2[event.field];
+            let result = null;
+
+            if (value1 == null && value2 != null)
+                result = -1;
+            else if (value1 != null && value2 == null)
+                result = 1;
+            else if (value1 == null && value2 == null)
+                result = 0;
+            else if (typeof value1 === 'string' && typeof value2 === 'string')
+                result = value1.localeCompare(value2);
+            else
+                result = (value1 < value2) ? -1 : (value1 > value2) ? 1 : 0;
+
+            return (event.order * result);
+        });
+    }
+
+    private reload() {
+        this.ngOnInit()
+    }
 }

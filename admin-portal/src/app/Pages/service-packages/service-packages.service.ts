@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {Observable, throwError} from 'rxjs';
-import {ClientsResponseDto} from '../../Models/Clients/clients';
+import {Observable} from 'rxjs';
 import {catchError, retry} from 'rxjs/operators';
-import {ServicesResponseDto} from '../../Models/Packages/service_package';
+import {ServicePackageResponseModel, ServicesResponseDto} from '../../Models/Packages/service_package';
+import {HttpErrorHandler} from '../../HttpErrorHandler';
 
 @Injectable({
   providedIn: 'root'
@@ -17,23 +17,20 @@ export class ServicePackagesService {
       'Content-Type': 'application/json'
     })
   };
-  constructor(private httpClient: HttpClient) { }
+  constructor(private http: HttpClient, private error : HttpErrorHandler) { }
 
   GetPagedServices(): Observable<ServicesResponseDto> {
-    return this.httpClient.get<ServicesResponseDto>(this.baseurl + '/package/paged?page=0&size=1000&sort=desc')
+    return this.http.get<ServicesResponseDto>(this.baseurl + '/package/paged?page=0&size=1000&sort=desc')
         .pipe(retry(1),
-            catchError(this.errorHandler)
+            catchError((err) => this.error.errorHandler(err))
         );
   }
 
-  errorHandler(error) {
-    let errorMessage = '';
-    if (error.error instanceof ErrorEvent) {
-      errorMessage = error.error.message;
-    } else {
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
-    console.log(errorMessage);
-    return throwError(errorMessage);
+  SaveServicePackage(servicePackageData: string): Observable<ServicePackageResponseModel>{
+    return this.http.post<ServicePackageResponseModel>(`${this.baseurl}/package/create`,servicePackageData,this.httpOptions)
+        .pipe(
+            retry(1),
+            catchError(err => this.error.errorHandler(err))
+        )
   }
 }

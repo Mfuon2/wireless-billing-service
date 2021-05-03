@@ -35,3 +35,19 @@ export interface ServicesResponseDto {
     empty: boolean;
 }
 
+export interface Data {
+    id: number;
+    name: string;
+    code: string;
+    description: string;
+    price: number;
+    cycle: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface ServicePackageResponseModel {
+    success: boolean;
+    msg: string;
+    data: Data;
+}

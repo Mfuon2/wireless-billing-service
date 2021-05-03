@@ -1,4 +1,4 @@
-export interface Content {
+export interface ClientAccount {
     accountNumber: string;
     msisdn: string;
     accountName: string;
@@ -7,6 +7,32 @@ export interface Content {
     serviceType: string;
     createdAt: string;
     updatedAt: string;
+}
+
+export interface ServicePackage {
+    id: number;
+    name: string;
+    code: string;
+    description: string;
+    price: number;
+    cycle: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface Content {
+    id: number;
+    clientAccount: ClientAccount;
+    servicePackage: ServicePackage;
+    subscriptionPlan: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface Subscription {
+    accountNumber: string;
+    serviceCode: string;
+    subscriptionPlan: string;
 }
 
 export interface Sort {
@@ -24,7 +50,7 @@ export interface Pageable {
     paged: boolean;
 }
 
-export interface ClientsResponseDto {
+export interface SubscriptionResponseDto {
     content: Content[];
     pageable: Pageable;
     totalPages: number;
@@ -37,23 +63,4 @@ export interface ClientsResponseDto {
     numberOfElements: number;
     empty: boolean;
 }
-
-export interface Data {
-    accountNumber: string;
-    msisdn: string;
-    accountName: string;
-    shortCode: string;
-    emailAddress: string;
-    serviceType: string;
-    createdAt: string;
-    updatedAt: string;
-}
-
-export interface ClientCreationModel {
-    success: boolean;
-    msg: string;
-    data: Data;
-}
-
-
 

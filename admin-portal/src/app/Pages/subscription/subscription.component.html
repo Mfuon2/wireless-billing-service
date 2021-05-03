@@ -1,12 +1,13 @@
-<app-page-title [heading]="heading" [subheading]="subheading" [icon]="icon"></app-page-title>
+<app-page-title [heading]="heading" [icon]="icon" [subheading]="subheading"></app-page-title>
 <p-toast position="bottom-right"></p-toast>
 <div class="row">
     <div class="col-md-12">
         <div class="main-card mb-3 card card-body border-alternate">
-            <div class="card-header">Service Packages</div>
+            <div class="card-header">Client Accounts</div>
             <div class="card-body">
-                <p-table #dt *ngIf="datasource" [customSort]="true"
-                         [globalFilterFields]="['name','code', 'description', 'price','cycle']"
+
+                <p-table #dt  *ngIf="datasource" [customSort]="true"
+                         [globalFilterFields]="['clientAccount.accountName','servicePackage.price','servicePackage.name','clientAccount.serviceType','subscriptionPlan','clientAccount.accountNumber']"
                          [loading]="loading"
                          [paginator]="true"
                          [rowsPerPageOptions]="[10,15,20,30]"
@@ -23,12 +24,12 @@
                     </ng-template>
                     <ng-template let-datasource pTemplate="header">
                         <tr>
-                            <th>#No</th>
-                            <th>NAME</th>
-                            <th>CODE</th>
-                            <th>DESCRIPTION</th>
-                            <th>PRICE</th>
-                            <th>CYCLE</th>
+                            <th>ID</th>
+                            <th>PLAN</th>
+                            <th>ACC NO</th>
+                            <th>ACC NAME</th>
+                            <th>PACKAGE</th>
+                            <th>SERVICE TYPE</th>
                             <th>CREATED</th>
                             <th>ACTIONS</th>
                         </tr>
@@ -51,15 +52,15 @@
                             </div>
                         </div>
                     </ng-template>
-                    <ng-template let-datasource pTemplate="body">
+                    <ng-template let-data pTemplate="body">
                         <tr>
-                            <td>{{datasource.id}}</td>
-                            <td>{{datasource.name}}</td>
-                            <td>{{datasource.code}}</td>
-                            <td>{{datasource.description}}</td>
-                            <td>{{datasource.price}}</td>
-                            <td>{{datasource.cycle}}</td>
-                            <td>{{datasource.createdAt}}</td>
+                            <td>{{data.id}}</td>
+                            <td>{{data.subscriptionPlan}}</td>
+                            <td>{{data.clientAccount.accountNumber}}</td>
+                            <td>{{data.clientAccount.accountName}}</td>
+                            <td>{{data.servicePackage.name}}</td>
+                            <td>{{data.clientAccount.serviceType}}</td>
+                            <td>{{data.createdAt}}</td>
                             <td style="text-align: center">
                                 <i class="fa fa-edit" style="margin:4px 4px 0 0"></i>
                             </td>
@@ -72,18 +73,12 @@
     </div>
 </div>
 
-<p-dialog [(visible)]="servicePlanDialog" [style]="{width: '450px'}" header="New Package" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="subscriptionDialog" [style]="{width: '450px'}" header="New Subscription" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
         <small class="p-error" *ngIf="submitted && errorOnCreation">{{errorMessage}}</small>
-        <div class="p-field input-group-sm">
-            <label for="name">Name</label>
-            <input oninput="this.value = this.value.toUpperCase()" type="text" pInputText id="name" [(ngModel)]="servicePlanData.name" required autofocus />
-            <small class="p-error" *ngIf="submitted && !servicePlanData.name">Name is required.</small>
-        </div>
-
         <div class="p-field">
-            <label for="cycle">Code</label>
-            <p-dropdown [(ngModel)]="servicePlanData.cycle" inputId="cycle" id="cycle" [options]="cycleTypes" placeholder="Select">
+            <label for="subscriptionPlan">Subscription Plan</label>
+            <p-dropdown [(ngModel)]="subscriptionData.subscriptionPlan" inputId="subscriptionPlan" id="subscriptionPlan" [options]="subscriptionPlan" placeholder="Select">
                 <ng-template let-option pTemplate="item">
                     <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
                 </ng-template>
@@ -91,28 +86,24 @@
         </div>
 
         <div class="p-field input-group-sm">
-            <label for="code">Code</label>
-            <input type="text" oninput="this.value = this.value.toUpperCase()" pInputText id="code" [(ngModel)]="servicePlanData.code" required autofocus />
-            <small class="p-error" *ngIf="submitted && !servicePlanData.code">Service Code is required.</small>
-        </div>
-
-        <div class="p-field input-group-sm">
-            <label for="description">Description</label>
-            <input type="text" pInputText id="description" [(ngModel)]="servicePlanData.description" required autofocus />
-            <small class="p-error" *ngIf="submitted && !servicePlanData.description">Description is required.</small>
+            <label for="accountNumber">Account Number</label>
+            <input oninput="this.value = this.value.toUpperCase()" type="text" pInputText id="accountNumber" [(ngModel)]="subscriptionData.accountNumber" required autofocus />
+            <small class="p-error" *ngIf="submitted && !subscriptionData.accountNumber">Account Number is required.</small>
         </div>
 
         <div class="p-field">
-            <label for="price">Price</label>
-            <input oninput="this.value = this.value.toNumber()" type="number" pInputText id="price" [(ngModel)]="servicePlanData.price" required autofocus />
-            <small class="p-error" *ngIf="submitted && !servicePlanData.price">Price is required.</small>
+            <label for="serviceCode">Service Code</label>
+            <input oninput="this.value = this.value.toUpperCase()" type="text" pInputText id="serviceCode" [(ngModel)]="subscriptionData.serviceCode" required autofocus />
+            <small class="p-error" *ngIf="submitted && !subscriptionData.serviceCode">Service Code is required.</small>
         </div>
+
     </ng-template>
 
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveServicePackageUi()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveSubscription()"></button>
     </ng-template>
 </p-dialog>
 
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
