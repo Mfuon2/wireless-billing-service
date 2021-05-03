@@ -42,6 +42,7 @@ $sidebar-box-shadow: 7px 0 60px rgba(0, 0, 0, 0.05);
   box-shadow: $sidebar-box-shadow;
   flex-direction: column;
   transition: all .3s ease;
+  font-size: 1.0em;
 
   .app-header__logo {
     padding: 0 $layout-spacer-x;

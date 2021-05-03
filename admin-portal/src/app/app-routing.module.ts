@@ -18,6 +18,7 @@ import {ModalsComponent} from './Pages/Components/modals/modals.component';
 import {ProgressBarComponent} from './Pages/Components/progress-bar/progress-bar.component';
 import {ClientsComponent} from './Pages/clients/clients.component';
 import {ServicePackagesComponent} from './Pages/service-packages/service-packages.component';
+import {SubscriptionComponent} from './Pages/subscription/subscription.component';
 
 const routes: Routes = [
   {
@@ -39,6 +40,7 @@ const routes: Routes = [
       // Clients
       {path: 'clients/account', component: ClientsComponent, data: {extraParameter: 'clientMenu'}},
       {path: 'service/packages', component: ServicePackagesComponent, data: {extraParameter: 'serviceMenu'}},
+      {path: 'clients/subscriptions', component: SubscriptionComponent, data: {extraParameter: 'subscriptionsMenu'}},
 
       {path: 'components/modals', component: ModalsComponent, data: {extraParameter: 'componentsMenu'}},
       {path: 'components/progress-bar', component: ProgressBarComponent, data: {extraParameter: 'componentsMenu'}},
