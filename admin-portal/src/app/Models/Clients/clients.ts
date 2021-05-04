@@ -9,6 +9,11 @@ export interface Content {
     updatedAt: string;
 }
 
+export interface ClientContent {
+    accountNumber: string;
+    accountName: string;
+}
+
 export interface Sort {
     sorted: boolean;
     unsorted: boolean;

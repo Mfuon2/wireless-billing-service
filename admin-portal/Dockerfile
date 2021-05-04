@@ -16,10 +16,10 @@ COPY package*.json ./
 COPY . .
 
 # install node packages for the portal
-RUN yarn install --link-duplicates
+# RUN yarn install --verbose
 
 # build the project
-RUN yarn build --stats-json --source-map=false --aot
+# RUN yarn build --stats-json --source-map=false --aot
 
 # Stage 2
 # Install the load balancer nginx from alpine

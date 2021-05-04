@@ -8,7 +8,7 @@ export class HttpErrorHandler {
     errorHandler(error:any) {
         let errorMessage = '';
         if(error.error.subErrors === null || error.error.subErrors === undefined){
-            errorMessage = `Check on Field Error`
+            errorMessage = `Something wrong has occurred`
         } else if (error.status instanceof ErrorEvent) {
             errorMessage = `Field -> ${error.error.subErrors[0].field} Rejected -> ${error.error.subErrors[0].rejectedValue} Reason -> ${error.error.subErrors[0].message}`;
         } else {

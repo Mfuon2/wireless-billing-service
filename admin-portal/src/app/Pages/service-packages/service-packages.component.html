@@ -2,12 +2,11 @@
 <p-toast position="bottom-right"></p-toast>
 <div class="row">
     <div class="col-md-12">
-        <div class="main-card mb-3 card card-body border-alternate">
-            <div class="card-header">Service Packages</div>
+        <div class="main-card mb-3 card card-body">
+            <div class="card-header">Packages</div>
             <div class="card-body">
-                <p-table #dt [customSort]="true"
+                <p-table #dt
                          [globalFilterFields]="['name','code', 'description', 'price','cycle']"
-                         [loading]="loading"
                          [paginator]="true"
                          [rowsPerPageOptions]="[10,15,20,30]"
                          [rows]="10"
@@ -57,7 +56,7 @@
                             <td>{{datasource.name}}</td>
                             <td>{{datasource.code}}</td>
                             <td>{{datasource.description}}</td>
-                            <td>{{datasource.price}}</td>
+                            <td style="text-align: right">{{ datasource.price | currency: 'Ksh. '}}</td>
                             <td>{{datasource.cycle}}</td>
                             <td>{{datasource.createdAt}}</td>
                             <td style="text-align: center">
@@ -104,7 +103,7 @@
 
         <div class="p-field">
             <label for="price">Price</label>
-            <input oninput="this.value = this.value.toNumber()" type="number" pInputText id="price" [(ngModel)]="servicePlanData.price" required autofocus />
+            <p-inputNumber id="price"  required autofocus  [(ngModel)]="servicePlanData.price" mode="currency" currency="KES" locale="en-KE"></p-inputNumber>
             <small class="p-error" *ngIf="submitted && !servicePlanData.price">Price is required.</small>
         </div>
     </ng-template>

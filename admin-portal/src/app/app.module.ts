@@ -71,6 +71,10 @@ import {CardModule} from 'primeng/card';
 import {RippleModule} from 'primeng/ripple';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import { SubscriptionComponent } from './Pages/subscription/subscription.component';
+import { WalletComponent } from './Pages/wallet/wallet.component';
+import {InputNumberModule} from 'primeng/inputnumber';
+import {AutoCompleteModule} from 'primeng/autocomplete';
+
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -120,6 +124,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ClientsComponent,
     ServicePackagesComponent,
     SubscriptionComponent,
+    WalletComponent,
   ],
     imports: [
         BrowserModule,
@@ -163,7 +168,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         SharedModule,
         CardModule,
         RippleModule,
-        ConfirmDialogModule
+        ConfirmDialogModule,
+        InputNumberModule,
+        AutoCompleteModule
     ],
   providers: [
     {

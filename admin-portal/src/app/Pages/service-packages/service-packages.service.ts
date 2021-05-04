@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {catchError, retry} from 'rxjs/operators';
 import {ServicePackageResponseModel, ServicesResponseDto} from '../../Models/Packages/service_package';
 import {HttpErrorHandler} from '../../HttpErrorHandler';
+import {ClientCreationModel} from '../../Models/Clients/clients';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,13 @@ export class ServicePackagesService {
             retry(1),
             catchError(err => this.error.errorHandler(err))
         )
+  }
+
+  GetServicePackage(searchQuery: string): Observable<ServicePackageResponseModel> {
+    return this.http.get<ServicePackageResponseModel>(`${this.baseurl}/package/get?code=${searchQuery}`)
+        .pipe(
+            retry(1),
+            catchError(err => this.error.errorHandler(err))
+        );
   }
 }

@@ -30,6 +30,14 @@ export class ClientsService {
         );
   }
 
+  GetClientAccount(clientAccount: string): Observable<ClientCreationModel> {
+    return this.http.get<ClientCreationModel>(`${this.baseurl}/account/get?accountNumber=${clientAccount}`)
+        .pipe(
+            retry(1),
+            catchError(err => this.error.errorHandler(err))
+        );
+  }
+
   SaveClientsAccount(clientData: string): Observable<ClientCreationModel>{
     return this.http.post<ClientCreationModel>(`${this.baseurl}/account/create`,clientData,this.httpOptions)
         .pipe(
