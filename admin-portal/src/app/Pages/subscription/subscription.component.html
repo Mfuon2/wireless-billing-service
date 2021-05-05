@@ -78,20 +78,20 @@
         <small class="p-error" *ngIf="findError">{{findErrorMessage}}</small>
         <div class="p-field input-group-sm">
             <label for="accountNumber">Account Number</label>
-            <p-autoComplete (focusin)="loadClients()" id="accountNumber" [(ngModel)]="subscriptionData.accountNumber" [minLength]="2" [suggestions]="filteredClients" (completeMethod)="searchClientAccount($event)" required autofocus [dropdown]="true"></p-autoComplete>
+            <p-autoComplete id="accountNumber" [(ngModel)]="subscriptionData.accountNumber" [minLength]="2" [suggestions]="filteredClients" (completeMethod)="searchClientAccount($event)" [dropdown]="true" required autofocus></p-autoComplete>
             <small class="p-error" *ngIf="submitted && !subscriptionData.accountNumber">Account Number is required.</small>
         </div>
         <div class="p-field">
             <label for="subscriptionPlan">Subscription Plan</label>
-            <p-dropdown [disabled]="findError" [(ngModel)]="subscriptionData.subscriptionPlan" inputId="subscriptionPlan" id="subscriptionPlan" [options]="subscriptionPlan" placeholder="Select">
+            <p-dropdown [disabled]="findError" [(ngModel)]="subscriptionData.subscriptionPlan" inputId="subscriptionPlan" id="subscriptionPlan" [options]="subscriptionPlan" required autofocus placeholder="Select">
                 <ng-template let-option pTemplate="item">
-                    <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
+                    <span  [class]="'product-badge status-' + option.value">{{option.label}}</span>
                 </ng-template>
             </p-dropdown>
         </div>
         <div class="p-field">
             <label for="serviceCode">Package Code</label>
-            <p-autoComplete (focusin)="loadPackages()" id="serviceCode" [minLength]="2" [(ngModel)]="subscriptionData.serviceCode" [suggestions]="filteredPackages" (completeMethod)="searchServicePackage($event)" required autofocus [dropdown]="true"></p-autoComplete>
+            <p-autoComplete id="serviceCode" [minLength]="2" [(ngModel)]="subscriptionData.serviceCode" [suggestions]="filteredPackages" (completeMethod)="searchServicePackage($event)" [dropdown]="true" required autofocus></p-autoComplete>
             <small class="p-error" *ngIf="submitted && !subscriptionData.serviceCode">Package Code is required.</small>
         </div>
 

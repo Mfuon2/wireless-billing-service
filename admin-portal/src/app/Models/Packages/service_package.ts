@@ -9,7 +9,7 @@ export interface Content {
     updatedAt: Date;
 }
 
-export interface PackageContent {
+export interface ServicePackageContent {
     id: number;
     name: string;
     code: string;

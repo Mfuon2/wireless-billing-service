@@ -74,12 +74,12 @@
         <small class="p-error" *ngIf="findError">{{findErrorMessage}}</small>
         <div class="p-field ">
             <label for="accountNumber">Account Number</label>
-            <input (focusout)="loadServiceType($event)" type="text" pInputText id="accountNumber" [(ngModel)]="walletData.accountNumber" required autofocus />
+            <p-autoComplete id="accountNumber" [(ngModel)]="walletData.accountNumber" [minLength]="2" [suggestions]="filteredClients" (completeMethod)="searchClientAccount($event)" [dropdown]="true" required autofocus></p-autoComplete>
             <small class="p-error" *ngIf="submitted && !walletData.balance">Account number is required.</small>
         </div>
         <div class="p-field">
             <label for="serviceType">Service Type</label>
-            <p-dropdown [disabled]="true" [(ngModel)]="walletData.serviceType"  inputId="serviceType" id="serviceType" [options]="serviceType" placeholder="Select">
+            <p-dropdown [disabled]="checkAccountNumber" [(ngModel)]="walletData.serviceType"  inputId="serviceType" id="serviceType" [options]="serviceType" placeholder="Select">
                 <ng-template let-option pTemplate="item">
                     <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
                 </ng-template>
