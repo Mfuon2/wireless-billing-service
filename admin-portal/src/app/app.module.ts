@@ -51,8 +51,6 @@ import {LoginBoxedComponent} from './Pages/UserPages/login-boxed/login-boxed.com
 import {RegisterBoxedComponent} from './Pages/UserPages/register-boxed/register-boxed.component';
 
 // Components
-import {ModalsComponent} from './Pages/Components/modals/modals.component';
-import {ProgressBarComponent} from './Pages/Components/progress-bar/progress-bar.component';
 import {ClientsComponent} from './Pages/clients/clients.component';
 import {ServicePackagesComponent} from './Pages/service-packages/service-packages.component';
 import {TableModule} from 'primeng/table';
@@ -119,8 +117,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     RegisterBoxedComponent,
 
     // Components
-    ModalsComponent,
-    ProgressBarComponent,
     ClientsComponent,
     ServicePackagesComponent,
     SubscriptionComponent,

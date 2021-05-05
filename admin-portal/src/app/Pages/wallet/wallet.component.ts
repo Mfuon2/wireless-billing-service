@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Utils} from '../Components/Utils';
+import { Utils } from 'src/app/Common/utils/utils';
 import {WalletService} from './wallet.service';
 import {Content, WalletRequestModel} from '../../Models/Wallet/wallet';
 import {ClientsService} from '../clients/clients.service';

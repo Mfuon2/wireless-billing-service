@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Content, Subscription} from '../../Models/Subscriptions/subscription_list_model';
-import {Utils} from '../Components/Utils';
+import { Utils } from 'src/app/Common/utils/utils';
 import {SubscriptionService} from './subscription.service';
 import {ClientsService} from '../clients/clients.service';
 import {ServicePackagesService} from '../service-packages/service-packages.service';

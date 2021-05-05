@@ -2,8 +2,7 @@ import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {ClientsService} from './clients.service';
 import {Content} from '../../Models/Clients/clients';
 import {MessageService, SortEvent} from 'primeng/api';
-import {Table} from 'primeng/table';
-import {Utils} from '../Components/Utils';
+import { Utils } from 'src/app/Common/utils/utils';
 
 @Component({
     selector: 'app-clients',

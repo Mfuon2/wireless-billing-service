@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ServicePackagesService} from './service-packages.service';
-import {Utils} from '../Components/Utils';
+import { Utils } from 'src/app/Common/utils/utils';
 import {Content} from '../../Models/Packages/service_package';
 
 @Component({
