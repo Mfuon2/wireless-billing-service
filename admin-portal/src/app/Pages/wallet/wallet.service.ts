@@ -11,7 +11,7 @@ import {WalletListingDto, WalletResponseModel} from '../../Models/Wallet/wallet'
 })
 export class WalletService {
 
-  baseurl = environment.baseurl;
+  baseurl: string = environment.baseurl;
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',

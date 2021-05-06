@@ -15,15 +15,11 @@ import com.softel.mpesa.entity.WalletPayment
 import com.softel.mpesa.service.common.IWalletService
 import com.softel.mpesa.util.Result
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
+@CrossOrigin(origins = ["http://localhost","http://localhost:4200","http://127.0.0.1:4200","http://127.0.0.1"])
 @RequestMapping("/wallet")
 @Tag(name = "Wallet", description = "Wallet management endpoints")
 class WalletController {

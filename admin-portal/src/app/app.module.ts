@@ -72,6 +72,9 @@ import { SubscriptionComponent } from './Pages/subscription/subscription.compone
 import { WalletComponent } from './Pages/wallet/wallet.component';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {AutoCompleteModule} from 'primeng/autocomplete';
+import { MpesaComponent } from './Pages/mpesa/mpesa.component';
+import {CheckboxModule} from 'primeng/checkbox';
+import {RadioButtonModule} from 'primeng/radiobutton';
 
 
 
@@ -121,6 +124,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ServicePackagesComponent,
     SubscriptionComponent,
     WalletComponent,
+    MpesaComponent,
   ],
     imports: [
         BrowserModule,
@@ -166,7 +170,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         RippleModule,
         ConfirmDialogModule,
         InputNumberModule,
-        AutoCompleteModule
+        AutoCompleteModule,
+        CheckboxModule,
+        RadioButtonModule,
     ],
   providers: [
     {

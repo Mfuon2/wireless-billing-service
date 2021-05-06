@@ -11,7 +11,7 @@ import {HttpErrorHandler} from '../../HttpErrorHandler';
 })
 export class ClientsService {
 
-  baseurl = environment.baseurl;
+  baseurl: string = environment.baseurl;
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',

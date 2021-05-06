@@ -18,6 +18,7 @@ import {ClientsComponent} from './Pages/clients/clients.component';
 import {ServicePackagesComponent} from './Pages/service-packages/service-packages.component';
 import {SubscriptionComponent} from './Pages/subscription/subscription.component';
 import {WalletComponent} from './Pages/wallet/wallet.component';
+import {MpesaComponent} from './Pages/mpesa/mpesa.component';
 
 const routes: Routes = [
   {
@@ -40,7 +41,8 @@ const routes: Routes = [
       {path: 'clients/account', component: ClientsComponent, data: {extraParameter: 'clientMenu'}},
       {path: 'service/packages', component: ServicePackagesComponent, data: {extraParameter: 'serviceMenu'}},
       {path: 'clients/subscriptions', component: SubscriptionComponent, data: {extraParameter: 'subscriptionsMenu'}},
-      {path: 'payment/wallet', component: WalletComponent, data: {extraParameter: 'walletMenu'}}
+      {path: 'payment/wallet', component: WalletComponent, data: {extraParameter: 'walletMenu'}},
+      {path: 'pay/express', component: MpesaComponent, data: {extraParameter: 'expressMenu'}}
     ]
 
   },

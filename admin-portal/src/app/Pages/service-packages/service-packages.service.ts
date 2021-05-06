@@ -12,7 +12,7 @@ import {ClientCreationModel} from '../../Models/Clients/clients';
 })
 export class ServicePackagesService {
 
-  baseurl = environment.baseurl;
+  baseurl: string = environment.baseurl;
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'

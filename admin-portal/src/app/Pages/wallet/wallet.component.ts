@@ -21,7 +21,6 @@ export class WalletComponent implements OnInit {
     walletData: WalletRequestModel;
     datasource: Content[];
     totalRecords: number;
-    cols: any[];
     loading: boolean;
     submitted: boolean;
     walletDialog: boolean;
