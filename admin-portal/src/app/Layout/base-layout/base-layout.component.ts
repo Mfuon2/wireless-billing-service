@@ -12,6 +12,7 @@ import {animate, query, style, transition, trigger} from '@angular/animations';
 
     trigger('architectUIAnimation', [
       transition('* <=> *', [
+        query(':enter', []),
         query(':enter, :leave', [
           style({
             opacity: 0,

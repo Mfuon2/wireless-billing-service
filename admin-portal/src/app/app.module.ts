@@ -51,8 +51,6 @@ import {LoginBoxedComponent} from './Pages/UserPages/login-boxed/login-boxed.com
 import {RegisterBoxedComponent} from './Pages/UserPages/register-boxed/register-boxed.component';
 
 // Components
-import {ModalsComponent} from './Pages/Components/modals/modals.component';
-import {ProgressBarComponent} from './Pages/Components/progress-bar/progress-bar.component';
 import {ClientsComponent} from './Pages/clients/clients.component';
 import {ServicePackagesComponent} from './Pages/service-packages/service-packages.component';
 import {TableModule} from 'primeng/table';
@@ -71,6 +69,13 @@ import {CardModule} from 'primeng/card';
 import {RippleModule} from 'primeng/ripple';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import { SubscriptionComponent } from './Pages/subscription/subscription.component';
+import { WalletComponent } from './Pages/wallet/wallet.component';
+import {InputNumberModule} from 'primeng/inputnumber';
+import {AutoCompleteModule} from 'primeng/autocomplete';
+import { MpesaComponent } from './Pages/mpesa/mpesa.component';
+import {CheckboxModule} from 'primeng/checkbox';
+import {RadioButtonModule} from 'primeng/radiobutton';
+
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -115,11 +120,11 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     RegisterBoxedComponent,
 
     // Components
-    ModalsComponent,
-    ProgressBarComponent,
     ClientsComponent,
     ServicePackagesComponent,
     SubscriptionComponent,
+    WalletComponent,
+    MpesaComponent,
   ],
     imports: [
         BrowserModule,
@@ -163,7 +168,11 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         SharedModule,
         CardModule,
         RippleModule,
-        ConfirmDialogModule
+        ConfirmDialogModule,
+        InputNumberModule,
+        AutoCompleteModule,
+        CheckboxModule,
+        RadioButtonModule,
     ],
   providers: [
     {

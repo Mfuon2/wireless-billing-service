@@ -11,7 +11,7 @@ import {HttpErrorHandler} from '../../HttpErrorHandler';
 })
 export class ClientsService {
 
-  baseurl = environment.baseurl;
+  baseurl: string = environment.baseurl;
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -24,6 +24,14 @@ export class ClientsService {
 
   GetPagedClients(page: number, size: number): Observable<ClientsResponseDto> {
     return this.http.get<ClientsResponseDto>(`${this.baseurl}/account/paged?page=${page}&size=${size}&sort=asc`)
+        .pipe(
+            retry(1),
+            catchError(err => this.error.errorHandler(err))
+        );
+  }
+
+  GetClientAccount(clientAccount: string): Observable<ClientCreationModel> {
+    return this.http.get<ClientCreationModel>(`${this.baseurl}/account/get?accountNumber=${clientAccount}`)
         .pipe(
             retry(1),
             catchError(err => this.error.errorHandler(err))

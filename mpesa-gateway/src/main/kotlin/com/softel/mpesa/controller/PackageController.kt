@@ -18,7 +18,7 @@ import javax.validation.Valid
 
 //@Hidden
 @RestController
-@CrossOrigin(origins = ["http://localhost:80","http://localhost:4200","http://127.0.0.1:4200","http://127.0.0.1:80"])
+@CrossOrigin(origins = ["http://localhost","http://localhost:4200","http://127.0.0.1:4200","http://127.0.0.1"])
 @RequestMapping("/package")
 @Tag(name = "Service Package API", description = "Package creation and management")
 class PackageController {

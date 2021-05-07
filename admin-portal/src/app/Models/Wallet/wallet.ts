@@ -1,18 +1,9 @@
 export interface Content {
     id: number;
-    name: string;
-    code: string;
-    description: string;
-    price: number;
-    cycle: string;
+    serviceType: string;
+    balance: number;
     createdAt: Date;
     updatedAt: Date;
-}
-
-export interface ServicePackageContent {
-    id: number;
-    name: string;
-    code: string;
 }
 
 export interface Sort {
@@ -27,15 +18,15 @@ export interface Pageable {
     sort: string[];
 }
 
-export interface ServicesResponseDto {
+export interface WalletListingDto {
     totalPages: number;
     totalElements: number;
     size: number;
     content: Content[];
     number: number;
     sort: Sort;
-    first: boolean;
     pageable: Pageable;
+    first: boolean;
     numberOfElements: number;
     last: boolean;
     empty: boolean;
@@ -43,17 +34,22 @@ export interface ServicesResponseDto {
 
 export interface Data {
     id: number;
-    name: string;
-    code: string;
-    description: string;
-    price: number;
-    cycle: string;
+    serviceType: string;
+    balance: number;
     createdAt: Date;
     updatedAt: Date;
 }
 
-export interface ServicePackageResponseModel {
+export interface WalletResponseModel {
     success: boolean;
     msg: string;
     data: Data;
 }
+
+export interface WalletRequestModel {
+    accountNumber: string;
+    serviceType: string;
+    balance: number;
+}
+
+

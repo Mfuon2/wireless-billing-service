@@ -13,7 +13,7 @@ import {SubscriptionResponseModel} from '../../Models/Subscriptions/subscription
 })
 export class SubscriptionService {
 
-  baseurl = environment.baseurl;
+  baseurl: string = environment.baseurl;
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'

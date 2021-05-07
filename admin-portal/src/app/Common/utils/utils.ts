@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {ConfirmDialog} from 'primeng/confirmdialog';
 import {ConfirmationService, MessageService} from 'primeng/api';
 
 @Injectable({

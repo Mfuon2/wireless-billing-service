@@ -1,13 +1,14 @@
+
 <app-page-title [heading]="heading" [icon]="icon" [subheading]="subheading"></app-page-title>
 <p-toast position="bottom-right"></p-toast>
 <div class="row">
     <div class="col-md-12">
         <div class="main-card mb-3 card card-body">
-            <div class="card-header">Subscriptions</div>
+            <div class="card-header">Balances</div>
             <div class="card-body">
 
-                <p-table #dt  [customSort]="true"
-                         [globalFilterFields]="['clientAccount.accountName','servicePackage.price','servicePackage.name','clientAccount.serviceType','subscriptionPlan','clientAccount.accountNumber']"
+                <p-table #dt
+                         [globalFilterFields]="['balance','serviceType','accountNumber']"
                          [paginator]="true"
                          [rowsPerPageOptions]="[10,15,20,30]"
                          [rows]="10"
@@ -24,12 +25,10 @@
                     <ng-template let-datasource pTemplate="header">
                         <tr>
                             <th>ID</th>
-                            <th>PLAN</th>
-                            <th>ACC NO</th>
-                            <th>ACC NAME</th>
-                            <th>PACKAGE</th>
                             <th>SERVICE TYPE</th>
+                            <th>BALANCE</th>
                             <th>CREATED</th>
+                            <th>UPDATED</th>
                             <th>ACTIONS</th>
                         </tr>
 
@@ -54,52 +53,49 @@
                     <ng-template let-data pTemplate="body">
                         <tr>
                             <td>{{data.id}}</td>
-                            <td>{{data.subscriptionPlan}}</td>
-                            <td>{{data.clientAccount.accountNumber}}</td>
-                            <td>{{data.clientAccount.accountName}}</td>
-                            <td>{{data.servicePackage.name}}</td>
-                            <td>{{data.clientAccount.serviceType}}</td>
+                            <td>{{data.serviceType}}</td>
+                            <td style="text-align: right"> {{ data.balance | currency:'Ksh'}}</td>
                             <td>{{data.createdAt}}</td>
+                            <td>{{data.updatedAt}}</td>
                             <td style="text-align: center">
                                 <i class="fa fa-edit" style="margin:4px 4px 0 0"></i>
                             </td>
                         </tr>
                     </ng-template>
                 </p-table>
-
             </div>
         </div>
     </div>
 </div>
 
-<p-dialog [(visible)]="subscriptionDialog" [contentStyle]="{'overflow':'visible'}" [style]="{width: '450px'}" header="New Subscription" [modal]="true" styleClass="p-fluid">
+<p-dialog [(visible)]="walletDialog"  [style]="{width: '450px'}"  [contentStyle]="{'overflow':'visible'}" header="New Wallet" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
         <small class="p-error" *ngIf="submitted && errorOnCreation">{{errorMessage}}</small>
         <small class="p-error" *ngIf="findError">{{findErrorMessage}}</small>
-        <div class="p-field input-group-sm">
+        <div class="p-field ">
             <label for="accountNumber">Account Number</label>
-            <p-autoComplete id="accountNumber" [(ngModel)]="subscriptionData.accountNumber" [minLength]="2" [suggestions]="filteredClients" (completeMethod)="searchClientAccount($event)" [dropdown]="true" required autofocus></p-autoComplete>
-            <small class="p-error" *ngIf="submitted && !subscriptionData.accountNumber">Account Number is required.</small>
+            <p-autoComplete id="accountNumber" [(ngModel)]="walletData.accountNumber" [minLength]="2" [suggestions]="filteredClients" (completeMethod)="searchClientAccount($event)" [dropdown]="true" required autofocus></p-autoComplete>
+            <small class="p-error" *ngIf="submitted && !walletData.balance">Account number is required.</small>
         </div>
         <div class="p-field">
-            <label for="subscriptionPlan">Subscription Plan</label>
-            <p-dropdown [disabled]="findError" [(ngModel)]="subscriptionData.subscriptionPlan" inputId="subscriptionPlan" id="subscriptionPlan" [options]="subscriptionPlan" required autofocus placeholder="Select">
+            <label for="serviceType">Service Type</label>
+            <p-dropdown [disabled]="checkAccountNumber" [(ngModel)]="walletData.serviceType"  inputId="serviceType" id="serviceType" [options]="serviceType" placeholder="Select">
                 <ng-template let-option pTemplate="item">
-                    <span  [class]="'product-badge status-' + option.value">{{option.label}}</span>
+                    <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
                 </ng-template>
             </p-dropdown>
         </div>
-        <div class="p-field">
-            <label for="serviceCode">Package Code</label>
-            <p-autoComplete id="serviceCode" [minLength]="2" [(ngModel)]="subscriptionData.serviceCode" [suggestions]="filteredPackages" (completeMethod)="searchServicePackage($event)" [dropdown]="true" required autofocus></p-autoComplete>
-            <small class="p-error" *ngIf="submitted && !subscriptionData.serviceCode">Package Code is required.</small>
-        </div>
 
+        <div class="p-field ">
+            <label for="balance">Balance</label>
+            <p-inputNumber id="balance" required autofocus [(ngModel)]="walletData.balance" mode="currency" currency="KES" locale="en-KE"></p-inputNumber>
+            <small class="p-error" *ngIf="submitted && !walletData.balance">Balance is required.</small>
+        </div>
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" *ngIf="!findError" (click)="saveSubscription()"></button>
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"  (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" *ngIf="!findError" (click)="saveWallet()"></button>
     </ng-template>
 </p-dialog>
 
