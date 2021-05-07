@@ -68,64 +68,67 @@ import {ConfirmationService, MessageService, SharedModule} from 'primeng/api';
 import {CardModule} from 'primeng/card';
 import {RippleModule} from 'primeng/ripple';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
-import { SubscriptionComponent } from './Pages/subscription/subscription.component';
-import { WalletComponent } from './Pages/wallet/wallet.component';
+import {SubscriptionComponent} from './Pages/subscription/subscription.component';
+import {WalletComponent} from './Pages/wallet/wallet.component';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {AutoCompleteModule} from 'primeng/autocomplete';
-import { MpesaComponent } from './Pages/mpesa/mpesa.component';
+import {MpesaComponent} from './Pages/mpesa/mpesa.component';
 import {CheckboxModule} from 'primeng/checkbox';
 import {RadioButtonModule} from 'primeng/radiobutton';
-
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import {LoaderComponent} from './Pages/loader/loader.component';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  suppressScrollX: true
+    suppressScrollX: true
 };
 
 @NgModule({
-  declarations: [
+    exports: [LoaderComponent
+    ],
+    declarations: [
 
-    // LAYOUT
+        // LAYOUT
+        AppComponent,
+        BaseLayoutComponent,
+        PagesLayoutComponent,
+        PageTitleComponent,
 
-    AppComponent,
-    BaseLayoutComponent,
-    PagesLayoutComponent,
-    PageTitleComponent,
+        // HEADER
 
-    // HEADER
+        HeaderComponent,
+        SearchBoxComponent,
+        UserBoxComponent,
 
-    HeaderComponent,
-    SearchBoxComponent,
-    UserBoxComponent,
+        // SIDEBAR
 
-    // SIDEBAR
+        SidebarComponent,
+        LogoComponent,
 
-    SidebarComponent,
-    LogoComponent,
+        // FOOTER
 
-    // FOOTER
+        FooterComponent,
 
-    FooterComponent,
+        // DEMO PAGES
 
-    // DEMO PAGES
+        // Dashboards
 
-    // Dashboards
+        AnalyticsComponent,
 
-    AnalyticsComponent,
+        // User Pages
 
-    // User Pages
+        ForgotPasswordBoxedComponent,
+        LoginBoxedComponent,
+        RegisterBoxedComponent,
 
-    ForgotPasswordBoxedComponent,
-    LoginBoxedComponent,
-    RegisterBoxedComponent,
-
-    // Components
-    ClientsComponent,
-    ServicePackagesComponent,
-    SubscriptionComponent,
-    WalletComponent,
-    MpesaComponent,
-  ],
+        // Components
+        ClientsComponent,
+        ServicePackagesComponent,
+        SubscriptionComponent,
+        WalletComponent,
+        MpesaComponent,
+        LoaderComponent
+    ],
     imports: [
         BrowserModule,
         AppRoutingModule,
@@ -173,33 +176,34 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         AutoCompleteModule,
         CheckboxModule,
         RadioButtonModule,
+        ProgressSpinnerModule
     ],
-  providers: [
-    {
-      provide:
-      PERFECT_SCROLLBAR_CONFIG,
-      // DROPZONE_CONFIG,
-      useValue:
-      DEFAULT_PERFECT_SCROLLBAR_CONFIG,
-      // DEFAULT_DROPZONE_CONFIG,
-    },
-    ConfigActions,
-    MessageService,
-    ConfirmationService
-  ],
-  bootstrap: [AppComponent]
+    providers: [
+        {
+            provide:
+            PERFECT_SCROLLBAR_CONFIG,
+            // DROPZONE_CONFIG,
+            useValue:
+            DEFAULT_PERFECT_SCROLLBAR_CONFIG,
+            // DEFAULT_DROPZONE_CONFIG,
+        },
+        ConfigActions,
+        MessageService,
+        ConfirmationService
+    ],
+    bootstrap: [AppComponent]
 })
 
 export class AppModule {
-  constructor(private ngRedux: NgRedux<ArchitectUIState>,
-              private devTool: DevToolsExtension) {
+    constructor(private ngRedux: NgRedux<ArchitectUIState>,
+                private devTool: DevToolsExtension) {
 
-    this.ngRedux.configureStore(
-        rootReducer,
-        {} as ArchitectUIState,
-        [],
-        [devTool.isEnabled() ? devTool.enhancer() : f => f]
-    );
+        this.ngRedux.configureStore(
+            rootReducer,
+            {} as ArchitectUIState,
+            [],
+            [devTool.isEnabled() ? devTool.enhancer() : f => f]
+        );
 
-  }
+    }
 }
