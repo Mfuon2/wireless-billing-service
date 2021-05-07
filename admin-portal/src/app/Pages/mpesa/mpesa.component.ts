@@ -24,6 +24,7 @@ export class MpesaComponent implements OnInit {
   subscriptionPlan: any[];
   serviceType: any[];
   paymentTypes: any[];
+  transactionLoadingStatus: boolean;
 
   constructor(
       private mps: MpesaService,
@@ -37,11 +38,13 @@ export class MpesaComponent implements OnInit {
   }
 
   loadTransactions() {
+      this.transactionLoadingStatus = true;
     return this.mps.GetPagedExpressTransactions()
         .subscribe((data) => {
           this.datasource = data.content;
           this.totalRecords = data.totalElements;
           this.loading = false;
+            this.transactionLoadingStatus = false;
         });
   }
 
@@ -63,8 +66,7 @@ export class MpesaComponent implements OnInit {
           if (clientResponse.success) {
             this.utils.showSuccess(clientResponse.msg);
             this.hideDialog();
-            this.checkTransactionStatus(clientResponse.data.checkoutRequestId)
-                .then(r => this.utils.showSuccess('Successfully Loaded transactionStatus'));
+            this.utils.showSuccess('Successfully Loaded transactionStatus')
           } else {
             this.errorOnCreation = true;
             this.errorMessage = clientResponse.msg;
@@ -122,5 +124,13 @@ export class MpesaComponent implements OnInit {
 
   private reload() {
     this.ngOnInit();
+  }
+
+  updateTransactionStatus(checkoutRequestId: string) {
+      this.transactionLoadingStatus = true
+    this.checkTransactionStatus(checkoutRequestId)
+        .then(() => {
+          this.utils.showSuccess('Successfully Loaded transactionStatus')
+        })
   }
 }

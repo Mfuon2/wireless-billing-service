@@ -23,6 +23,7 @@ export class ServicePackagesComponent implements OnInit {
     cycleTypes: any[];
     errorOnCreation: boolean;
     errorMessage: string;
+    transactionLoadingStatus: boolean;
 
     constructor(private packageService: ServicePackagesService, private utils: Utils) {
         this.cycleTypes = [
@@ -39,19 +40,23 @@ export class ServicePackagesComponent implements OnInit {
     }
 
     reload() {
+        this.transactionLoadingStatus = false
         this.ngOnInit();
     }
 
     loadClients() {
+        this.transactionLoadingStatus = true;
         return this.packageService.GetPagedServices()
             .subscribe((data) => {
                 this.datasource = data.content;
                 this.totalRecords = data.totalElements;
                 this.loading = false;
-            });
+            },e => {},() =>
+            {this.transactionLoadingStatus = false});
     }
 
     saveServicePackageUi() {
+        this.transactionLoadingStatus = true;
         this.submitted = true;
         return this.packageService.SaveServicePackage(JSON.stringify(this.servicePlanData))
             .subscribe((data) => {
@@ -69,6 +74,7 @@ export class ServicePackagesComponent implements OnInit {
                 this.utils.showError(error);
             }, () => {
                 this.reload();
+                this.transactionLoadingStatus = false
             });
     }
 
