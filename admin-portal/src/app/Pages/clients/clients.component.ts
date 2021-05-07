@@ -23,6 +23,7 @@ export class ClientsComponent implements OnInit {
     serviceTypes: any[];
     errorOnCreation: boolean;
     errorMessage: string;
+    transactionLoadingStatus: boolean;
 
     constructor(private clientService: ClientsService, private messageService: MessageService, private utils: Utils) {
 
@@ -50,6 +51,7 @@ export class ClientsComponent implements OnInit {
 
     saveClientAccount() {
         this.submitted = true;
+        this.transactionLoadingStatus = true;
         return this.clientService.SaveClientsAccount(JSON.stringify(this.clientData))
             .subscribe((clientResponse) => {
                     if(clientResponse.success){
@@ -59,12 +61,15 @@ export class ClientsComponent implements OnInit {
                         this.errorOnCreation = true;
                         this.errorMessage = clientResponse.msg
                         this.utils.showError(clientResponse.msg)
+                        this.transactionLoadingStatus = false;
                     }
                 }, (error) => {
                     this.errorOnCreation = true;
                     this.errorMessage = error
                     this.utils.showError(error)
+                this.transactionLoadingStatus = false;
                 }, () => {
+                this.transactionLoadingStatus = false;
                 this.reload ()
                 })
     }

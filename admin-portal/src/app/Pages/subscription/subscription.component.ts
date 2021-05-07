@@ -36,6 +36,7 @@ export class SubscriptionComponent implements OnInit {
     filteredClients: any[];
     packageContents: ServicePackageContent[];
     clientContents: ClientContent[];
+    transactionLoadingStatus: boolean;
 
 
     constructor(
@@ -62,15 +63,18 @@ export class SubscriptionComponent implements OnInit {
     }
 
     loadSubscriptions() {
+        this.transactionLoadingStatus = true;
         return this.subscriptionService.GetPagedSubscriptions()
             .subscribe((data) => {
                 this.datasource = data.content;
                 this.totalRecords = data.totalElements;
                 this.loading = false;
-            });
+            },e => {},() =>
+            {this.transactionLoadingStatus = false});
     }
 
     saveSubscription() {
+        this.transactionLoadingStatus = true;
         console.log(this.subscriptionData.subscriptionPlan);
         if ((this.subscriptionData.subscriptionPlan === null || this.subscriptionData.subscriptionPlan === undefined) &&
             (this.subscriptionData.accountNumber === null || this.subscriptionData.subscriptionPlan === undefined) &&
@@ -94,6 +98,7 @@ export class SubscriptionComponent implements OnInit {
                     this.errorMessage = error;
                     this.utils.showError(error);
                 }, () => {
+                    this.transactionLoadingStatus = false;
                     this.reload();
                 });
         }
@@ -112,10 +117,12 @@ export class SubscriptionComponent implements OnInit {
     }
 
     loadPackages() {
+        this.transactionLoadingStatus = true;
         this.service.loadPackagesDataList().then(
             (data) => {
                 this.packageContents = data;
             }).finally(() => {
+                this.transactionLoadingStatus = false;
             this.log.info(`Done Loading Packages`);
         });
     }

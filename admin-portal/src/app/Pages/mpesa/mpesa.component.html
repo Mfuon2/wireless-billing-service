@@ -1,5 +1,6 @@
 <app-page-title [heading]="heading" [icon]="icon" [subheading]="subheading"></app-page-title>
 <p-toast position="bottom-right"></p-toast>
+<app-loader [transactionLoading]="transactionLoadingStatus"></app-loader>
 
 <div class="p-d-flex">
 <div class="row">
@@ -70,7 +71,10 @@
                             <td>{{data.serviceType}}</td>
                             <td>{{data.createdAt}}</td>
                             <td style="text-align: center">
-                                <button pButton pRipple type="button" icon="pi pi-check" class="p-mr-2"></button>
+                                <button pButton pRipple type="button" icon="pi pi-refresh" (click)="updateTransactionStatus(data.checkoutRequestId)" class="p-button-rounded p-button-info p-button-outlined"></button>&nbsp;
+                                <button pButton pRipple type="button" icon="pi pi-check" class="p-button-rounded p-button-success p-button-outlined"></button>&nbsp;
+                                <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger p-button-outlined"></button>
+
                             </td>
                         </tr>
                     </ng-template>
