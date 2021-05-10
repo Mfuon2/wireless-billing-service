@@ -22,14 +22,14 @@ import {MpesaComponent} from './Pages/mpesa/mpesa.component';
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: '/login',
+    path: 'admin-portal',
+    redirectTo: 'admin-portal/login',
     pathMatch: 'full'
   },
-  {path: 'login', component: LoginBoxedComponent},
+  {path: 'admin-portal/login', component: LoginBoxedComponent},
   {path: 'reset-password', component: ForgotPasswordBoxedComponent},
   {
-    path: 'layout',
+    path: 'admin-portal/app',
     component: BaseLayoutComponent,
     children: [
 
@@ -47,7 +47,7 @@ const routes: Routes = [
 
   },
   {
-    path: '',
+    path: 'admin-portal',
     component: PagesLayoutComponent,
     children: [
 
