@@ -8,6 +8,11 @@
         <class-b>com.softel.mpesa.entity.mpesa.MpesaC2BCallback</class-b>
     </mapping>
 
+    <mapping map-null="false">
+        <class-a>com.softel.mpesa.remote.equity.EquityPaymentNotificationDto</class-a>
+        <class-b>com.softel.mpesa.entity.equity.EquityPaymentNotification</class-b>
+    </mapping>
+
     <mapping map-null="false" map-empty-string="false">
         <class-a>com.softel.mpesa.dto.ClientAccountDto</class-a>
         <class-b>com.softel.mpesa.entity.ClientAccount</class-b>
