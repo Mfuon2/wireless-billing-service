@@ -119,7 +119,7 @@ class MpesaExpressService : IMpesaExpressService {
         val mpesaResponse: Result<MpesaExpressResponse> = sendStkPush(
                 request = mpesaExpressRequest.copy(amount = getRequestAmount(stkRequestDto.payableAmount.toInt())),
                 token   = authToken
-        )
+            )
 
 
         return when(mpesaResponse.success) {

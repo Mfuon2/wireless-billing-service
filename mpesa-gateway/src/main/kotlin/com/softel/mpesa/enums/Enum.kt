@@ -19,7 +19,9 @@ enum class MpesaCallbackEnum(val type: String){
     }
 
 enum class BillingCycle{
-    ADHOC,          //works with USAGE_*      
+    ADHOC,          //works with USAGE_*   
+    HOURLY,  
+    DAILY,  
     WEEKLY,       
     MONTHLY, 
     ANNUAL       
@@ -73,3 +75,11 @@ enum class PaymentStatusEnum {
     FAILED
 }
 
+
+enum class PaymentServiceProvider{ //TODO refactor to BillingTypeEnum
+    UNDEFINED,          
+    MPESA,       
+    AIRTEL_MONEY,
+    EQUITY,
+    T_KASH         
+}
