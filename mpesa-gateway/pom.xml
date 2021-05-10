@@ -12,7 +12,7 @@
 	<groupId>com.softel</groupId>
 	<artifactId>mpesa</artifactId>
 	<version>0.3</version>
-	<name>mpesa-gateway</name>
+	<name>vuka-mpesa-gateway</name>
 	<description>Multitenant MPESA gateway</description>
 
 
