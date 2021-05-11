@@ -3,7 +3,7 @@
 #NB: The first time this build will take long but subsequent times docker cache will be used 
 
 ARG BUILD_IMAGE=maven:3.5-jdk-11
-ARG RUNTIME_IMAGE=openjdk:11-jdk-slim
+ARG RUNTIME_IMAGE=openjdk:11-jre-slim
 ARG DOCKER_SPRING_PROFILES_ACTIVE
 
 #############################################################################################
@@ -45,21 +45,20 @@ RUN mvn -B clean package -DskipTests \
 #############################################################################################
 FROM build
 
-ARG SONAR_ENABLED=false
-ARG SONAR_URL=
-ARG SONAR_ORGANIZATION=
+ARG SONAR_ENABLED=true
+ARG SONAR_URL=https://sonarcloud.io
+ARG SONAR_ORGANIZATION=softwareelegance
 ARG SONAR_USERNAME=
 ARG SONAR_PASSWORD=
-ARG SONAR_BRANCH=
+ARG SONAR_BRANCH=dev 
+ARG SONAR_TOKEN=5cec182859e4c212564c7ec6bbd2729b0d83c626
 
-RUN if [ "$SONAR_ENABLED" = "true" ] ; \
-    then mvn -B sonar:sonar \
+RUN    mvn -B sonar:sonar \
         -Dsonar.host.url=${SONAR_URL} \
         -Dsonar.organization=${SONAR_ORGANIZATION} \
         -Dsonar.branch.name=${SONAR_BRANCH} \
-        -Dsonar.login=${SONAR_USERNAME} \
-        -Dsonar.password=${SONAR_PASSWORD}; \
-    fi
+        -Dsonar.login=${SONAR_TOKEN}; 
+
 #############################################################################################
 
 #############################################################################################
@@ -88,4 +87,5 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
 #############################################################################################
 
 #docker build -t zeguru/mpesa-gateway:beta .
+#docker build -f Dockerfile.build -t zeguru/mpesa-gateway:beta .
 #docker run -e "SPRING_PROFILES_ACTIVE=dev" --name mpesa-gateway --restart unless-stopped -d -p 8080:8080 zeguru/mpesa-gateway:beta
