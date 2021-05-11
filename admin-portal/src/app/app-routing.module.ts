@@ -19,6 +19,7 @@ import {ServicePackagesComponent} from './Pages/service-packages/service-package
 import {SubscriptionComponent} from './Pages/subscription/subscription.component';
 import {WalletComponent} from './Pages/wallet/wallet.component';
 import {MpesaComponent} from './Pages/mpesa/mpesa.component';
+import {NotfoundComponent} from './Pages/UserPages/notfound/notfound.component';
 
 const routes: Routes = [
   {
@@ -29,7 +30,7 @@ const routes: Routes = [
   {path: 'login', component: LoginBoxedComponent},
   {path: 'reset-password', component: ForgotPasswordBoxedComponent},
   {
-    path: 'layout',
+    path: 'en',
     component: BaseLayoutComponent,
     children: [
 
@@ -58,7 +59,8 @@ const routes: Routes = [
       {path: 'pages/forgot-password-boxed', component: ForgotPasswordBoxedComponent, data: {extraParameter: ''}},
     ]
   },
-  {path: '**', redirectTo: ''}
+  { path: '404', component: NotfoundComponent},
+  { path: '**', redirectTo: '404' }
 ];
 
 @NgModule({
