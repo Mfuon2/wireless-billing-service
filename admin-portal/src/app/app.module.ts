@@ -77,6 +77,7 @@ import {CheckboxModule} from 'primeng/checkbox';
 import {RadioButtonModule} from 'primeng/radiobutton';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {LoaderComponent} from './Pages/loader/loader.component';
+import { NotfoundComponent } from './Pages/UserPages/notfound/notfound.component';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -127,7 +128,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         SubscriptionComponent,
         WalletComponent,
         MpesaComponent,
-        LoaderComponent
+        LoaderComponent,
+        NotfoundComponent
     ],
     imports: [
         BrowserModule,

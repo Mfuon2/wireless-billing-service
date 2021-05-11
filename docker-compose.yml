@@ -1,25 +1,25 @@
 version: '3.9'
 
 services:
-  # admin-portal: # The name of the service
-  #   image: admin-portal
-  #   hostname: localhost
-  #   container_name: admin-portal
-  #   restart: unless-stopped
-  #   build:
-  #     context: ./admin-portal
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - node_modules:/usr/src/app/node_modules
-  #   ports:
-  #     - 80:80
-  #   depends_on:
-  #     - db
-  #     - redis
-  #     - mpesa
-  #     - adminer
-  #   networks:
-  #     - app-network
+  admin-portal:
+    image: admin-portal
+    hostname: localhost
+    container_name: admin-portal
+    restart: unless-stopped
+    build:
+      context: ./admin-portal
+      dockerfile: Dockerfile
+    volumes:
+      - node_modules:/usr/src/app/node_modules
+    ports:
+      - 80:80
+    depends_on:
+      - db
+      - redis
+      - mpesa
+      - adminer
+    networks:
+      - app-network
 
   mpesa:
     build:
