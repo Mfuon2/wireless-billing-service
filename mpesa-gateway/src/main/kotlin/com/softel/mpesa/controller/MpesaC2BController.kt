@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
-@CrossOrigin(origins = ["http://localhost","http://localhost:4200","http://127.0.0.1:4200","http://127.0.0.1:80"])
+@CrossOrigin(origins = ["http://localhost","http://localhost:4200","http://127.0.0.1:4200","http://127.0.0.1", "http://68.183.217.137","http://68.183.217.137:4200" ])
 @RequestMapping("/c2b")
 @Tag(name = "MPesa C2B", description = "MPesa Customer to Business API. Allows validation and confirmation of customers paybill transactions in real time")
 class MpesaC2BController {
@@ -28,7 +28,7 @@ class MpesaC2BController {
         lateinit var mpesaC2BService: IMpesaC2BService
 
         @Operation(summary = "Get paged validations", description = "Get a paged list of validations")
-        @GetMapping(value = ["/validations/paged/"], produces = ["application/json"])
+        @GetMapping(value = ["/validations/paged"], produces = ["application/json"])
         fun getPagedValidations(
                 pageable: Pageable): Page<MpesaC2BCallback?> = mpesaC2BService.findAllPaged(MpesaCallbackEnum.C2B_VALIDATION, pageable)
 
@@ -40,12 +40,12 @@ class MpesaC2BController {
 
                 
         @Operation(summary = "Validate Paybill Payment", description = "This endpoint validates paybill payment in real time")
-        @PostMapping(value = ["/validate-payment-callback"])
+        @PostMapping(value = ["/callback/payment/validate"])
         fun validatePaybillPayment(@RequestBody result: String) =
                 mpesaC2BService.validatePaybillPayment(result)
 
         @Operation(summary = "Confirm Paybill Payment", description = "This endpoint confirms paybill payment in real time")
-        @PostMapping(value = ["/confirm-payment-callback"])
+        @PostMapping(value = ["/callback/payment/confirm"])
         fun confirmPaybillPayment(@RequestBody result: String) =
                 mpesaC2BService.confirmPaybillPayment(result)
 

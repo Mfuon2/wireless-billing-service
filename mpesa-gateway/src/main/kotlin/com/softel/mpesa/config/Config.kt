@@ -77,12 +77,12 @@ class SwaggerConfig {
 
         val testServer: Server = Server()
         testServer.setDescription("uat")
-        testServer.setUrl("https://example.org")
+        testServer.setUrl("http://68.183.217.137:8080")
 
         val oas = OpenAPI()
                 .info(Info().title("MPESA Gateway").version("0.1")
                         .contact(Contact().email("itambo.ibrahim@gmail.com").name("Ibrahim Itambo").url("https://softwareelegance.net"))
-                        .description("Multitenant Mpesa Gateway")
+                        .description("Multitenant Payment Gateway")
                         .termsOfService("https://softwareelegance.net")
                         .license(License().name("Apache 2.0").url("http://springdoc.org"))
                         
