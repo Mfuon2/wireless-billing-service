@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
-@CrossOrigin(origins = ["http://localhost","http://localhost:4200","http://127.0.0.1:4200","http://127.0.0.1"])
+@CrossOrigin(origins = ["http://localhost","http://localhost:4200","http://127.0.0.1:4200","http://127.0.0.1", "http://68.183.217.137","http://68.183.217.137:4200" ])
 @RequestMapping("/express")
 @Tag(name = "MPesa Express", description = "Exposes all Mpesa Express functionality")
 class MpesaExpressController {
@@ -36,7 +36,7 @@ class MpesaExpressController {
 
 
     @Operation(summary = "Stk Push", description = "This endpoint initiates STK Push")
-    @PostMapping(value = ["/payment-request"], produces = ["application/json"])
+    @PostMapping(value = ["/payment/request","/payment-request"], produces = ["application/json"])
     fun processPaymentRequest(@Valid @RequestBody stkRequest: MpesaStkRequestDto): Result<MpesaExpressResponse> =
             mpesaExpressService.processPaymentRequest(stkRequestDto = stkRequest)
 
@@ -46,13 +46,13 @@ class MpesaExpressController {
             mpesaExpressService.processCallbackDetails(result)
 
     @Operation(summary = "Check Status of transaction at MPESA", description = "Manualy force checking the status of a specific transaction on the mpesa API")
-    @GetMapping(value = ["/transaction-status"], produces = ["application/json"])
+    @GetMapping(value = ["/transaction/status"], produces = ["application/json"])
     fun queryTransactionStatus(@Parameter(description = "The `checkoutRequestId` from a previous mpesa response") @RequestParam checkoutRequestId: String): Result<MpesaExpressQueryResponse> =
             mpesaExpressService.queryTransactionStatus(checkoutRequestId = checkoutRequestId)
 
 
     @Operation(summary = "Get Transaction Details", description = "This endpoint shows the transaction details")
-    @GetMapping(value = ["/transaction-details"], produces = ["application/json"])
+    @GetMapping(value = ["/transaction/details"], produces = ["application/json"])
     fun getTransactionDetails(@Parameter(description = "The `checkoutRequestId` from a previous mpesa response") @RequestParam checkoutRequestId: String): Result<MpesaExpress> =
             mpesaExpressService.getTransactionDetails(checkoutRequestId = checkoutRequestId)
 }

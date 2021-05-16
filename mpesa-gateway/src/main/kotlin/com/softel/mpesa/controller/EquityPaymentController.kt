@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
-@CrossOrigin(origins = ["http://localhost","http://localhost:4200","http://127.0.0.1:4200","http://127.0.0.1"])
+@CrossOrigin(origins = ["http://localhost","http://localhost:4200","http://127.0.0.1:4200","http://127.0.0.1", "http://68.183.217.137","http://68.183.217.137:4200" ])
 @RequestMapping("/equity")
 @Tag(name = "Equity Payment Gateway", description = "Exposes all EBL payment gateway functionality")
 class EquityPaymentController {
@@ -43,7 +43,7 @@ class EquityPaymentController {
 
 
     @Operation(summary = "Payment Notification Callback", description = "Payment notifications here....")
-    @PostMapping(value = ["/payment/notification/callback"])
+    @PostMapping(value = ["/callback/payment/notification"])
     fun processPaymentCallback(@RequestBody result: String) =
             equityPaymentService.processPaymentNotificationCallback(result)
 
