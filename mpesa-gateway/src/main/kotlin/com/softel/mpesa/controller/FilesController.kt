@@ -76,6 +76,18 @@ public class FilesController {
     return "OK"
     }
 
+  @GetMapping("/deleteall")
+  fun deleteAll():String {
+    storageService.deleteAll()
+    return "OK"
+    }
+
+  @GetMapping("/readvouchers")
+  fun readVouchers(@RequestParam fileName: String): String  {
+    storageService.readVouchers(fileName)
+    return "OK"
+    }
+
   // @GetMapping("/list")
   // fun getListFiles(): ResponseEntity<List<FileInfo>> {
   //     val fileInfos: List<FileInfo> = storageService.loadAll().map(path -> {
