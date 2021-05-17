@@ -1,4 +1,9 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 500KB
+      max-request-size: 500KB
+
   jpa:
     database: default
     generate-ddl: true
@@ -42,6 +47,7 @@ mpesa:
     
 softel:
   api:
-    base-url: https://softwareelegance.net/api/v1
+    base-url: https://softwareelegance.net/api/
+
 
 
