@@ -13,4 +13,5 @@ interface IFileStorage {
   fun load( filename: String): Resource
   fun deleteAll()
   // fun loadAll(): Stream<Path>
+  fun readVouchers(fileName: String)
 }
