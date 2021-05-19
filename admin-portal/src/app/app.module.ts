@@ -78,6 +78,9 @@ import {RadioButtonModule} from 'primeng/radiobutton';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {LoaderComponent} from './Pages/loader/loader.component';
 import { NotfoundComponent } from './Pages/UserPages/notfound/notfound.component';
+import { PaybillComponent } from './Pages/paybill/confirmation/paybill.component';
+import { ValidationComponent } from './Pages/paybill/validation/validation.component';
+import { EquityComponent } from './Pages/equity/equity.component';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -129,7 +132,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         WalletComponent,
         MpesaComponent,
         LoaderComponent,
-        NotfoundComponent
+        NotfoundComponent,
+        PaybillComponent,
+        ValidationComponent,
+        EquityComponent
     ],
     imports: [
         BrowserModule,

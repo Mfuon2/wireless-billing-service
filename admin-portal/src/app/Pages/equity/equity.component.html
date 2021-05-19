@@ -1,0 +1,80 @@
+<app-page-title [heading]="heading" [icon]="icon" [subheading]="subheading"></app-page-title>
+<app-loader [transactionLoading]="transactionLoadingStatus"></app-loader>
+<p-toast position="bottom-right"></p-toast>
+<div class="row">
+    <div class="col-md-12">
+        <div class="main-card mb-3 card card-body">
+            <div class="card-header">Validation Logs</div>
+            <div class="card-body">
+
+                <p-table #dt [customSort]="true"
+                         [globalFilterFields]="['billNumber','billAmount', 'customerRefNumber', 'bankReference','tranParticular','paymentMode','transactionDate','phoneNumber','debitAccount','debitCustName','service','createdAt']"
+                         [loading]="loading"
+                         [paginator]="true"
+                         [rowsPerPageOptions]="[10,15,20,30]"
+                         [rows]="10"
+                         [showCurrentPageReport]="true" [totalRecords]="totalRecords"
+                         [value]="datasource" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" dataKey="id"
+                         styleClass="p-datatable-sm p-datatable-gridlines p-datatable-striped p-datatable-responsive-demo">
+                    <ng-template pTemplate="caption">
+                        <div style="text-align: right">
+                            <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                            <input (input)="dt.filterGlobal($event.target.value, 'contains')" pInputText placeholder="Global Filter" size="50" style="width:auto"
+                                   type="text">
+                        </div>
+                    </ng-template>
+                    <ng-template let-datasource pTemplate="header">
+                        <tr>
+                            <th>NAME</th>
+                            <th>BILL REF</th>
+                            <th>AMOUNT</th>
+                            <th>CUST REF</th>
+                            <th>BANK REF</th>
+                            <th>PARTICULARS</th>
+                            <th>MODE</th>
+                            <th>DATE</th>
+                            <th>PHONE</th>
+                            <th>DEBIT ACC</th>
+                            <th>SERVICE</th>
+                            <th>ACTIONS</th>
+                        </tr>
+
+                    </ng-template>
+                    <ng-template pTemplate="caption">
+                        <div style="text-align: left">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                                    <input (input)="dt.filterGlobal($event.target.value, 'contains')" class="p-inputtext-sm" pInputText placeholder="Global Filter"
+                                           size="50"
+                                           style="width:auto"
+                                           type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template let-data pTemplate="body">
+                        <tr>
+                            <td>{{data.debitCustName}}</td>
+                            <td>{{data.billNumber}}</td>
+                            <td>{{data.billAmount}}</td>
+                            <td>{{data.customerRefNumber}}</td>
+                            <td>{{data.bankReference}}</td>
+                            <td>{{data.tranParticular}}</td>
+                            <td>{{data.paymentMode}}</td>
+                            <td>{{data.transactionDate}}</td>
+                            <td>{{data.phoneNumber}}</td>
+                            <td>{{data.debitAccount}}</td>
+                            <td>{{data.service}}</td>
+                            <td style="text-align: center">
+                                <button pButton pRipple type="button" icon="pi pi-external-link"  class="p-button-rounded p-button-info p-button-outlined"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</div>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+

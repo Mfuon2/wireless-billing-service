@@ -22,7 +22,7 @@ import org.hibernate.annotations.ColumnTransformer
 
 @Entity
 @Table( name = "voucher_upload",
-        uniqueConstraints = [UniqueConstraint(columnNames = ["voucher_id", "plan"])]
+        uniqueConstraints = [UniqueConstraint(columnNames = ["voucherId", "plan"])]
 )
 class VoucherUpload(
 
