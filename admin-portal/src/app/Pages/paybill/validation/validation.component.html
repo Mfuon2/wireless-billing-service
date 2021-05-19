@@ -1,0 +1,120 @@
+<app-page-title [heading]="heading" [icon]="icon" [subheading]="subheading"></app-page-title>
+<app-loader [transactionLoading]="transactionLoadingStatus"></app-loader>
+<p-toast position="bottom-right"></p-toast>
+<div class="row">
+    <div class="col-md-12">
+        <div class="main-card mb-3 card card-body">
+            <div class="card-header">Validation Logs</div>
+            <div class="card-body">
+
+                <p-table #dt [customSort]="true"
+                         [globalFilterFields]="['billRefNumber','msisdn', 'invoiceNumber', 'firstName','middleName','lastName']"
+                         [loading]="loading"
+                         [paginator]="true"
+                         [rowsPerPageOptions]="[10,15,20,30]"
+                         [rows]="10"
+                         [showCurrentPageReport]="true" [totalRecords]="totalRecords"
+                         [value]="datasource" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" dataKey="id"
+                         styleClass="p-datatable-sm p-datatable-gridlines p-datatable-striped p-datatable-responsive-demo">
+                    <ng-template pTemplate="caption">
+                        <div style="text-align: right">
+                            <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                            <input (input)="dt.filterGlobal($event.target.value, 'contains')" pInputText placeholder="Global Filter" size="50" style="width:auto"
+                                   type="text">
+                        </div>
+                    </ng-template>
+                    <ng-template let-datasource pTemplate="header">
+                        <tr>
+                            <th>NAME</th>
+                            <th>REF NO</th>
+                            <th>INVOICE NO</th>
+                            <th>SHORT CODE</th>
+                            <th>PHONE NO</th>
+                            <th>TYPE</th>
+                            <th>TIME</th>
+                            <th>AMOUNT</th>
+                            <th>ACC BALANCE</th>
+                            <th>ACTIONS</th>
+                        </tr>
+
+                    </ng-template>
+                    <ng-template pTemplate="caption">
+                        <div style="text-align: left">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                                    <input (input)="dt.filterGlobal($event.target.value, 'contains')" class="p-inputtext-sm" pInputText placeholder="Global Filter"
+                                           size="50"
+                                           style="width:auto"
+                                           type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template let-data pTemplate="body">
+                        <tr>
+                            <td>{{data.firstName}}, {{data.middleName}} {{data.lastName}}</td>
+                            <td>{{data.billRefNumber}}</td>
+                            <td>{{data.invoiceNumber}}</td>
+                            <td>{{data.businessShortCode}}</td>
+                            <td>{{data.msisdn}}</td>
+                            <td>{{data.transactionType}}</td>
+                            <td>{{data.transTime}}</td>
+                            <td>{{data.transAmount}}</td>
+                            <td>{{data.orgAccountBalance}}</td>
+                            <td style="text-align: center">
+                                <button pButton pRipple type="button" icon="pi pi-external-link"  class="p-button-rounded p-button-info p-button-outlined"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<p-dialog [(visible)]="paybillDialog" [style]="{width: '450px'}" header="New Client Account" [modal]="true" styleClass="p-fluid">-->
+<!--    <ng-template pTemplate="content">-->
+<!--        <small class="p-error" *ngIf="submitted && errorOnCreation">{{errorMessage}}</small>-->
+<!--        <div class="p-field input-group-sm">-->
+<!--            <label for="accountName">Account Name</label>-->
+<!--            <input oninput="this.value = this.value.toUpperCase()" type="text" pInputText id="accountName" [(ngModel)]="paybillData." required autofocus />-->
+<!--            <small class="p-error" *ngIf="submitted && !paybillData.accountName">Name is required.</small>-->
+<!--        </div>-->
+
+<!--        <div class="p-field">-->
+<!--            <label for="serviceType">Service Type</label>-->
+<!--            <p-dropdown [(ngModel)]="clientData.serviceType" inputId="inventoryStatus" id="serviceType" [options]="serviceTypes" placeholder="Select">-->
+<!--                <ng-template let-option pTemplate="item">-->
+<!--                    <span [class]="'product-badge status-' + option.value">{{option.label}}</span>-->
+<!--                </ng-template>-->
+<!--            </p-dropdown>-->
+<!--        </div>-->
+
+<!--        <div class="p-field input-group-sm">-->
+<!--            <label for="msisdn">MSISDN/Phone Number</label>-->
+<!--            <input type="text" pInputText id="msisdn" [(ngModel)]="clientData.msisdn" required autofocus />-->
+<!--            <small class="p-error" *ngIf="submitted && !clientData.msisdn">phone number is required.</small>-->
+<!--        </div>-->
+
+<!--        <div class="p-field input-group-sm">-->
+<!--            <label for="shortCode">Short Code</label>-->
+<!--            <input type="text" pInputText id="shortCode" [(ngModel)]="clientData.shortCode" required autofocus />-->
+<!--            <small class="p-error" *ngIf="submitted && !clientData.shortCode">Short Code is required.</small>-->
+<!--        </div>-->
+
+<!--        <div class="p-field">-->
+<!--            <label for="emailAddress">Email Address</label>-->
+<!--            <input oninput="this.value = this.value.toLowerCase()" type="email" pInputText id="emailAddress" [(ngModel)]="clientData.emailAddress" required autofocus />-->
+<!--            <small class="p-error" *ngIf="submitted && !clientData.emailAddress">Email is required.</small>-->
+<!--        </div>-->
+<!--    </ng-template>-->
+
+<!--    <ng-template pTemplate="footer">-->
+<!--        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>-->
+<!--        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveClientAccount()"></button>-->
+<!--    </ng-template>-->
+<!--</p-dialog>-->
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+

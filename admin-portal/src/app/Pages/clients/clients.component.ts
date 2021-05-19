@@ -1,8 +1,8 @@
-import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ClientsService} from './clients.service';
 import {Content} from '../../Models/Clients/clients';
 import {MessageService, SortEvent} from 'primeng/api';
-import { Utils } from 'src/app/Common/utils/utils';
+import {Utils} from 'src/app/Common/utils/utils';
 
 @Component({
     selector: 'app-clients',
@@ -36,17 +36,24 @@ export class ClientsComponent implements OnInit {
 
     ngOnInit(): void {
         this.loading = true;
+        this.transactionLoadingStatus = true;
         this.loadClients();
     }
 
     // Get clients list
     loadClients() {
-        return this.clientService.GetPagedClients(0,1000)
+        return this.clientService.GetPagedClients(0, 1000)
             .subscribe((data) => {
-            this.datasource = data.content;
-            this.totalRecords = data.totalElements;
-            this.loading = false;
-        });
+                this.datasource = data.content;
+                this.totalRecords = data.totalElements;
+                this.loading = false;
+                this.transactionLoadingStatus = false;
+            }, (err) => {
+                this.utils.showError(`Error Was encountered listing Clients  ${err}`)
+            }, () => {
+                this.transactionLoadingStatus = false;
+                this.loading = false;
+            });
     }
 
     saveClientAccount() {
@@ -54,24 +61,24 @@ export class ClientsComponent implements OnInit {
         this.transactionLoadingStatus = true;
         return this.clientService.SaveClientsAccount(JSON.stringify(this.clientData))
             .subscribe((clientResponse) => {
-                    if(clientResponse.success){
-                        this.utils.showSuccess(clientResponse.msg)
-                        this.hideDialog()
-                    }else {
-                        this.errorOnCreation = true;
-                        this.errorMessage = clientResponse.msg
-                        this.utils.showError(clientResponse.msg)
-                        this.transactionLoadingStatus = false;
-                    }
-                }, (error) => {
+                if (clientResponse.success) {
+                    this.utils.showSuccess(clientResponse.msg);
+                    this.hideDialog();
+                } else {
                     this.errorOnCreation = true;
-                    this.errorMessage = error
-                    this.utils.showError(error)
+                    this.errorMessage = clientResponse.msg;
+                    this.utils.showError(clientResponse.msg);
+                    this.transactionLoadingStatus = false;
+                }
+            }, (error) => {
+                this.errorOnCreation = true;
+                this.errorMessage = error;
+                this.utils.showError(error);
                 this.transactionLoadingStatus = false;
-                }, () => {
+            }, () => {
                 this.transactionLoadingStatus = false;
-                this.reload ()
-                })
+                this.reload();
+            });
     }
 
     openNew() {
@@ -92,16 +99,17 @@ export class ClientsComponent implements OnInit {
             let value2 = data2[event.field];
             let result = null;
 
-            if (value1 == null && value2 != null)
+            if (value1 == null && value2 != null) {
                 result = -1;
-            else if (value1 != null && value2 == null)
+            } else if (value1 != null && value2 == null) {
                 result = 1;
-            else if (value1 == null && value2 == null)
+            } else if (value1 == null && value2 == null) {
                 result = 0;
-            else if (typeof value1 === 'string' && typeof value2 === 'string')
+            } else if (typeof value1 === 'string' && typeof value2 === 'string') {
                 result = value1.localeCompare(value2);
-            else
+            } else {
                 result = (value1 < value2) ? -1 : (value1 > value2) ? 1 : 0;
+            }
 
             return (event.order * result);
         });

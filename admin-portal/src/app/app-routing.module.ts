@@ -20,6 +20,9 @@ import {SubscriptionComponent} from './Pages/subscription/subscription.component
 import {WalletComponent} from './Pages/wallet/wallet.component';
 import {MpesaComponent} from './Pages/mpesa/mpesa.component';
 import {NotfoundComponent} from './Pages/UserPages/notfound/notfound.component';
+import {PaybillComponent} from './Pages/paybill/confirmation/paybill.component';
+import {ValidationComponent} from './Pages/paybill/validation/validation.component';
+import {EquityComponent} from './Pages/equity/equity.component';
 
 const routes: Routes = [
   {
@@ -43,7 +46,10 @@ const routes: Routes = [
       {path: 'service/packages', component: ServicePackagesComponent, data: {extraParameter: 'serviceMenu'}},
       {path: 'clients/subscriptions', component: SubscriptionComponent, data: {extraParameter: 'subscriptionsMenu'}},
       {path: 'payment/wallet', component: WalletComponent, data: {extraParameter: 'walletMenu'}},
-      {path: 'pay/express', component: MpesaComponent, data: {extraParameter: 'expressMenu'}}
+      {path: 'pay/express', component: MpesaComponent, data: {extraParameter: 'expressMenu'}},
+      {path: 'transaction/paybill/confirmation', component: PaybillComponent, data: {extraParameter: 'payBillMenu'}},
+      {path: 'transaction/paybill/validation', component: ValidationComponent, data: {extraParameter: 'payBillMenu'}},
+      {path: 'transaction/equity', component: EquityComponent, data: {extraParameter: 'equityMenu'}}
     ]
 
   },

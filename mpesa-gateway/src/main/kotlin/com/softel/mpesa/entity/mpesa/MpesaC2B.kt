@@ -20,7 +20,7 @@ import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Version
 import com.fasterxml.jackson.annotation.JsonIgnore
-import org.hibernate.annotations.ColumnTransformer
+import javax.persistence.*
 
 @Entity
 @Table(name = "mpesa_c2b_callback")
