@@ -27,23 +27,31 @@ export class PaybillComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.activateLoadingMask()
         this.loadConfirmationTransactions();
     }
 
     loadConfirmationTransactions() {
         return this.paybillService.GetPagedC2BConfirmationTransactions()
             .subscribe((data) => {
-                this.datasource = data.content;
-                this.totalRecords = data.totalElements;
-                this.loading = false;
-                this.transactionLoadingStatus = false;
-            }, (err) => {
-                this.utils.showError(`Error Was encountered listing confirmations  ${err}`);
-            }, () => {
-                this.transactionLoadingStatus = false;
-                this.loading = false;
-            }
+                    this.datasource = data.content;
+                    this.totalRecords = data.totalElements;
+                }, (err) => {
+                    this.utils.showError(`Error Was encountered listing confirmations  ${err}`);
+                }, () => {
+                    this.deactivateLoadingMask();
+                }
             );
+    }
+
+    deactivateLoadingMask() {
+        this.transactionLoadingStatus = false;
+        this.loading = false;
+    }
+
+    activateLoadingMask(){
+        this.transactionLoadingStatus = true;
+        this.loading = true;
     }
 
 }

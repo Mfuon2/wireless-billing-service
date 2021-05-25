@@ -13,6 +13,7 @@ export class ClientsComponent implements OnInit {
     heading = 'Clients Accounts';
     subheading = 'Lists all Clients Accounts';
     icon = 'pe-7s-users icon-gradient bg-tempting-azure';
+
     clientData: Content;
     datasource: Content[];
     totalRecords: number;
@@ -35,8 +36,7 @@ export class ClientsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.loading = true;
-        this.transactionLoadingStatus = true;
+        this.activateLoadingMask()
         this.loadClients();
     }
 
@@ -46,19 +46,16 @@ export class ClientsComponent implements OnInit {
             .subscribe((data) => {
                 this.datasource = data.content;
                 this.totalRecords = data.totalElements;
-                this.loading = false;
-                this.transactionLoadingStatus = false;
             }, (err) => {
                 this.utils.showError(`Error Was encountered listing Clients  ${err}`)
             }, () => {
-                this.transactionLoadingStatus = false;
-                this.loading = false;
+                this.deactivateLoadingMask()
             });
     }
 
     saveClientAccount() {
         this.submitted = true;
-        this.transactionLoadingStatus = true;
+        this.activateLoadingMask()
         return this.clientService.SaveClientsAccount(JSON.stringify(this.clientData))
             .subscribe((clientResponse) => {
                 if (clientResponse.success) {
@@ -68,15 +65,13 @@ export class ClientsComponent implements OnInit {
                     this.errorOnCreation = true;
                     this.errorMessage = clientResponse.msg;
                     this.utils.showError(clientResponse.msg);
-                    this.transactionLoadingStatus = false;
                 }
             }, (error) => {
                 this.errorOnCreation = true;
                 this.errorMessage = error;
                 this.utils.showError(error);
-                this.transactionLoadingStatus = false;
             }, () => {
-                this.transactionLoadingStatus = false;
+                this.deactivateLoadingMask()
                 this.reload();
             });
     }
@@ -117,5 +112,15 @@ export class ClientsComponent implements OnInit {
 
     private reload() {
         this.ngOnInit()
+    }
+
+    deactivateLoadingMask() {
+        this.transactionLoadingStatus = false;
+        this.loading = false;
+    }
+
+    activateLoadingMask(){
+        this.transactionLoadingStatus = true;
+        this.loading = true;
     }
 }
