@@ -81,6 +81,8 @@ import { NotfoundComponent } from './Pages/UserPages/notfound/notfound.component
 import { PaybillComponent } from './Pages/paybill/confirmation/paybill.component';
 import { ValidationComponent } from './Pages/paybill/validation/validation.component';
 import { EquityComponent } from './Pages/equity/equity.component';
+import { VoucherComponent } from './Pages/voucher/voucher.component';
+import {FileUploadModule} from 'primeng/fileupload';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -135,7 +137,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         NotfoundComponent,
         PaybillComponent,
         ValidationComponent,
-        EquityComponent
+        EquityComponent,
+        VoucherComponent
     ],
     imports: [
         BrowserModule,
@@ -184,7 +187,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         AutoCompleteModule,
         CheckboxModule,
         RadioButtonModule,
-        ProgressSpinnerModule
+        ProgressSpinnerModule,
+        FileUploadModule
     ],
     providers: [
         {

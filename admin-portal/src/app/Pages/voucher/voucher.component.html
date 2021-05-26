@@ -1,0 +1,163 @@
+
+<app-page-title [heading]="heading" [icon]="icon" [subheading]="subheading"></app-page-title>
+<app-loader [transactionLoading]="transactionLoadingStatus"></app-loader>
+<p-toast position="bottom-right"></p-toast>
+
+<div class="p-d-flex">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="main-card mb-3 card card-body">
+                <div class="card-header">Vouchers Log</div>
+
+                <div class="card-body">
+                    <p-table #dt
+                             [globalFilterFields]="['voucherId','portal', 'plan', 'creationTime','claimedTime','expiryTime']"
+                             [loading]="loading"
+                             [paginator]="true"
+                             [rowsPerPageOptions]="[10,15,20,30]"
+                             [rows]="10"
+                             [showCurrentPageReport]="true" [totalRecords]="totalRecords"
+                             [value]="datasource"
+                             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" dataKey="id"
+                             styleClass="p-datatable-sm p-datatable-gridlines p-datatable-striped p-datatable-responsive-demo">
+                        <ng-template pTemplate="caption">
+                            <div style="text-align: right">
+                                <button class="pi pi-search" pButton pRipple label="Search" style="margin:4px 4px 0 0"></button>
+                                <input (input)="dt.filterGlobal($event.target.value, 'contains')" pInputText
+                                       placeholder="Global Filter" size="50" style="width:auto"
+                                       type="text">
+                            </div>
+
+                        </ng-template>
+
+                        <ng-template let-datasource pTemplate="header">
+                            <tr>
+                                <th>VOUCHER ID</th>
+                                <th>PORTAL</th>
+                                <th>PLAN</th>
+                                <th>CREATION</th>
+                                <th>CLAIMED</th>
+                                <th>EXPIRY</th>
+                                <th>CREATED</th>
+                                <th>ACTIONS</th>
+                            </tr>
+
+                        </ng-template>
+                        <ng-template pTemplate="caption">
+                            <div style="text-align: left">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                                        <input (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                               class="p-inputtext-sm" pInputText placeholder="Global Filter"
+                                               size="50"
+                                               style="width:auto"
+                                               type="text">
+                                    </div>
+                                    <div class="col-md-6" style="text-align: right">
+                                        <button (click)="openFileUploadDialog()" class="p-button-success p-mr-2" icon="pi pi-plus" label="Upload Tokens"
+                                                pButton pRipple></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template let-data pTemplate="body">
+                            <tr >
+                                <td>{{data.voucherId}}</td>
+                                <td>{{data.portal}}</td>
+                                <td>{{data.plan}}</td>
+                                <td>{{data.creationTime}}</td>
+                                <td>{{data.claimedTime}}</td>
+                                <td>{{data.expiryTime}}</td>
+                                <td>{{data.createdAt}}</td>
+                                <td style="text-align: center">
+                                    <button pButton pRipple type="button" icon="pi pi-external-link"  class="p-button-rounded p-button-success p-button-outlined"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p-dialog [(visible)]="voucherDialog" [style]="{width: '1000px'}" [contentStyle]="{'overflow':'visible'}" header="Upload Vouchers .csv" [modal]="true" styleClass="p-fluid">
+        <ng-template pTemplate="content">
+            <small class="p-error" *ngIf="submitted && errorOnCreation">{{errorMessage}}</small>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="main-card mb-3 card card-body">
+                        <div class="card-body">
+                            <p-messages></p-messages>
+                            <div class="p-inputgroup">
+                                <span class="p-inputgroup-addon"><i class="pi pi-file-excel"></i>CSV ONLY</span>
+                                <input pInputText class="p-button-rounded p-button-success p-button-outlined" type="file" #csvReader name="Upload CSV" id="txtFileUpload" (change)="uploadListener($event)" accept=".csv" />
+                                <span class="p-inputgroup-addon">{{sizeLabel}}</span>
+                            </div>
+                            <p-table *ngIf="records.length > 0" #dTable
+                                     [globalFilterFields]="['voucherId','portal', 'plan', 'creationTime','claimedTime','expiryTime']"
+                                     [paginator]="true"
+                                     [rowsPerPageOptions]="[10]"
+                                     [rows]="10"
+                                     [showCurrentPageReport]="true"
+                                     [totalRecords]="records.length"
+                                     [value]="records"
+                                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" dataKey="id"
+                                     styleClass="p-datatable-sm p-datatable-gridlines p-datatable-striped p-datatable-responsive-demo">
+                                <ng-template pTemplate="caption">
+                                    <div style="text-align: right">
+                                        <button class="pi pi-search" pButton pRipple label="Search" style="margin:4px 4px 0 0"></button>
+                                        <input (input)="dTable.filterGlobal($event.target.value, 'contains')" pInputText
+                                               placeholder="Global Filter" size="50" style="width:auto"
+                                               type="text">
+                                    </div>
+
+                                </ng-template>
+
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Voucher Id </th>
+                                        <th>Portal </th>
+                                        <th>Plan </th>
+                                        <th>Creation Time</th>
+                                        <th>Expiry Time </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="caption">
+                                    <div style="text-align: left">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                                                <input (input)="dTable.filterGlobal($event.target.value, 'contains')"
+                                                       class="p-inputtext-sm" pInputText placeholder="Global Filter"
+                                                       size="50"
+                                                       style="width:auto"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <ng-template let-record pTemplate="body">
+                                    <tr >
+                                        <td> {{record.voucherId}}</td>
+                                        <td> <span>{{record.portal}}</span> </td>
+                                        <td> <span>{{record.plan}}</span> </td>
+                                        <td> <span>{{record.creationTime}}</span> </td>
+                                        <td> <span>{{record.expiryTime}}</span> </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+            <button *ngIf="records.length > 0" pButton pRipple label="Upload" icon="pi pi-check" class="p-button-text" (click)="onUploadCsvFile()" ></button>
+        </ng-template>
+    </p-dialog>
+
+    <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+</div>

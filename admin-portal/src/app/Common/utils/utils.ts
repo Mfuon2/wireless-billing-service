@@ -23,4 +23,8 @@ export class Utils{
     showError(msg: string) {
         this.messageService.add({severity:'error', summary: 'Error', detail: `${msg}`, life: 3000});
     }
+
+    showInfo(msg: string){
+        this.messageService.add({severity: 'info', summary: msg, detail: ''});
+    }
 }
