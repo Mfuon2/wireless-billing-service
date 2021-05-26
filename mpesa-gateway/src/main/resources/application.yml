@@ -3,7 +3,7 @@ spring:
     serialization:
       fail-on-empty-beans: false #Solves lazy fetching issue on serialization
   application:
-    name: mpesa-gateway
+    name: vuka-mpesa-gateway
   profiles:
     active: dev
 
@@ -31,7 +31,7 @@ management:
 
 
 logging:
-  file: mpesa-gateway.log
+  file: vuka-mpesa-gateway.log
   pattern:
     console: '%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n'
   level:

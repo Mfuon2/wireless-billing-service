@@ -28,3 +28,12 @@ ADD ${JAR_FILE} app.jar
 
 # Run the jar file
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+
+
+#Aftermath
+#========================================
+#Build
+#docker build -t zeguru/vuka-mpesa-gateway:rc1 .
+
+#Push
+#docker push zeguru/vuka-mpesa-gateway:rc1   

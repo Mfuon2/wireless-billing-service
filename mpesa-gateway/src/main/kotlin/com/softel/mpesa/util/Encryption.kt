@@ -34,7 +34,7 @@ object MpesaEncryption {
         return when(EnvironmentProfile.valueOf(activeProfile.toUpperCase())) {
             EnvironmentProfile.DEV   -> ClassPathResource("mpesa-certificate/sandbox.vuka.cert.cer")
             EnvironmentProfile.UAT   -> ClassPathResource("mpesa-certificate/sandbox.vuka.cert.cer")
-            EnvironmentProfile.PROD  -> ClassPathResource("mpesa-certificate/prod.vuka.cer")
+            EnvironmentProfile.PROD  -> ClassPathResource("mpesa-certificate/vuka-mpesa-production.cer")
         }
     }
 }

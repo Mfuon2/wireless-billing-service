@@ -225,6 +225,8 @@ class MpesaExpressService : IMpesaExpressService {
                     mpesaTransaction.paymentStatus      = PaymentStatusEnum.SUCCESSFUL
                     mpesaTransaction.mpesaReceiptNumber = mpesaReceiptItem.get().value
 
+                    //TODO: locate voucher for corresponding amount then SMS the code to the client
+                    
                     //CREDIT WALLET HERE....(if missing, create the wallet first)
                     logger.info("TODO: credit the wallet")
                 }

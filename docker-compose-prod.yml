@@ -3,7 +3,7 @@ version: '3.9'
 services:
   admin-portal:
     image: zeguru/vuka-admin-portal:beta
-    container_name: app_admin_portal_vuka
+    container_name: vuka_admin_portal
     restart: unless-stopped
     volumes:
       - node_modules:/usr/src/app/node_modules
@@ -11,33 +11,37 @@ services:
       - 80:80
     depends_on:
       - db
-      - redis
+      # - redis
       - mpesa
       - adminer
     networks:
       - app-network
 
+
   mpesa:
-    image: zeguru/vuka-mpesa-gateway:0.3
-    container_name: app_mpesa_vuka
+    #image: zeguru/vuka-mpesa-gateway:rc1
+    build:
+      context: ./mpesa-gateway/
+      dockerfile: Dockerfile
+    container_name: vuka_mpesa_gateway
     restart: unless-stopped
     ports:
       - "8080:8080"
     depends_on:
       - db
-      - redis
+      # - redis
     links:
       - db
-      - redis
+      # - redis
     networks:
       - app-network
     env_file:
-      - uat-env/mpesa.env
+      - prod-env/mpesa.env
 
 
   redis:
     image: redis
-    container_name: app_redis_vuka
+    container_name: vuka_redis
     command: [ "redis-server", "--protected-mode", "no" ]
     hostname: redis
     expose: 
@@ -53,23 +57,23 @@ services:
 
   db:
     image: postgres:12
-    container_name: app_db_vuka
+    container_name: vuka_db
     hostname: db
     restart: unless-stopped
     ports:
-      - "6432:5432"
+      - "5432:5432"
     volumes:
       - ./pgdata:/var/lib/postgresql/data
       - ./postgres-configs/scripts:/docker-entrypoint-initdb.d
     networks:
       - app-network
     env_file:
-      - uat-env/pg.env
+      - prod-env/pg.env
 
-  
+
   adminer:
       image: adminer
-      container_name: app_adminer_vuka
+      container_name: adminer_vuka
       restart: always
       depends_on:
         - db
@@ -82,26 +86,28 @@ services:
       networks:
         - app-network
 
-  keycloak:
-      image: quay.io/keycloak/keycloak:latest
-      container_name: app_keycloak_vuka
-      environment:
-        DB_VENDOR: POSTGRES
-        DB_ADDR: db
-        DB_DATABASE: mpesa_gateway
-        DB_USER: dev_user
-        DB_PASSWORD: caro_kann
-        DB_SCHEMA: public
-        KEYCLOAK_USER: admin
-        KEYCLOAK_PASSWORD: Pa55w0rd
-        # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
-        #JDBC_PARAMS: "ssl=true"
-      ports:
-        - 9009:8080
-      depends_on:
-        - db
-      networks:
-        - app-network
+
+  # keycloak:
+  #     image: quay.io/keycloak/keycloak:latest
+  #     container_name: app_keycloak_vuka
+  #     environment:
+  #       DB_VENDOR: POSTGRES
+  #       DB_ADDR: db
+  #       DB_DATABASE: mpesa_gateway
+  #       DB_USER: dev_user
+  #       DB_PASSWORD: caro_kann
+  #       DB_SCHEMA: public
+  #       KEYCLOAK_USER: admin
+  #       KEYCLOAK_PASSWORD: Pa55w0rd
+  #       # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
+  #       #JDBC_PARAMS: "ssl=true"
+  #     ports:
+  #       - 9009:8080
+  #     depends_on:
+  #       - db
+  #     networks:
+  #       - app-network
+
 
 volumes:
   node_modules:

@@ -17,9 +17,9 @@ spring:
         # multi_tenant_connection_provider: "com.softel.mpesa.multitenancy.AnotherMultiTenantConnectionProvider"
 
 mpesa:
-  consumer-key: v6ATAMABgYG4bRSXT382kybEwqgwhoyR
-  consumer-secret: 5Ef3WOQAAKAFyV5k
-  base-url: https://sandbox.safaricom.co.ke
+  consumer-key: 76mdKGBCJaeZsAruFG0GQWR6zPOQW4vN
+  consumer-secret: xlAkAuoHcwaLog0F
+  base-url: https://api.safaricom.co.ke
   short-code: 4045353
   passkey: 3f601f4c6ae8e28954a88e62986ae1d6b536c91773b0ebbd3b098686b35509c7
   token:
@@ -28,15 +28,15 @@ mpesa:
   client-credentials:
     oauth-url: /oauth/v1/generate?grant_type=client_credentials
   mpesa-express:
-    request-url: https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest
+    request-url: https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest
     callback-url: https://softwareelegance.net/api/vuka/express/callback
-    query-url: https://sandbox.safaricom.co.ke/mpesa/stkpushquery/v1/query
+    query-url: https://api.safaricom.co.ke/mpesa/stkpushquery/v1/query
   b2c:
     initiator-name: testapi
     password: Safaricom584!#
     shortcode: 4045353
     security-credential: Safaricom584!#
-    msisdn: 254708374149
+    msisdn: 4045353
     request-url: /mpesa/b2c/v1/paymentrequest
     result-url: /mpesa-gateway/mpesa-b2c/result-callback
     queue-timeout-url: /mpesa-gateway/mpesa-b2c/queue-timeout-callback

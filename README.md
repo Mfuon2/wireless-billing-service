@@ -44,3 +44,6 @@ docker-compose build --no-cache && docker-compose up --force-recreate
 
 # Running in uat local
 docker-compose -f docker-compose-uat.yml up -d
+
+# Running in prod local
+docker-compose build && docker-compose -f docker-compose-prod.yml up -d
