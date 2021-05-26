@@ -3,7 +3,13 @@ server:
   port: 8080
   servlet:
     context-path: /mpesa
-    
+springdoc:
+  version: '@springdoc.version@'
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
   # cloud:
   #   config:
   #     uri: http://localhost:8888/config-server/

@@ -86,6 +86,9 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
 
 #############################################################################################
 
-#docker build -t zeguru/mpesa-gateway:beta .
-#docker build -f Dockerfile.build -t zeguru/mpesa-gateway:beta .
+#docker build -t zeguru/mpesa-gateway:rc1 .
+#docker build -f Dockerfile.build -t zeguru/mpesa-gateway:rc1 .
 #docker run -e "SPRING_PROFILES_ACTIVE=dev" --name mpesa-gateway --restart unless-stopped -d -p 8080:8080 zeguru/mpesa-gateway:beta
+
+
+
