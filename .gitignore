@@ -43,3 +43,5 @@
 ## ADMIN PORTAL
 admin-portal/node_modules/
 admin-portal/dist/
+
+uploads/

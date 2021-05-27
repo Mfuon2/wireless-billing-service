@@ -8,6 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "start:dev": "yarn install && ng build --delete-output-path --optimization --progress --aot --build-optimizer && cd ../ && docker-compose up --build",
+    "start:uat": "yarn install && ng build --delete-output-path --configuration=uat --optimization --progress --aot --build-optimizer && docker-compose up --build --force-recreate",
+    "start:prod": "yarn install && ng build --delete-output-path --configuration=production --optimization --progress --aot --build-optimizer && docker-compose up --build --force-recreate",
     "dockerize": "yarn install && ng build --delete-output-path --optimization --progress --aot --build-optimizer && cd ../mpesa-gateway && mvn clean package && cd ../ && docker image prune && docker-compose up --build --force-recreate",
     "e2e": "ng e2e"
   },
