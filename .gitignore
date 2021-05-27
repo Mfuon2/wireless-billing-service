@@ -3,6 +3,7 @@
 /docs/
 /redis/
 
+
 .DS_Store
 
 ##Nested
@@ -43,5 +44,7 @@
 ## ADMIN PORTAL
 admin-portal/node_modules/
 admin-portal/dist/
+/node_modules/
+yarn.lock 
 
 uploads/
