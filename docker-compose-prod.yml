@@ -3,7 +3,7 @@ version: '3.9'
 services:
 
   admin-portal:
-    image: zeguru/vuka-admin-portal:beta
+    image: zeguru/vuka-admin-portal:rc1
     container_name: vuka_admin_portal
     restart: unless-stopped
     volumes:
@@ -17,10 +17,7 @@ services:
       - app-network
 
   mpesa:
-    #image: zeguru/vuka-mpesa-gateway:rc1
-    build:
-      context: ./mpesa-gateway/
-      dockerfile: Dockerfile
+    image: zeguru/vuka-mpesa-gateway:rc1
     container_name: vuka_mpesa_gateway
     restart: unless-stopped
     ports:
@@ -33,7 +30,7 @@ services:
 
   adminer:
       image: adminer
-      container_name: adminer_vuka
+      container_name: vuka_adminer
       restart: always
       # depends_on:
         # - db

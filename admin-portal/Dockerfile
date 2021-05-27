@@ -30,3 +30,12 @@ COPY --from=node /usr/src/app/dist/admin-dashboard /usr/share/nginx/html
 
 # copy the nginx configurations to the deocker image
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+
+
+#Aftermath
+#========================================
+#Build
+#docker build -t zeguru/vuka-admin-portal:rc1 .
+
+#Push
+#docker push zeguru/vuka-admin-portal:rc1   
