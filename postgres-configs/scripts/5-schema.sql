@@ -2,8 +2,8 @@
 -- --###                           VUKA WIRELESS SCHEMA 
 -- --################################################################
 
--- -- CREATE EXTENSION IF NOT EXISTS "pgcrypto" WITH SCHEMA vuka_wireless;
--- -- CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA vuka_wireless;
+-- -- CREATE EXTENSION IF NOT EXISTS "pgcrypto" WITH SCHEMA mpesa_gateway;
+-- -- CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA mpesa_gateway;
 
 -- create table vuka_wireless.mpesa_express(
 --         id                      bigserial, 

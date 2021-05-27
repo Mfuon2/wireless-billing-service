@@ -43,10 +43,10 @@ class MpesaExpress(
         var amount: Double,
 
         @Column(nullable = false)
-        @ColumnTransformer(
-                write = "pgp_sym_encrypt(?, 'mySecretKey')",
-                read = "pgp_sym_decrypt(msisdn::bytea, 'mySecretKey')"
-                )
+        // @ColumnTransformer(
+        //         write = "pgp_sym_encrypt(?, 'mySecretKey')",
+        //         read = "pgp_sym_decrypt_bytea(msisdn::bytea, 'mySecretKey'::text)"
+        //         )
         var msisdn: String,
 
         @Column(nullable = false)
@@ -56,10 +56,10 @@ class MpesaExpress(
         var transactionDescription: String,
 
         @Column(nullable = false)
-        @ColumnTransformer(
-                write = "pgp_sym_encrypt(?, 'mySecretKey')",
-                read = "pgp_sym_decrypt(account_reference::bytea, 'mySecretKey')"
-                )
+        // @ColumnTransformer(
+        //         write = "pgp_sym_encrypt(?, 'mySecretKey')",
+        //         read = "pgp_sym_decrypt_bytea(account_reference::bytea, 'mySecretKey'::text)"
+        //         )
         var accountReference: String,
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
@@ -111,10 +111,10 @@ class MpesaExpress(
         var requestType: StkRequestType,
 
         @Column(nullable = true)
-        @ColumnTransformer(
-                write = "pgp_sym_encrypt(?, 'mySecretKey')",
-                read = "pgp_sym_decrypt(account_reference::bytea, 'mySecretKey')"
-                )
+        // @ColumnTransformer(
+        //         write = "pgp_sym_encrypt(?, 'mySecretKey')",
+        //         read = "pgp_sym_decrypt_bytea(account_reference::bytea, 'mySecretKey'::text)"
+        //         )
         var fullName: String?,
 
         @Column(nullable = false)
