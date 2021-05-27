@@ -15,7 +15,8 @@ spring:
         # multiTenancy: SCHEMA 
         # tenant_identifier_resolver: "com.softel.mpesa.multitenancy.TenantIdentifierResolver"
         # multi_tenant_connection_provider: "com.softel.mpesa.multitenancy.AnotherMultiTenantConnectionProvider"
-
+sms:
+  africas-talking-api-key: 913502eb64c92f3971611e2c9f6d74e069b547c5b6183786cc71ebf2b376f512
 mpesa:
   consumer-key: 76mdKGBCJaeZsAruFG0GQWR6zPOQW4vN
   consumer-secret: xlAkAuoHcwaLog0F

@@ -3,7 +3,7 @@ version: '3.9'
 services:
 
   admin-portal:
-    image: zeguru/vuka-admin-portal:rc1
+    image: zeguru/vuka-admin-portal:rc2
     container_name: vuka_admin_portal
     restart: unless-stopped
     volumes:

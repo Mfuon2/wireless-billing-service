@@ -35,7 +35,7 @@ COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 #Aftermath
 #========================================
 #Build
-#docker build -t zeguru/vuka-admin-portal:rc1 .
+#docker build -t zeguru/vuka-admin-portal:rc2 .
 
 #Push
-#docker push zeguru/vuka-admin-portal:rc1   
+#docker push zeguru/vuka-admin-portal:rc2   
