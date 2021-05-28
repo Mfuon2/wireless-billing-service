@@ -8,6 +8,7 @@
 -- INSERT INTO client_account(account_number, msisdn,account_name,short_code,email_address,service_type, version) VALUES('VUKA90006', '254722123456','Demo Account C', '247247', 'demo3@gmail.com','PRE_PAID',0);
 
 -- --Service Package / Product
+-- INSERT INTO service_package(id, name, code, description, price, cycle, version) VALUES(9910, 'VUKA TEST', 'VUKA_TEST', '24 hours unlimited', 1, 'DAILY', 0);
 -- INSERT INTO service_package(id, name, code, description, price, cycle, version) VALUES(991, 'VUKA 20', 'VUKA_20', '1 hour unlimited', 20, 'HOURLY', 0);
 -- INSERT INTO service_package(id, name, code, description, price, cycle, version) VALUES(992, 'VUKA 50', 'VUKA_50', '24 hours unlimited', 50, 'DAILY', 0);
 -- INSERT INTO service_package(id, name, code, description, price, cycle, version) VALUES(993, 'VUKA 250', 'VUKA_250', '1 week unlimited', 250, 'WEEKLY', 0);

@@ -13,6 +13,8 @@ import com.softel.mpesa.dto.PackageDto
 import com.softel.mpesa.repository.VoucherUploadRepository
 
 import com.softel.mpesa.service.common.IVoucher
+import com.softel.mpesa.feign.SmsClient
+
 import com.softel.mpesa.util.Result
 import com.softel.mpesa.util.ResultFactory
 
@@ -30,8 +32,7 @@ class VoucherService: IVoucher {
     lateinit var tempVoucherRepo: VoucherUploadRepository
 
     @Autowired
-    lateinit var mapper: Mapper
-
+    lateinit var smsClient: SmsClient
 
     override fun findTempVouchersPaged(pageable: Pageable): Page<VoucherUpload?>{
         return tempVoucherRepo.findAll(pageable);
@@ -46,4 +47,15 @@ class VoucherService: IVoucher {
         }
 
 
+    // override fun getOneTempVoucherUnclaimed(plan: String): Result<VoucherUpload?> {
+    //     voucher: VoucherUpload = tempVoucherRepo.findOneUnclaimedTempVoucherByPlan(plan)
+    //     return if(voucher.isPresent())
+    //         ResultFactory.getSuccessResult(msg = "Request successfully processed", data = pack.get())
+    //     else{
+    //         ResultFactory.getFailResult(msg = "No voucher found with the given id")
+    //         }
+    //     }  
+
+
+    
 }
