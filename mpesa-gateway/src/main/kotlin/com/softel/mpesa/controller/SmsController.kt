@@ -32,8 +32,11 @@ import io.swagger.v3.oas.annotations.Parameter
 // import com.softel.mpesa.service.files.IFileStorage
 import com.google.gson.JsonObject;
 import com.softel.mpesa.feign.SmsApi
+import com.softel.mpesa.feign.SmsClient
 import com.softel.mpesa.dto.AtSms
+import lombok.extern.slf4j.Slf4j
 
+@Slf4j
 @RestController
 @CrossOrigin(origins = ["http://localhost","http://localhost:4200","http://127.0.0.1:4200","http://127.0.0.1", "http://68.183.217.137","http://68.183.217.137:4200" ])
 @RequestMapping("/sms")
@@ -41,17 +44,28 @@ import com.softel.mpesa.dto.AtSms
 public class SmsController {
 
   @Autowired
-  lateinit var smsClient: SmsApi
+  lateinit var smsApi: SmsApi
 
-  @PostMapping(value = ["/send"], consumes = ["application/x-www-form-urlencoded"], produces = ["application/json"]
-  )
-  fun sendSms(@RequestBody smsRequest: AtSms
-  ): ResponseEntity<String> {
+  @Autowired
+  lateinit var smsClient: SmsClient
+
+  
+
+  @PostMapping(value = ["/send"], consumes = ["application/x-www-form-urlencoded"], produces = ["application/json"])
+  fun sendSms(smsRequest: AtSms): ResponseEntity<String> {
+
+    println("Sending SMS to " + smsRequest.to)
 
     var atResponse: String = ""
 
+    val hashMap:HashMap<String,String> = HashMap<String,String>() //define empty hashmap  
+    hashMap.put("to",smsRequest.to)
+    hashMap.put("message",smsRequest.message)
+    hashMap.put("username",smsRequest.username)    
+
     try {
-      smsClient.postSms(smsRequest)
+      smsClient.postSms(hashMap) 
+      
       return ResponseEntity.status(HttpStatus.OK).body(atResponse)
       } 
     catch (e: Exception) {

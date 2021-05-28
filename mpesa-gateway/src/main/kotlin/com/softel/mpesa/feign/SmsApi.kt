@@ -8,7 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-
+import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,10 +37,10 @@ import org.springframework.http.ResponseEntity;
 import com.softel.mpesa.config.FeignConfig
 import com.softel.mpesa.dto.AtSms
 
+
 @FeignClient(name = "smsapi", 
             url = "https://softwareelegance.net/api",
             configuration = [FeignConfig::class])
-//@Headers("Content-Type: application/x-www-form-urlencoded","Accept: application/json")     
 interface SmsApi {
 
         // @RequestMapping(
@@ -54,8 +54,6 @@ interface SmsApi {
         //         @RequestParam sender_id: String
         //                 ): ResponseEntity<JsonObject>
 
-
-       
         // @RequestLine("POST /sms")
         // @Headers("X-Gravitee-Api-Key: 68c1f195-4d7d-4476-8813-82760a11189d", "Accept: application/json", "Content-Type: application/x-www-form-urlencoded")
         // fun postSmsRequestLine(@Param("to") to: String, @Param("message") message: String, @Param("username") username: String): ResponseEntity<String>
@@ -76,13 +74,11 @@ interface SmsApi {
         @PostMapping(
                 value = ["/sms"], 
                 consumes = ["application/x-www-form-urlencoded"],
-                produces = ["application/json"],
-                headers = ["X-Gravitee-Api-Key: 68c1f195-4d7d-4476-8813-82760a11189d"]
+                produces = ["application/json"]                
                 )
+        //@Headers("Content-Type: application/x-www-form-urlencoded")
         fun postSms(body: AtSms):ResponseEntity<String>
         //fun postSms(formParams: Map<String, String>):ResponseEntity<String>
         //fun postSms(@Param("to") to: String, @Param("message") message: String, @Param("username") username: String): ResponseEntity<String>
-
-        
 
 }
