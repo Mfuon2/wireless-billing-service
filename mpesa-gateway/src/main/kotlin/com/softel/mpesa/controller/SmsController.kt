@@ -31,7 +31,7 @@ import io.swagger.v3.oas.annotations.Parameter
 // import com.softel.mpesa.dto.FileResponseMessage
 // import com.softel.mpesa.service.files.IFileStorage
 import com.google.gson.JsonObject;
-import com.softel.mpesa.feign.SmsApi
+// import com.softel.mpesa.feign.SmsApi
 import com.softel.mpesa.feign.SmsClient
 import com.softel.mpesa.dto.AtSms
 import lombok.extern.slf4j.Slf4j
@@ -40,11 +40,11 @@ import lombok.extern.slf4j.Slf4j
 @RestController
 @CrossOrigin(origins = ["http://localhost","http://localhost:4200","http://127.0.0.1:4200","http://127.0.0.1", "http://68.183.217.137","http://68.183.217.137:4200" ])
 @RequestMapping("/sms")
-@Tag(name = "SMS", description = "File upload and download api")
+@Tag(name = "SMS", description = "SMS features")
 public class SmsController {
 
-  @Autowired
-  lateinit var smsApi: SmsApi
+  // @Autowired
+  // lateinit var smsApi: SmsApi
 
   @Autowired
   lateinit var smsClient: SmsClient

@@ -13,7 +13,7 @@ import com.softel.mpesa.entity.ClientAccount
 import com.softel.mpesa.util.Result
 
 interface IWalletService {
-    // fun creditWallet(walletDto: WalletDto)
+    //fun creditWallet(walletDto: WalletDto)
     // fun debitWallet(walletDto: WalletDto): Result<String>
     // fun getWalletDetails(accountNumber: String, serviceType: String): Result<Wallet>
 
