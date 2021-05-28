@@ -34,6 +34,13 @@ import org.springframework.web.servlet.LocaleResolver
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor
 import org.springframework.web.servlet.i18n.SessionLocaleResolver
 
+import feign.codec.Encoder
+import feign.form.spring.SpringFormEncoder
+import org.springframework.beans.factory.ObjectFactory
+import org.springframework.boot.autoconfigure.http.HttpMessageConverters
+import org.springframework.cloud.openfeign.EnableFeignClients
+import org.springframework.cloud.openfeign.support.SpringEncoder
+
 @Configuration
 class MpesaAuthCacheConfig(
         @Value("\${mpesa.token.duration.seconds}")
@@ -109,3 +116,13 @@ fun getJsonObject(data: String?): JSONObject? {
 
 val gson = Gson()
 
+@Configuration
+class FeignConfig {
+
+    @Bean
+    fun clientFeignEncoder(
+        messageConverters: ObjectFactory<HttpMessageConverters?>?
+    ): Encoder? {
+        return SpringFormEncoder(SpringEncoder(messageConverters))
+    }
+}
