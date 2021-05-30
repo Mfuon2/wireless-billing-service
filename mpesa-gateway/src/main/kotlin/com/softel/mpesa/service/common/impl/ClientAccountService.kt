@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import com.github.dozermapper.core.Mapper
+import com.softel.mpesa.service.common.ISms
 
 import java.time.LocalDateTime
 
@@ -27,6 +28,9 @@ class ClientAccountService: IClientAccountService {
 
     @Autowired
     lateinit var clientAccountRepository: ClientAccountRepository
+
+    @Autowired
+    lateinit var smsService: ISms
 
     @Autowired
     lateinit var mapper: Mapper
@@ -85,7 +89,7 @@ class ClientAccountService: IClientAccountService {
 
     override fun findOrCreateClientAccount(msisdn: String, accountName:String?, shortCode: String, accountNumber: String, emailAddress: String, serviceType: ServiceTypeEnum): ClientAccount {
         return clientAccountRepository.findByMsisdnAndShortcode(msisdn,shortCode)
-                ?: clientAccountRepository.save(
+                ?: createAccount(
                         ClientAccount(
                             msisdn = msisdn,
                             accountName = accountName,
@@ -96,5 +100,12 @@ class ClientAccountService: IClientAccountService {
                             )
                 )
 
+    }
+
+
+    fun createAccount(clientAccount: ClientAccount): ClientAccount{
+        val acc = clientAccountRepository.save(clientAccount)
+        smsService.sendWelcomeSms(acc)
+        return acc
     }
 }

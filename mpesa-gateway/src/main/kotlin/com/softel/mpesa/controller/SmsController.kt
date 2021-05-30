@@ -27,12 +27,16 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import io.swagger.v3.oas.annotations.Parameter
 
+import com.softel.mpesa.util.Result
+import com.softel.mpesa.util.ResultFactory
+
 // import com.softel.mpesa.dto.FileInfo
 // import com.softel.mpesa.dto.FileResponseMessage
 // import com.softel.mpesa.service.files.IFileStorage
 import com.google.gson.JsonObject;
 // import com.softel.mpesa.feign.SmsApi
 import com.softel.mpesa.feign.SmsClient
+import com.softel.mpesa.service.common.ISms
 import com.softel.mpesa.dto.AtSms
 import lombok.extern.slf4j.Slf4j
 
@@ -49,8 +53,9 @@ public class SmsController {
   @Autowired
   lateinit var smsClient: SmsClient
 
+  @Autowired
+  lateinit var smsService: ISms
   
-
   @PostMapping(value = ["/send"], consumes = ["application/x-www-form-urlencoded"], produces = ["application/json"])
   fun sendSms(smsRequest: AtSms): ResponseEntity<String> {
 
@@ -64,15 +69,21 @@ public class SmsController {
     hashMap.put("username",smsRequest.username)    
 
     try {
-      smsClient.postSms(hashMap) 
-      
-      return ResponseEntity.status(HttpStatus.OK).body(atResponse)
-      } 
+        smsClient.postSms(hashMap) 
+        return ResponseEntity.status(HttpStatus.OK).body(atResponse)
+        } 
     catch (e: Exception) {
-      atResponse = "Could not send the sms: " + e.message
-      return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(atResponse)
-      }
+        atResponse = "Could not send the sms: " + e.message
+        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(atResponse)
+        }
       
     }
 
+
+    @Operation(summary = "Resend by id", description = "Resend a previously failed or pending sms by it unique id")
+    @GetMapping(value = ["/resend"], produces = ["application/json"])
+    fun resendSms(
+        @Parameter(name = "id",description = "Identifier", required = true)
+        @RequestParam id: Long): Result<String> = smsService.resendById(id)
+    
 }
