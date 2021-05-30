@@ -83,3 +83,10 @@ enum class PaymentServiceProvider{ //TODO refactor to BillingTypeEnum
     EQUITY,
     T_KASH         
 }
+
+
+enum class SmsStatus{ //TODO refactor to BillingTypeEnum
+    PENDING,          
+    SENT,       
+    FAILED       
+}

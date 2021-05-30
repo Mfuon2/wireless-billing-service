@@ -41,6 +41,7 @@ import com.softel.mpesa.repository.C2BCallbackRepository
 import com.softel.mpesa.repository.ServicePackageRepository
 import com.softel.mpesa.repository.VoucherUploadRepository
 
+import com.softel.mpesa.service.common.ISms
 import com.softel.mpesa.service.common.IPropertyService
 import com.softel.mpesa.service.common.IWalletService
 import com.softel.mpesa.service.common.IClientAccountService
@@ -94,8 +95,12 @@ class MpesaC2BService: IMpesaC2BService {
     @Autowired
     lateinit var walletService: IWalletService
 
+    // @Autowired
+    // lateinit var smsClient: SmsClient
+
     @Autowired
-    lateinit var smsClient: SmsClient
+    lateinit var smsService: ISms
+    
 
     @Autowired
     lateinit var mapper: Mapper
@@ -230,7 +235,7 @@ class MpesaC2BService: IMpesaC2BService {
             val voucher = tempVoucherRepo.findOneUnclaimedTempVoucherByPlan(product.code)
 
             if(voucher == null){
-                msg = "There is currently no voucher available for " + product.name + ". Paymet sent to your Vuka eWallet. The code will be sent to you after a short while"
+                msg = "There is currently no voucher available for " + product.name + ". Payment sent to your Vuka eWallet. The code will be sent to you after a short while"
                 }
             else{
                 msg = voucher.plan + " purchase confirmed. Your voucher code is " + voucher.voucherId + ". It will expire on " + voucher.expiryTime 
@@ -245,8 +250,8 @@ class MpesaC2BService: IMpesaC2BService {
         hashMap.put("message",msg)
         hashMap.put("username","VUKA")  
 
-        smsClient.postSms(hashMap)   
-
+        //smsClient.postSms(hashMap)   
+        smsService.sendAnySms(hashMap)
         }
 
     @Async
