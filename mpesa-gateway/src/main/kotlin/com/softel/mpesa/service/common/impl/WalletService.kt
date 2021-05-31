@@ -74,31 +74,24 @@ class WalletService: IWalletService {
     // override fun creditWallet(walletDto: WalletDto) {
     //     var wallet = walletRepository.findByAccountNumber(walletDto.accountNumber, walletDto.serviceType)
 
-    //     if (wallet == null) {
-    //         wallet = Wallet(
-    //                 accountNumber   = walletDto.accountNumber,
-    //                 balance         = walletDto.amount,
-    //                 serviceType     = walletDto.serviceType
-    //         )
-    //         wallet = walletRepository.save(wallet)
-    //     } else {
     //         val newBalance      = wallet.balance.plus(walletDto.amount)
     //         wallet.balance      = newBalance
     //         wallet.updatedAt    = LocalDateTime.now()
     //         wallet              = walletRepository.save(wallet)
-    //     }
-
-    //     val statement = StatementAccount(
-    //             wallet                  = wallet,
-    //             transactionAmount       = walletDto.amount,
-    //             transactionReference    = walletDto.reference,
-    //             transactionType         = AccountTransactionType.CREDIT.type,
-    //             description             = walletDto.description,
-    //             accountBalance          = wallet.balance,
-    //             tag                     = walletDto.tag
-    //     )
-    //     statementAccountRepository.save(statement)
+  
+    //     // val statement = StatementAccount(
+    //     //         wallet                  = wallet,
+    //     //         transactionAmount       = walletDto.amount,
+    //     //         transactionReference    = walletDto.reference,
+    //     //         transactionType         = AccountTransactionType.CREDIT.type,
+    //     //         description             = walletDto.description,
+    //     //         accountBalance          = wallet.balance,
+    //     //         tag                     = walletDto.tag
+    //     // )
+    //     // statementAccountRepository.save(statement)
     // }
+
+
 
     // @Transactional
     // override fun debitWallet(walletDto: WalletDto): Result<String> {

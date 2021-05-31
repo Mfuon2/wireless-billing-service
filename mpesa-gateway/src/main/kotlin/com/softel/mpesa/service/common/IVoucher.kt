@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 interface IVoucher {
 
     fun getTempVoucher(id: Long): Result<VoucherUpload?>
+    // fun getOneTempVoucherUnclaimed(plan: String): Result<VoucherUpload?>
     fun findTempVouchersPaged(pageable: Pageable): Page<VoucherUpload?>
    
 }
