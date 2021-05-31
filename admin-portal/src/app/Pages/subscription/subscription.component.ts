@@ -37,6 +37,8 @@ export class SubscriptionComponent implements OnInit {
     packageContents: ServicePackageContent[];
     clientContents: ClientContent[];
     transactionLoadingStatus: boolean;
+    selectedClient: string;
+    userSelectionBadge: any = 'danger';
 
 
     constructor(
@@ -109,11 +111,15 @@ export class SubscriptionComponent implements OnInit {
         this.subscriptionData = {};
         this.submitted = false;
         this.subscriptionDialog = true;
+        this.selectedClient = '';
+        this.userSelectionBadge = 'danger'
     }
 
     hideDialog() {
         this.subscriptionDialog = false;
         this.submitted = false;
+        this.selectedClient = '';
+        this.userSelectionBadge = 'danger'
     }
 
     loadPackages() {
@@ -162,5 +168,26 @@ export class SubscriptionComponent implements OnInit {
 
     private reload() {
         this.ngOnInit();
+        this.selectedClient = '';
+    }
+
+    getClientAccount(value) {
+        for (let i = 0; i < this.clientContents.length; i++) {
+            let account = this.clientContents[i].accountNumber;
+            if (account.toLowerCase().includes(value.toLowerCase())) {
+                this.selectedClient = this.clientContents[i].accountName
+                this.userSelectionBadge = 'success'
+            }
+
+            if(this.clientContents[i].accountName.length < 4){
+                    this.selectedClient = 'No Account Selected'
+                    this.userSelectionBadge = 'warning'
+            }
+        }
+    }
+
+    activateEmpty() {
+            this.selectedClient = 'No Account Selected'
+            this.userSelectionBadge = 'warning'
     }
 }

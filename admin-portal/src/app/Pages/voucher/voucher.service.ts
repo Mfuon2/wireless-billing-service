@@ -32,12 +32,12 @@ export class VoucherService {
 
     UploadVoucher(file: any) {
         let formData: FormData = new FormData();
-        formData.append('file', file, file.name);
+        formData.append('file', file);
         let options = {
             headers: new HttpHeaders({
                 'Content-Type': 'multipart/form-data',
-                'Access-Control-Allow-Origin': '*','Accept': 'application/json'
-
+                'Access-Control-Allow-Origin': '*',
+                'Accept': '*/*'
             })
         };
         return this.http.post(`${this.baseurl}/files/upload`, formData, options)

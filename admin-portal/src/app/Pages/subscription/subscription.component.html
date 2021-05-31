@@ -75,11 +75,16 @@
 
 <p-dialog [(visible)]="subscriptionDialog" [contentStyle]="{'overflow':'visible'}" [style]="{width: '450px'}" header="New Subscription" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
+        <p-button label="{{selectedClient}}" icon="pi pi-user" styleClass="p-button-{{userSelectionBadge}}"></p-button>
+    </ng-template>
+
+    <ng-template pTemplate="content">
         <small class="p-error" *ngIf="submitted && errorOnCreation">{{errorMessage}}</small>
         <small class="p-error" *ngIf="findError">{{findErrorMessage}}</small>
+        <div class="p-mb-3 p-text-uppercase"></div>
         <div class="p-field input-group-sm">
             <label for="accountNumber">Account Number</label>
-            <p-autoComplete id="accountNumber" [(ngModel)]="subscriptionData.accountNumber" [minLength]="2" [suggestions]="filteredClients" (completeMethod)="searchClientAccount($event)" [dropdown]="true" required autofocus></p-autoComplete>
+            <p-autoComplete id="accountNumber" [(ngModel)]="subscriptionData.accountNumber" [minLength]="2" [suggestions]="filteredClients" (completeMethod)="searchClientAccount($event)" (onSelect)="getClientAccount($event)" (onClear)="activateEmpty()" [dropdown]="true" required autofocus></p-autoComplete>
             <small class="p-error" *ngIf="submitted && !subscriptionData.accountNumber">Account Number is required.</small>
         </div>
         <div class="p-field">
