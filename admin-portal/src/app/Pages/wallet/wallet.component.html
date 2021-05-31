@@ -71,7 +71,7 @@
 <p-dialog [(visible)]="walletDialog"  [style]="{width: '450px'}"  [contentStyle]="{'overflow':'visible'}" header="New Wallet" [modal]="true" styleClass="p-fluid">
     <p-button label="{{selectedClient}}" icon="pi pi-user" styleClass="p-button-{{userSelectionBadge}}"></p-button>
     <ng-template pTemplate="content">
-        <small class="p-error" *ngIf="submitted && errorOnCreation">{{errorMessage}}</small>
+        <p-button *ngIf="submitted && errorOnCreation" label="{{errorMessage}}" icon="pi pi-exclamation-triangle" styleClass="p-button-danger"></p-button>
         <small class="p-error" *ngIf="findError">{{findErrorMessage}}</small>
         <div class="p-field ">
             <label for="accountNumber">Account Number</label>

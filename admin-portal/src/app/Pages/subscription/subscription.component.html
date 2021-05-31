@@ -74,12 +74,9 @@
 </div>
 
 <p-dialog [(visible)]="subscriptionDialog" [contentStyle]="{'overflow':'visible'}" [style]="{width: '450px'}" header="New Subscription" [modal]="true" styleClass="p-fluid">
-    <ng-template pTemplate="content">
         <p-button label="{{selectedClient}}" icon="pi pi-user" styleClass="p-button-{{userSelectionBadge}}"></p-button>
-    </ng-template>
-
     <ng-template pTemplate="content">
-        <small class="p-error" *ngIf="submitted && errorOnCreation">{{errorMessage}}</small>
+        <p-button *ngIf="submitted && errorOnCreation" label="{{errorMessage}}" icon="pi pi-exclamation-triangle" styleClass="p-button-danger"></p-button>
         <small class="p-error" *ngIf="findError">{{findErrorMessage}}</small>
         <div class="p-mb-3 p-text-uppercase"></div>
         <div class="p-field input-group-sm">

@@ -70,6 +70,7 @@ export class ClientsComponent implements OnInit {
                 this.errorOnCreation = true;
                 this.errorMessage = error;
                 this.utils.showError(error);
+                this.deactivateLoadingMask()
             }, () => {
                 this.deactivateLoadingMask()
                 this.reload();
