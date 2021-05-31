@@ -22,7 +22,7 @@ services:
   mpesa:
     build:
       context: ./mpesa-gateway/
-      dockerfile: Dockerfile.build
+      dockerfile: Dockerfile
     container_name: app_mpesa_vuka
     restart: unless-stopped
     ports:
