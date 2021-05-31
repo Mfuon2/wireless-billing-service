@@ -79,41 +79,45 @@
                         </tr>
                     </ng-template>
                 </p-table>
-            </div>†
+            </div>
         </div>
     </div>
 </div>
 
 <p-dialog [(visible)]="clientDialog" [style]="{width: '450px'}" [contentStyle]="{'overflow':'visible'}" header="Create STK Request" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
-        <small class="p-error" *ngIf="submitted && errorOnCreation">{{errorMessage}}</small>
+        <p-button *ngIf="submitted && errorOnCreation" label="{{errorMessage}}" icon="pi pi-exclamation-triangle" styleClass="p-button-danger"></p-button>
         <div class="p-field input-group-sm">
             <label for="fullName">Full Name</label>
-            <input oninput="this.value = this.value.toUpperCase()" type="text" pInputText id="fullName" placeholder="eg. John Doe" [(ngModel)]="clientData.fullName" required autofocus />
-            <small class="p-error" *ngIf="submitted && !clientData.fullName">Name is required.</small>
+            <input oninput="this.value = this.value.toUpperCase()" type="text" pInputText id="fullName" placeholder="eg. John Doe" [(ngModel)]="requestModel.fullName" required autofocus />
+            <small class="p-error" *ngIf="submitted && !requestModel.fullName">Name is required.</small>
         </div>
 
         <div class="p-field input-group-sm">
             <label for="customerPhoneNumber">Phone Number</label>
-            <input  type="text" pInputText id="customerPhoneNumber" [(ngModel)]="clientData.customerPhoneNumber" placeholder="eg. 254724XXXXX" required autofocus />
-            <small class="p-error" *ngIf="submitted && !clientData.customerPhoneNumber">Phone Number is required.</small>
+            <input type="text" pInputText id="customerPhoneNumber" [(ngModel)]="requestModel.customerPhoneNumber" placeholder="eg. 254724XXXXX" required autofocus />
+            <small class="p-error" *ngIf="submitted && !requestModel.customerPhoneNumber">Phone Number is required.</small>
         </div>
 
         <div class="p-field input-group-sm">
             <label for="accountReference">Account Ref</label>
-            <input type="text" pInputText id="accountReference" [(ngModel)]="clientData.accountReference" placeholder="eg. VUKA009" required autofocus />
-            <small class="p-error" *ngIf="submitted && !clientData.accountReference">Account Ref is required. ie VUKA001</small>
+            <input type="text" pInputText id="accountReference" [(ngModel)]="requestModel.accountReference" placeholder="eg. VUKA009" required autofocus />
+            <small class="p-error" *ngIf="submitted && !requestModel.accountReference">Account Ref is required. ie VUKA001</small>
         </div>
-
+        <div class="p-field input-group-sm">
+            <label for="serviceCode">Product Code</label>
+            <p-autoComplete id="serviceCode" [minLength]="0" [(ngModel)]="subscriptionData.serviceCode" [suggestions]="filteredPackages" (completeMethod)="searchServicePackage($event)" (onSelect)="getSelectedPlan($event)" (onClear)="activateEmpty()" [dropdown]="true" required autofocus></p-autoComplete>
+            <small class="p-error" *ngIf="submitted && !subscriptionData.serviceCode">Package Code is required.</small>
+        </div>
         <div class="p-field input-group-sm">
             <label for="payableAmount">Payable Amount</label>
-            <p-inputNumber type="number" pInputText id="payableAmount"  [(ngModel)]="clientData.payableAmount" placeholder="eg. 90,0000" mode="currency" currency="KES" locale="en-KE" required autofocus></p-inputNumber>
-            <small class="p-error" *ngIf="submitted && !clientData.payableAmount">Amount Payable is required. ie 90,000</small>
+            <p-inputNumber type="number" [disabled]="true" pInputText id="payableAmount" [(ngModel)]="requestModel.payableAmount" placeholder="eg. 90,0000" mode="currency" currency="KES" locale="en-KE" required autofocus></p-inputNumber>
+            <small class="p-error" *ngIf="submitted && !requestModel.payableAmount">Amount Payable is required. ie 90,000</small>
         </div>
 
         <div class="p-field">
             <label for="subscriptionPlan">Subscription Plan</label>
-            <p-dropdown  [(ngModel)]="clientData.subscriptionPlan" inputId="subscriptionPlan" id="subscriptionPlan" [options]="subscriptionPlan" required autofocus placeholder="Select Plan">
+            <p-dropdown [(ngModel)]="requestModel.subscriptionPlan" inputId="subscriptionPlan" id="subscriptionPlan" [options]="subscriptionPlan" required autofocus placeholder="Select Plan">
                 <ng-template let-option pTemplate="item">
                     <span  [class]="'product-badge status-' + option.value">{{option.label}}</span>
                 </ng-template>
@@ -122,27 +126,21 @@
 
         <div class="p-field">
             <label for="serviceType">Service Type</label>
-            <p-dropdown  [(ngModel)]="clientData.serviceType"  inputId="serviceType" id="serviceType" [options]="serviceType" placeholder="Select Service Type">
+            <p-dropdown [(ngModel)]="requestModel.serviceType" inputId="serviceType" id="serviceType" [options]="serviceType" placeholder="Select Service Type">
                 <ng-template let-option pTemplate="item">
                     <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
                 </ng-template>
             </p-dropdown>
         </div>
 
-        <div class="p-field input-group-sm">
-            <label for="idNumber">ID Number</label>
-            <input type="number" pInputText id="idNumber" [(ngModel)]="clientData.idNumber" placeholder="727722" required autofocus />
-            <small class="p-error" *ngIf="submitted && !clientData.idNumber">ID Number is required.</small>
-        </div>
-
         <div class="p-field">
             <label for="description">Description</label>
-            <input oninput="this.value = this.value.toUpperCase()" type="text" pInputText id="description" [(ngModel)]="clientData.description" placeholder="Description" required autofocus />
-            <small class="p-error" *ngIf="submitted && !clientData.description">Description is required.</small>
+            <input oninput="this.value = this.value.toUpperCase()" type="text" pInputText id="description" [(ngModel)]="requestModel.description" placeholder="Description" required autofocus />
+            <small class="p-error" *ngIf="submitted && !requestModel.description">Description is required.</small>
         </div>
         <div class="p-field">
             <label for="transactionType">Transaction Type</label>
-            <p-dropdown  [(ngModel)]="clientData.transactionType"  inputId="transactionType" id="transactionType" [options]="paymentTypes" placeholder="Select Payment Type">
+            <p-dropdown [(ngModel)]="requestModel.transactionType" inputId="transactionType" id="transactionType" [options]="paymentTypes" placeholder="Select Payment Type">
                 <ng-template let-option pTemplate="item">
                     <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
                 </ng-template>
@@ -152,7 +150,7 @@
 
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="requestStkPush()"></button>
+        <button pButton pRipple label="Request" icon="pi pi-check" class="p-button-text" (click)="requestStkPush()"></button>
     </ng-template>
 </p-dialog>
 

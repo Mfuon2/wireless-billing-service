@@ -76,7 +76,7 @@
 
 <p-dialog [(visible)]="clientDialog" [style]="{width: '450px'}" header="New Client Account" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
-        <small class="p-error" *ngIf="submitted && errorOnCreation">{{errorMessage}}</small>
+        <p-button *ngIf="submitted && errorOnCreation" label="{{errorMessage}}" icon="pi pi-exclamation-triangle" styleClass="p-button-danger"></p-button>
         <div class="p-field input-group-sm">
             <label for="accountName">Account Name</label>
             <input oninput="this.value = this.value.toUpperCase()" type="text" pInputText id="accountName" [(ngModel)]="clientData.accountName" required autofocus />

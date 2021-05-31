@@ -83,6 +83,7 @@ import { ValidationComponent } from './Pages/paybill/validation/validation.compo
 import { EquityComponent } from './Pages/equity/equity.component';
 import { VoucherComponent } from './Pages/voucher/voucher.component';
 import {FileUploadModule} from 'primeng/fileupload';
+import { SmsComponent } from './Pages/sms/sms.component';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -138,7 +139,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         PaybillComponent,
         ValidationComponent,
         EquityComponent,
-        VoucherComponent
+        VoucherComponent,
+        SmsComponent
     ],
     imports: [
         BrowserModule,

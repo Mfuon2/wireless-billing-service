@@ -13,6 +13,7 @@ export interface ServicePackageContent {
     id: number;
     name: string;
     code: string;
+    price:number;
 }
 
 export interface Sort {

@@ -74,7 +74,7 @@
 
 <p-dialog [(visible)]="servicePlanDialog" [style]="{width: '450px'}" header="New Package" [modal]="true" styleClass="p-fluid">
     <ng-template pTemplate="content">
-        <small class="p-error" *ngIf="submitted && errorOnCreation">{{errorMessage}}</small>
+        <p-button *ngIf="submitted && errorOnCreation" label="{{errorMessage}}" icon="pi pi-exclamation-triangle" styleClass="p-button-danger"></p-button>
         <div class="p-field input-group-sm">
             <label for="name">Name</label>
             <input oninput="this.value = this.value.toUpperCase()" type="text" pInputText id="name" [(ngModel)]="servicePlanData.name" required autofocus />

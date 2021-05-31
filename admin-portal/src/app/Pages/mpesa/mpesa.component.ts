@@ -1,11 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {MpesaService} from './mpesa.service';
 import {Content, StkPushRequestModel} from '../../Models/Mpesa/express-mpesa';
 import {Utils} from '../../Common/utils/utils';
+import {ServiceService} from '../../Common/service.service';
+import {ServicePackageContent} from '../../Models/Packages/service_package';
+import {Subscription} from '../../Models/Subscriptions/subscription_list_model';
 
 @Component({
     selector: 'app-mpesa',
-    templateUrl: './mpesa.component.html'
+    templateUrl: './mpesa.component.html',
+    encapsulation: ViewEncapsulation.None
 })
 export class MpesaComponent implements OnInit {
 
@@ -16,7 +20,7 @@ export class MpesaComponent implements OnInit {
     datasource: Content[];
     totalRecords: number;
     loading: boolean;
-    clientData: StkPushRequestModel;
+    requestModel: StkPushRequestModel;
     submitted: boolean;
     clientDialog: boolean;
     errorOnCreation: boolean;
@@ -25,10 +29,15 @@ export class MpesaComponent implements OnInit {
     serviceType: any[];
     paymentTypes: any[];
     transactionLoadingStatus: boolean;
+    packageContents: ServicePackageContent[];
+    filteredPackages: any[];
+    subscriptionData: Subscription;
+    private selectedPrice: number;
 
     constructor(
         private mps: MpesaService,
-        private utils: Utils
+        private utils: Utils,
+        private service: ServiceService
     ) {
     }
 
@@ -53,36 +62,46 @@ export class MpesaComponent implements OnInit {
     }
 
     openNew() {
-        this.clientData = ({} as any) as StkPushRequestModel;
+        this.subscriptionData = ({} as any) as Subscription;
+        this.requestModel = ({} as any) as StkPushRequestModel;
         this.submitted = false;
         this.clientDialog = true;
+        this.errorOnCreation = false;
     }
 
     hideDialog() {
         this.clientDialog = false;
         this.submitted = false;
+        this.errorOnCreation = false;
     }
 
     requestStkPush() {
         this.submitted = true;
-        return this.mps.SendStkPush(JSON.stringify(this.clientData))
-            .subscribe((clientResponse) => {
-                if (clientResponse.success) {
-                    this.utils.showSuccess(clientResponse.msg);
-                    this.hideDialog();
-                    this.utils.showSuccess('Successfully Loaded transactionStatus');
-                } else {
+        this.requestModel.idNumber = '29000000'
+        if(this.subscriptionData.serviceCode.toLowerCase().includes(String(this.requestModel.payableAmount))){
+            return this.mps.SendStkPush(JSON.stringify(this.requestModel))
+                .subscribe((clientResponse) => {
+                    if (clientResponse.success) {
+                        this.utils.showSuccess(clientResponse.msg);
+                        this.hideDialog();
+                        this.utils.showSuccess('Successfully Loaded transactionStatus');
+                    } else {
+                        this.errorOnCreation = true;
+                        this.errorMessage = clientResponse.msg;
+                        this.utils.showError(clientResponse.msg);
+                    }
+                }, (error) => {
                     this.errorOnCreation = true;
-                    this.errorMessage = clientResponse.msg;
-                    this.utils.showError(clientResponse.msg);
-                }
-            }, (error) => {
-                this.errorOnCreation = true;
-                this.errorMessage = error;
-                this.utils.showError(error);
-            }, () => {
-                this.reload();
-            });
+                    this.errorMessage = error;
+                    this.utils.showError(error);
+                }, () => {
+                    this.reload();
+                });
+        }else{
+            this.errorOnCreation = true;
+            this.errorMessage = 'Price do not Match the selected Product'
+            return;
+        }
     }
 
     updateTransactionStatus(checkoutRequestId: string) {
@@ -115,6 +134,7 @@ export class MpesaComponent implements OnInit {
     }
 
     private loadStaticDropDowns() {
+        this.loadPackages();
         this.subscriptionPlan = [
             {label: 'PERSONAL', value: 'PERSONAL'},
             {label: 'DEMO', value: 'DEMO'},
@@ -136,5 +156,46 @@ export class MpesaComponent implements OnInit {
 
     private reload() {
         this.ngOnInit();
+    }
+
+    loadPackages() {
+        this.transactionLoadingStatus = true;
+        this.service.loadPackagesDataList().then(
+            (data) => {
+                this.packageContents = data;
+            }).finally(() => {
+            this.transactionLoadingStatus = false;
+        });
+    }
+
+    searchServicePackage($searchEvent) {
+        let filtered: any[] = [];
+        let query = $searchEvent.query;
+        for (let i = 0; i < this.packageContents.length; i++) {
+            let plans = this.packageContents[i].code;
+            if (plans.toLowerCase().includes(query.toLowerCase())) {
+                filtered.push(plans);
+            }
+        }
+        this.filteredPackages = filtered;
+    }
+
+
+    getSelectedPlan(value) {
+        for (let i = 0; i < this.packageContents.length; i++) {
+            let account = this.packageContents[i].code;
+            if (account.toLowerCase().includes(value.toLowerCase())) {
+                this.selectedPrice = this.packageContents[i].price
+            }
+
+            if(this.packageContents[i].code.length < 4){
+                this.selectedPrice = 0
+            }
+        }
+        this.requestModel.payableAmount = this.selectedPrice;
+    }
+
+    activateEmpty() {
+        this.requestModel.payableAmount = null;
     }
 }

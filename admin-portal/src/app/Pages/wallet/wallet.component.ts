@@ -32,6 +32,8 @@ export class WalletComponent implements OnInit {
     clientContents: ClientContent[];
   filteredClients: any[];
     checkAccountNumber: boolean = false;
+    selectedClient: string = '';
+    userSelectionBadge: string = 'danger';
 
     constructor(
         private walletService: WalletService,
@@ -91,11 +93,15 @@ export class WalletComponent implements OnInit {
         this.walletDialog = true;
         this.findErrorMessage = '';
         this.findError = false;
+        this.selectedClient = '';
+        this.userSelectionBadge = 'danger'
     }
 
     hideDialog() {
         this.walletDialog = false;
         this.submitted = false;
+        this.selectedClient = '';
+        this.userSelectionBadge = 'danger'
     }
 
     loadClients() {
@@ -121,5 +127,25 @@ export class WalletComponent implements OnInit {
 
     private reload() {
         this.ngOnInit();
+    }
+
+    getClientAccount(value) {
+        for (let i = 0; i < this.clientContents.length; i++) {
+            let account = this.clientContents[i].accountNumber;
+            if (account.toLowerCase().includes(value.toLowerCase())) {
+                this.selectedClient = this.clientContents[i].accountName
+                this.userSelectionBadge = 'success'
+            }
+
+            if(this.clientContents[i].accountName.length < 4){
+                this.selectedClient = 'No Account Selected'
+                this.userSelectionBadge = 'warning'
+            }
+        }
+    }
+
+    activateEmpty() {
+        this.selectedClient = 'No Account Selected'
+        this.userSelectionBadge = 'warning'
     }
 }

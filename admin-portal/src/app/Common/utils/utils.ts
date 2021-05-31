@@ -25,6 +25,6 @@ export class Utils{
     }
 
     showInfo(msg: string){
-        this.messageService.add({severity: 'info', summary: msg, detail: ''});
+        this.messageService.add({severity: 'info', summary: 'Information', detail: `${msg}`,life: 3000});
     }
 }
