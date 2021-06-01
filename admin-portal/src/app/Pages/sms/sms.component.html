@@ -1,1 +1,91 @@
+<app-page-title [heading]="heading" [icon]="icon" [subheading]="subheading"></app-page-title>
+<app-loader [transactionLoading]="transactionLoadingStatus"></app-loader>
+<p-toast position="bottom-right"></p-toast>
+<div class="row">
+    <div class="col-md-12">
+        <div class="main-card mb-3 card card-body">
+            <div class="card-header">SMS</div>
+            <div class="card-body">
+
+                <p-table #dt   [customSort]="true"
+                         [globalFilterFields]="['msisdn','message', 'userName', 'senderId','attemptCount','attemptedTime','status','apiResponse','createdAt']"
+                         [loading]="loading"
+                         [paginator]="true"
+                         [rowsPerPageOptions]="[6,12,24]"
+                         [rows]="6"
+                         [showCurrentPageReport]="true" [totalRecords]="totalRecords"
+                         [value]="datasource" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" dataKey="id"
+                         styleClass="p-datatable-sm p-datatable-gridlines p-datatable-striped p-datatable-responsive-demo">
+                    <ng-template pTemplate="caption">
+                        <div style="text-align: right">
+                            <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                            <input (input)="dt.filterGlobal($event.target.value, 'contains')" pInputText placeholder="Global Filter" size="50" style="width:auto"
+                                   type="text">
+                        </div>
+                    </ng-template>
+                    <ng-template let-datasource pTemplate="header">
+                        <tr>
+                            <th style="width: 10%;">PHONE NUMBER</th>
+                            <th style="width: 35%;">MESSAGE</th>
+                            <th>USERNAME</th>
+                            <th>SENDER</th>
+                            <th>COUNT</th>
+                            <th>TIME</th>
+                            <th>STATUS</th>
+                            <th>RESPONSE</th>
+                            <th>ACTION</th>
+                        </tr>
+
+                    </ng-template>
+                    <ng-template pTemplate="caption">
+                        <div style="text-align: left">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                                    <input (input)="dt.filterGlobal($event.target.value, 'contains')" class="p-inputtext-sm" pInputText placeholder="Global Filter"
+                                           size="50"
+                                           style="width:auto"
+                                           type="text">
+                                </div>
+                                <div class="col-md-6" style="text-align: right">
+                                    <button class="p-button-success p-mr-2" icon="pi pi-plus" label="New" pButton
+                                            pRipple (click)="openNew()"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template let-data pTemplate="body">
+                        <tr>
+                            <td hidden>{{data.id}}</td>
+                            <td>{{data.msisdn}}</td>
+                            <td>{{data.message}}</td>
+                            <td>{{data.userName}}</td>
+                            <td>{{data.senderId}}</td>
+                            <td>{{data.attemptCount}}</td>
+                            <td>{{data.attemptedTime | date :'short'}}</td>
+                            <td>{{data.status}}</td>
+                            <td>{{data.apiResponse}}</td>
+                            <td style="text-align: center">
+                                <button  *ngIf="data.status == 'SENT'" pButton pRipple type="button" icon="{{iconDefault}}" label="Resend" class="p-button-danger" (click)="resendMessage(data.id)"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog [(visible)]="smsDialog" [style]="{width: '450px'}" header="New Sms" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <p-button *ngIf="submitted && errorOnCreation" label="{{errorMessage}}" icon="pi pi-exclamation-triangle" styleClass="p-button-danger"></p-button>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="sendSms()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
 

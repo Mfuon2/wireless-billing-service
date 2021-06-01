@@ -242,6 +242,26 @@
                                     </div>
                                 </ng-template>
                             </ngb-panel>
+                            <ngb-panel id="smsMenu">
+                                <ng-template ngbPanelHeader>
+                                    <button class="vsm-link" ngbPanelToggle>
+                                        <i class="vsm-icon pe-7s-paper-plane"></i>
+                                        <span class="vsm-title">SMS</span>
+                                        <i class="vsm-arrow"></i>
+                                    </button>
+                                </ng-template>
+                                <ng-template ngbPanelContent>
+                                    <div class="vsm-dropdown">
+                                        <div class="vsm-list">
+                                            <div class="vsm-item">
+                                                <a class="vsm-link" routerLink="transaction/sms"
+                                                   routerLinkActive="active-item">
+                                                    <span class="vsm-title">Sms Logs</span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngb-panel>
                             <ngb-panel id="payBillMenu">
                                 <ng-template ngbPanelHeader>
                                     <button class="vsm-link" ngbPanelToggle>
