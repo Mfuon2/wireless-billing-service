@@ -21,6 +21,7 @@ interface ISms {
 
     fun getSms(id: Long): Result<Sms?>
     fun findAllPaged(pageable: Pageable): Page<Sms?>
+    fun findAllPagedByStatus(status: SmsStatus, pageable: Pageable): Page<Sms?>
     fun sendWelcomeSms(clientAccount: ClientAccount)
     fun persistSms(smsMap: Map<String,String>): Sms
     fun sendAnySms(smsMap: HashMap<String,String>)

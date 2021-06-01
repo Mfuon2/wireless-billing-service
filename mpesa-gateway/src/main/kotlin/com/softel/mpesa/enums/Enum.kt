@@ -87,6 +87,7 @@ enum class PaymentServiceProvider{ //TODO refactor to BillingTypeEnum
 
 enum class SmsStatus{ //TODO refactor to BillingTypeEnum
     PENDING,          
-    SENT,       
+    SENT,     
+    DELIVERED,  //updated by AT callback  
     FAILED       
 }

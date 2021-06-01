@@ -35,6 +35,7 @@ import com.softel.mpesa.util.Result
 import com.softel.mpesa.util.ResultFactory
 import com.softel.mpesa.entity.Sms
 
+import com.softel.mpesa.enums.SmsStatus
 // import com.softel.mpesa.dto.FileInfo
 // import com.softel.mpesa.dto.FileResponseMessage
 // import com.softel.mpesa.service.files.IFileStorage
@@ -69,6 +70,16 @@ public class SmsController {
       pageable: Pageable): Page<Sms?> = smsService.findAllPaged(pageable)
 
 
+    @Operation(summary = "Get paged list", description = "Get a paged list of sms by status")
+    @GetMapping(value = ["/paged/status"], produces = ["application/json"])
+    fun getPagedSmsByStatus(
+        //@Parameter(name = "pageable",description = "Paging and sorting parameters", required = false)
+        //@PageableDefault(page=0, size=50, sort = ["accountName"], direction = Sort.Direction.ASC)
+        @Parameter(name = "status", description = "Status of the message. DELIVERED yet to implemented via AT callback", required = true)
+        @RequestParam status: SmsStatus,
+        pageable: Pageable): Page<Sms?> = smsService.findAllPagedByStatus(status,pageable)
+
+
   @Operation(summary = "Get Sms", description = "Get sms details using id")
   @GetMapping(value = ["/get"], produces = ["application/json"])
   fun getPackageByCode(
@@ -85,6 +96,8 @@ public class SmsController {
     hashMap.put("to",smsRequest.to)
     hashMap.put("message",smsRequest.message)
     hashMap.put("username",smsRequest.username)    
+    hashMap.put("from",smsRequest.from)    
+
     try {
         smsClient.postSms(hashMap) 
         return ResponseEntity.status(HttpStatus.OK).body(atResponse)
