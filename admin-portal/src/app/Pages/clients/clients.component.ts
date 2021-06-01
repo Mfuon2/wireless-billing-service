@@ -48,6 +48,7 @@ export class ClientsComponent implements OnInit {
                 this.totalRecords = data.totalElements;
             }, (err) => {
                 this.utils.showError(`Error Was encountered listing Clients  ${err}`)
+                this.deactivateLoadingMask()
             }, () => {
                 this.deactivateLoadingMask()
             });

@@ -24,6 +24,7 @@ import {PaybillComponent} from './Pages/paybill/confirmation/paybill.component';
 import {ValidationComponent} from './Pages/paybill/validation/validation.component';
 import {EquityComponent} from './Pages/equity/equity.component';
 import {VoucherComponent} from './Pages/voucher/voucher.component';
+import {SmsComponent} from './Pages/sms/sms.component';
 
 const routes: Routes = [
   {
@@ -51,7 +52,8 @@ const routes: Routes = [
       {path: 'transaction/paybill/confirmation', component: PaybillComponent, data: {extraParameter: 'payBillMenu'}},
       {path: 'transaction/paybill/validation', component: ValidationComponent, data: {extraParameter: 'payBillMenu'}},
       {path: 'transaction/equity', component: EquityComponent, data: {extraParameter: 'equityMenu'}},
-      {path: 'payment/voucher', component: VoucherComponent, data: {extraParameter: 'voucherMenu'}}
+      {path: 'payment/voucher', component: VoucherComponent, data: {extraParameter: 'voucherMenu'}},
+      {path: 'transaction/sms', component: SmsComponent, data: {extraParameter: 'smsMenu'}}
     ]
 
   },
