@@ -66,7 +66,7 @@
                             <td>{{data.status}}</td>
                             <td>{{data.apiResponse}}</td>
                             <td style="text-align: center">
-                                <button  *ngIf="data.status == 'SENT'" pButton pRipple type="button" icon="{{iconDefault}}" label="Resend" class="p-button-danger" (click)="resendMessage(data.id)"></button>
+                                <button  *ngIf="data.status != 'SENT'" pButton pRipple type="button" icon="{{iconDefault}}" label="Resend" class="p-button-danger" (click)="resendMessage(data.id)"></button>
                             </td>
                         </tr>
                     </ng-template>
