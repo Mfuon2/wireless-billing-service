@@ -249,8 +249,8 @@ class MpesaC2BService: IMpesaC2BService {
         hashMap.put("to",callback.msisdn)
         hashMap.put("message",msg)
         hashMap.put("username","VUKA")  
+        hashMap.put("from","VUKA")  
 
-        //smsClient.postSms(hashMap)   
         smsService.sendAnySms(hashMap)
         }
 

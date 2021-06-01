@@ -45,6 +45,9 @@ class SmsService: ISms {
         return smsRepository.findAll(pageable);
         }
         
+    override fun findAllPagedByStatus(status: SmsStatus, pageable: Pageable): Page<Sms?>{
+        return smsRepository.findByStatusPaged(status.toString(), pageable);
+        }
 
     override fun getSms(id: Long): Result<Sms?> {
         val sms = smsRepository.findById(id)
@@ -61,7 +64,7 @@ class SmsService: ISms {
         hashMap.put("to",clientAccount.msisdn)
         hashMap.put("message",txt)
         hashMap.put("username","VUKA")    
-        //hashMap.put("sender","VUKA")    
+        hashMap.put("from","VUKA")    
 
         val resp: ResponseEntity<String> = smsClient.postSms(hashMap)
 
@@ -79,6 +82,9 @@ class SmsService: ISms {
 
         
     override fun sendAnySms(smsMap: HashMap<String,String>){
+
+        smsMap.put("username", "VUKA")
+        smsMap.put("from", "VUKA")
 
         val resp: ResponseEntity<String> = smsClient.postSms(smsMap)
 
@@ -120,6 +126,8 @@ class SmsService: ISms {
             hashMap.put("to",sms.msisdn)
             hashMap.put("message",sms.message)
             hashMap.put("username","VUKA")  
+            hashMap.put("from","VUKA")  
+
     
             val resp: ResponseEntity<String> = smsClient.postSms(hashMap)
     

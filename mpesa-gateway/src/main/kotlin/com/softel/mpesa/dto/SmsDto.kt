@@ -13,5 +13,8 @@ data class AtSms(
         val message: String,
 
         @field:NotBlank(username = "username is required")
-        val username: String        
+        val username: String,        
+
+        @field:NotBlank(from = "from is required")
+        val from: String    
 )
