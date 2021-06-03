@@ -34,8 +34,11 @@ COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
 #Aftermath
 #========================================
+#Prepare
+#cd admin-portal && yarn install && ng build --delete-output-path --configuration=uat --optimization --progress --aot --build-optimizer
+
 #Build
-#docker build -t zeguru/vuka-admin-portal:rc2 .
+#docker build -t zeguru/vuka-admin-portal:rc4 .
 
 #Push
-#docker push zeguru/vuka-admin-portal:rc2   
+#docker push zeguru/vuka-admin-portal:rc4   
