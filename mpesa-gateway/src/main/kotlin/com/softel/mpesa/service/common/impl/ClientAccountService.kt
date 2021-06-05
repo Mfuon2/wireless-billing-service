@@ -70,23 +70,6 @@ class ClientAccountService: IClientAccountService {
 
 
 
-    // override fun updateClientAccount(accountNumber:String, clientUpdateDto: ClientAccountDto): Result<ClientAccount>{
-
-    //     // logger.info("updating client account")
-
-    //     val account = clientAccountRepository.findByAccountNumber(accountNumber)
-        
-    //     val mappedAccount = mapper.map(clientUpdateDto, ClientAccount::class.java)
-    //     mappedAccount.updatedAt = LocalDateTime.now()
-    //     val updatedClient = clientAccountRepository.save(mappedAccount);
-
-    //     return if (updatedClient != null)
-    //         ResultFactory.getSuccessResult(msg = "Request successfully processed", data = updatedClient)
-    //     else
-    //         ResultFactory.getFailResult(msg = "Could not update")
-    //     }
-    
-
     override fun findOrCreateClientAccount(msisdn: String, accountName:String?, shortCode: String, accountNumber: String, emailAddress: String, serviceType: ServiceTypeEnum): ClientAccount {
         return clientAccountRepository.findByMsisdnAndShortcode(msisdn,shortCode)
                 ?: createAccount(
@@ -108,4 +91,9 @@ class ClientAccountService: IClientAccountService {
         smsService.sendWelcomeSms(acc)
         return acc
     }
+
+
+    override fun countClientAccounts(): Long{
+        return clientAccountRepository.count()
+        }
 }

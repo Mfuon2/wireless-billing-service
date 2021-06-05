@@ -18,4 +18,10 @@ interface C2BCallbackRepository: JpaRepository<MpesaC2BCallback, Long> {
     @Query("SELECT c FROM MpesaC2BCallback c WHERE c.callbackType=:callbackType ORDER BY c.createdAt DESC")
     fun findAllPagedCallback(callbackType: MpesaCallbackEnum, pageable: Pageable): Page<MpesaC2BCallback?>
 
+    //@Query("SELECT c FROM MpesaC2BCallback c WHERE c.callbackType='CONFIRMATION' ORDER BY c.createdAt DESC")
+    //fun findLatestBalance(callbackType: MpesaCallbackEnum, pageable: Pageable): Page<MpesaC2BCallback?>
+
+    //fun findTop1ByOrderByIdDesc(): MpesaC2BCallback?
+
+    fun findFirstByCallbackTypeOrderByIdDesc(callbackType: MpesaCallbackEnum): MpesaC2BCallback?
 }

@@ -20,8 +20,6 @@ import java.time.LocalDateTime
 interface IMpesaExpressService {
     fun processPaymentRequest(stkRequestDto: MpesaStkRequestDto): Result<MpesaExpressResponse>
     fun processCallbackDetails(response: String)
-    //fun processServiceRequest(transaction: MpesaExpress)
-    //fun processProductPayment(transaction: MpesaExpress)
     fun sendStkPush(request: MpesaExpressRequest, token: String): Result<MpesaExpressResponse>
     fun getPassword(serviceType: String, dateTime: LocalDateTime): String
     fun saveRequestDetails(request: MpesaExpressRequest,
@@ -39,5 +37,6 @@ interface IMpesaExpressService {
     fun updateTransactionDetails(transaction: MpesaExpress, queryResponse: MpesaExpressQueryResponse)
 
     fun findAllPaged(pageable: Pageable): Page<MpesaExpress?>
+
 
 }
