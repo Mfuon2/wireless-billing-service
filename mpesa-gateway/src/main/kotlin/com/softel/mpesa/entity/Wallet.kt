@@ -34,7 +34,6 @@ class Wallet(
         @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Long = 0,
 
-        @JsonIgnore
         @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
         @JoinColumn(name = "client_account_id", nullable = false, referencedColumnName = "accountNumber")
         var clientAccount: ClientAccount,

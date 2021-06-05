@@ -2,6 +2,7 @@
 /pgdata/
 /docs/
 /redis/
+/labs/
 
 
 .DS_Store

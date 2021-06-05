@@ -14,7 +14,7 @@ import com.softel.mpesa.enums.SmsStatus
 
 interface SmsRepository: JpaRepository<Sms, Long> {
 
-    @Query(value = "SELECT * FROM sms_message s WHERE s.status=:status ORDER BY id", nativeQuery = true)
+    @Query(value = "SELECT * FROM sms_message s WHERE s.status=:status ORDER BY id DESC", nativeQuery = true)
     fun findByStatusPaged(status: String, pageable: Pageable): Page<Sms?>
 
 }
