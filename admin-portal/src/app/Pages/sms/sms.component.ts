@@ -3,6 +3,7 @@ import {Content} from '../../Models/sms/smsModel';
 import {MessageService} from 'primeng/api';
 import {Utils} from '../../Common/utils/utils';
 import {SmsService} from './sms.service';
+import {interval, Subscription} from 'rxjs';
 
 @Component({
     selector: 'app-sms',
@@ -13,6 +14,10 @@ export class SmsComponent implements OnInit {
     heading = 'SMS Logs';
     subheading = 'Lists all SMS sent to Clients';
     icon = 'pe-7s-mail icon-gradient bg-tempting-azure';
+
+    subscription: Subscription;
+    source = interval(60000);
+
 
     transactionLoadingStatus: boolean;
     loading: boolean;
@@ -32,7 +37,8 @@ export class SmsComponent implements OnInit {
 
     ngOnInit(): void {
         this.activateLoadingMask();
-        this.loadSms();
+        this.loadSms()
+        this.refreshTable()
     }
 
     hideDialog() {
@@ -40,8 +46,12 @@ export class SmsComponent implements OnInit {
         this.submitted = false;
     }
 
-    sendSms() {
-
+    refreshTable(){
+            this.subscription = this.source.subscribe(val => this.loadSms());
+    }
+    ngOnDestroy(){
+        console.log('DESTROYED');
+        this.subscription && this.subscription.unsubscribe();
     }
 
     openNew() {

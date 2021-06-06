@@ -29,7 +29,7 @@ export interface Content {
     updatedAt: string;
 }
 
-export interface Subscription {
+export interface SubscriptionD {
     accountNumber: string;
     serviceCode: string;
     subscriptionPlan: string;

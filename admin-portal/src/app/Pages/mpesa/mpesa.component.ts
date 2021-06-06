@@ -4,7 +4,8 @@ import {Content, StkPushRequestModel} from '../../Models/Mpesa/express-mpesa';
 import {Utils} from '../../Common/utils/utils';
 import {ServiceService} from '../../Common/service.service';
 import {ServicePackageContent} from '../../Models/Packages/service_package';
-import {Subscription} from '../../Models/Subscriptions/subscription_list_model';
+import { SubscriptionD} from '../../Models/Subscriptions/subscription_list_model';
+import {interval, Subscription} from 'rxjs';
 
 @Component({
     selector: 'app-mpesa',
@@ -31,8 +32,11 @@ export class MpesaComponent implements OnInit {
     transactionLoadingStatus: boolean;
     packageContents: ServicePackageContent[];
     filteredPackages: any[];
-    subscriptionData: Subscription;
+    subscriptionData: SubscriptionD;
     private selectedPrice: number;
+
+    subscription: Subscription;
+    source = interval(60000);
 
     constructor(
         private mps: MpesaService,
@@ -44,6 +48,15 @@ export class MpesaComponent implements OnInit {
     ngOnInit(): void {
         this.loadTransactions();
         this.loadStaticDropDowns();
+        this.refreshTable();
+    }
+
+    refreshTable(){
+        this.subscription = this.source.subscribe(val => this.loadTransactions());
+    }
+    ngOnDestroy(){
+        console.log('DESTROYED');
+        this.subscription && this.subscription.unsubscribe();
     }
 
     loadTransactions() {
@@ -62,7 +75,7 @@ export class MpesaComponent implements OnInit {
     }
 
     openNew() {
-        this.subscriptionData = ({} as any) as Subscription;
+        this.subscriptionData = ({} as any) as SubscriptionD;
         this.requestModel = ({} as any) as StkPushRequestModel;
         this.submitted = false;
         this.clientDialog = true;
