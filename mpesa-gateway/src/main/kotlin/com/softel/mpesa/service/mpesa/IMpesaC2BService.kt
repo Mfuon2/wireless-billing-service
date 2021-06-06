@@ -19,6 +19,7 @@ interface IMpesaC2BService {
 
     fun findAllPaged(type: MpesaCallbackEnum, pageable: Pageable): Page<MpesaC2BCallback?>
 
-    
+    fun getPaybillBalance(): Double
+
 
 }

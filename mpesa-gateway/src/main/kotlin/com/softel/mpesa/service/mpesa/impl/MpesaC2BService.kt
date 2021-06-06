@@ -292,5 +292,18 @@ class MpesaC2BService: IMpesaC2BService {
 
                 }
  
+    
+        override fun getPaybillBalance(): Double{
+
+            val cb: MpesaC2BCallback? = callbackRepo.findFirstByCallbackTypeOrderByIdDesc(MpesaCallbackEnum.C2B_CONFIRMATION)
+
+            val b = cb?.orgAccountBalance
+
+            return if(!b.isNullOrEmpty()) 
+                b.toDouble()
+            else  
+                0.0
+            }
+            
 
 }

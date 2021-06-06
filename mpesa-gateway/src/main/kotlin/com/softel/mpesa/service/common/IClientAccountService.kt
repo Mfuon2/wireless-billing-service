@@ -22,4 +22,6 @@ interface IClientAccountService {
     fun findOrCreateClientAccount(msisdn: String, accountName:String?, shortCode: String, accountNumber: String, emailAddress: String, serviceType: ServiceTypeEnum): ClientAccount 
 
     fun findPagedClientAccount(pageable: Pageable): Page<ClientAccount?>
+
+    fun countClientAccounts():Long
 }

@@ -86,6 +86,19 @@ services:
       networks:
         - app-network
 
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: vuka_redis_commander
+    restart: unless-stopped
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - 8081:8081
+    networks:
+      - app-network
+
   keycloak:
       image: quay.io/keycloak/keycloak:latest
       container_name: app_keycloak_vuka
