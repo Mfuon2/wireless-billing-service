@@ -43,14 +43,17 @@ class DashboardService: IDashboard {
     override fun initializeGeneralDashboard(){
         val dashboard: GeneralDashboard = GeneralDashboard(
             id = "general",
+
             countClients = clientService.countClientAccounts(), 
             paybillBalance = mpesaC2BService.getPaybillBalance(),
-            incomeLast24hours = 10.0,
+            incomeLast24hours = 0.0,
+
+            totalPayment = 0,                         //total amount
+            totalVoucherPurchase = 0,                 //total amount that went to purchase vouchers
+            totalWalletDeposit = 0,                   //total liability
             )
 
-        // var totalPayment: Long = 0,                         //total amount
-        // var totalVoucherPurchase: Long = 0,                 //total amount that went to purchase vouchers
-        // var totalWalletDeposit: Long = 0     
+          
 
         generalDashboardRepo.save(dashboard)
 

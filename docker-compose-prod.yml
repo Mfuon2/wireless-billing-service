@@ -28,6 +28,22 @@ services:
       - prod-env/mpesa.env
 
 
+  redis:
+    image: redis
+    container_name: app_redis_vuka
+    command: [ "redis-server", "--protected-mode", "no" ]
+    hostname: redis
+    expose: 
+      - "6379"
+    ports:
+      - "66379:6379"
+    volumes:
+      - $PWD/redis/redis-data:/var/lib/redis
+      - $PWD/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    networks:
+      - app-network
+
+      
   adminer:
       image: adminer
       container_name: vuka_adminer
