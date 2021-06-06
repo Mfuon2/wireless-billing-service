@@ -29,7 +29,7 @@ export class MpesaService {
   }
 
   GetPagedExpressTransactions(): Observable<ExpressListingModel> {
-    return this.http.get<ExpressListingModel>(`${this.baseurl}/express/paged?page=0&size=99999&sort=asc`)
+    return this.http.get<ExpressListingModel>(`${this.baseurl}/express/paged?page=0&size=9999999&sort=desc`)
         .pipe(
             retry(1),
             catchError(err => this.error.errorHandler(err))

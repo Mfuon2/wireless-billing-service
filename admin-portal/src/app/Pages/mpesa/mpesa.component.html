@@ -8,7 +8,7 @@
         <div class="main-card mb-3 card card-body">
             <div class="card-header">STK Transactions</div>
             <div class="card-body">
-                <p-table #dt
+                <p-table #dt sortField="id" [sortOrder]="-1"
                          [globalFilterFields]="['accountReference','transactionDate', 'checkoutRequestId', 'subscriptionPlan','resultDescription','serviceType']"
                          [loading]="loading"
                          [paginator]="true"
