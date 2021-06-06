@@ -23,7 +23,7 @@ export class SmsService {
     }
 
     GetPagedSms() {
-      return this.http.get<SmsLogModel>(`${this.baseurl}/sms/paged?page=${0}&size=${999999999}&sort=desc`)
+      return this.http.get<SmsLogModel>(`${this.baseurl}/sms/paged?page=${0}&size=${99999999}&sort=desc`)
           .pipe(
               retry(1),
               catchError(err => this.error.errorHandler(err))

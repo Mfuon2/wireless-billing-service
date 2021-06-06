@@ -23,7 +23,7 @@ export class PaybillService {
   }
 
   GetPagedC2BConfirmationTransactions(): Observable<C2BResponseModel> {
-    return this.http.get<C2BResponseModel>(`${this.baseurl}/c2b/confirmations/paged?page=0&size=99999999&sort=asc`)
+    return this.http.get<C2BResponseModel>(`${this.baseurl}/c2b/confirmations/paged?page=0&size=99999999&sort=desc`)
         .pipe(
             retry(1),
             catchError(err => this.error.errorHandler(err))
@@ -31,7 +31,7 @@ export class PaybillService {
   }
 
   GetPagedC2BValidationTransactions(): Observable<C2BResponseModel> {
-    return this.http.get<C2BResponseModel>(`${this.baseurl}/c2b/validations/paged?page=0&size=99999999&sort=asc`)
+    return this.http.get<C2BResponseModel>(`${this.baseurl}/c2b/validations/paged?page=0&size=99999999&sort=desc`)
         .pipe(
             retry(1),
             catchError(err => this.error.errorHandler(err))

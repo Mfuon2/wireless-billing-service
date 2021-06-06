@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {Content, Subscription} from '../../Models/Subscriptions/subscription_list_model';
+import {Content, SubscriptionD} from '../../Models/Subscriptions/subscription_list_model';
 import { Utils } from 'src/app/Common/utils/utils';
 import {SubscriptionService} from './subscription.service';
 import {ClientsService} from '../clients/clients.service';
@@ -20,7 +20,7 @@ export class SubscriptionComponent implements OnInit {
     heading = 'Client Subscriptions';
     subheading = 'Lists all Clients Subscriptions';
     icon = 'pe-7s-exapnd2 icon-gradient bg-tempting-azure';
-    subscriptionData: Subscription;
+    subscriptionData: SubscriptionD;
     datasource: Content[];
     totalRecords: number;
     cols: any[];

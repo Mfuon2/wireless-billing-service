@@ -7,12 +7,12 @@
             <div class="card-header">SMS</div>
             <div class="card-body">
 
-                <p-table #dt   [customSort]="true"
+                <p-table sortField="id" [sortOrder]="-1" #dt
                          [globalFilterFields]="['msisdn','message', 'userName', 'senderId','attemptCount','attemptedTime','status','apiResponse','createdAt']"
                          [loading]="loading"
                          [paginator]="true"
-                         [rowsPerPageOptions]="[6,12,24]"
-                         [rows]="6"
+                         [rowsPerPageOptions]="[10,20,30]"
+                         [rows]="10"
                          [showCurrentPageReport]="true" [totalRecords]="totalRecords"
                          [value]="datasource" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" dataKey="id"
                          styleClass="p-datatable-sm p-datatable-gridlines p-datatable-striped p-datatable-responsive-demo">
@@ -25,14 +25,15 @@
                     </ng-template>
                     <ng-template let-datasource pTemplate="header">
                         <tr>
+                            <th hidden>#</th>
                             <th style="width: 10%;">PHONE NUMBER</th>
-                            <th style="width: 35%;">MESSAGE</th>
-                            <th>USERNAME</th>
-                            <th>SENDER</th>
-                            <th>COUNT</th>
+                            <th style="width: 45%;">MESSAGE</th>
+<!--                            <th>USERNAME</th>-->
+<!--                            <th>SENDER</th>-->
+                            <th style="width: 5%;">COUNT</th>
                             <th>TIME</th>
-                            <th>STATUS</th>
-                            <th>RESPONSE</th>
+                            <th style="width: 7%;">STATUS</th>
+                            <th style="width: 10%;">RESPONSE</th>
                             <th>ACTION</th>
                         </tr>
 
@@ -55,18 +56,18 @@
                         </div>
                     </ng-template>
                     <ng-template let-data pTemplate="body">
-                        <tr>
+                        <tr style="font-size: 10px;">
                             <td hidden>{{data.id}}</td>
                             <td>{{data.msisdn}}</td>
                             <td>{{data.message}}</td>
-                            <td>{{data.userName}}</td>
-                            <td>{{data.senderId}}</td>
+<!--                            <td>{{data.userName}}</td>-->
+<!--                            <td>{{data.senderId}}</td>-->
                             <td>{{data.attemptCount}}</td>
                             <td>{{data.attemptedTime | date :'short'}}</td>
                             <td>{{data.status}}</td>
                             <td>{{data.apiResponse}}</td>
                             <td style="text-align: center">
-                                <button  *ngIf="data.status == 'SENT'" pButton pRipple type="button" icon="{{iconDefault}}" label="Resend" class="p-button-danger" (click)="resendMessage(data.id)"></button>
+                                <button  *ngIf="data.status == 'SENT'" pButton pRipple type="button" icon="{{iconDefault}}" label="Resend"  class="p-button-danger p-button-sm" (click)="resendMessage(data.id)"></button>
                             </td>
                         </tr>
                     </ng-template>

@@ -7,15 +7,15 @@
             <div class="card-header">Confirmation Logs</div>
             <div class="card-body">
 
-                <p-table #dt [customSort]="true"
-                         [globalFilterFields]="['billRefNumber','msisdn', 'invoiceNumber', 'firstName','middleName','lastName']"
+                <p-table #dt sortField="transTime" [sortOrder]="-1"
+                         [globalFilterFields]="['billRefNumber','msisdn', 'invoiceNumber', 'firstName','middleName','lastName','transAmount']"
                          [loading]="loading"
                          [paginator]="true"
                          [rowsPerPageOptions]="[10,15,20,30]"
                          [rows]="10"
                          [showCurrentPageReport]="true" [totalRecords]="totalRecords"
                          [value]="datasource" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" dataKey="id"
-                         styleClass="p-datatable-sm p-datatable-gridlines p-datatable-striped p-datatable-responsive-demo">
+                         styleClass="p-datatable-sm p-datatable-gridlines p-datatable-striped p-datatable-responsive-demo p-table-sm">
                     <ng-template pTemplate="caption">
                         <div style="text-align: right">
                             <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
@@ -25,13 +25,12 @@
                     </ng-template>
                     <ng-template let-datasource pTemplate="header">
                         <tr>
-                            <th>NAME</th>
+                            <th style="width: 20%;">NAME</th>
                             <th>REF NO</th>
                             <th>INVOICE NO</th>
                             <th>SHORT CODE</th>
-                            <th>PHONE NO</th>
-                            <th>TYPE</th>
-                            <th>TIME</th>
+                            <th style="width: 10%;">PHONE NO</th>
+                            <th style="width: 10%;">TIME</th>
                             <th>AMOUNT</th>
                             <th>ACC BALANCE</th>
                             <th>ACTIONS</th>
@@ -58,12 +57,11 @@
                             <td>{{data.invoiceNumber}}</td>
                             <td>{{data.businessShortCode}}</td>
                             <td>{{data.msisdn}}</td>
-                            <td>{{data.transactionType}}</td>
                             <td>{{data.transTime}}</td>
                             <td>{{data.transAmount}}</td>
                             <td>{{data.orgAccountBalance}}</td>
                             <td style="text-align: center">
-                                <button pButton pRipple type="button" icon="pi pi-external-link"  class="p-button-rounded p-button-info p-button-outlined"></button>
+                                <button pButton pRipple type="button" icon="pi pi-external-link"  class="p-button-sm p-button-rounded p-button-info p-button-outlined"></button>
                             </td>
                         </tr>
                     </ng-template>
