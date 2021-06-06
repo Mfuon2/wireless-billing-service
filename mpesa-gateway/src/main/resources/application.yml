@@ -15,6 +15,15 @@ spring:
 #       registerWithEureka: true
 #       fetchRegistry: true
 
+
+feign:
+  client:
+    config:
+      default: 
+        connect-timeout: 5000
+        read-timeout: 5000
+    
+    
 management:
   endpoint:
     health:

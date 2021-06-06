@@ -14,6 +14,9 @@ import com.softel.mpesa.remote.mpesa.MpesaExpressQueryResponse
 import com.softel.mpesa.remote.mpesa.MpesaExpressResponse
 import com.softel.mpesa.service.common.IDashboard
 import com.softel.mpesa.util.Result
+import com.softel.mpesa.aspect.annotation.SpyIt
+import com.softel.mpesa.aspect.annotation.IncrementIt
+
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
@@ -27,6 +30,8 @@ class DashboardController {
     @Autowired
     lateinit var dashboardService: IDashboard
 
+    @SpyIt(operation="uat")
+    //@IncrementIt(field="countClients")
     @Operation(summary = "General", description = "General summary")
     @PostMapping(value = ["/general"])
     fun getGeneralDashboard() = dashboardService.getGeneralDashboard()

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import com.github.dozermapper.core.Mapper
 import com.softel.mpesa.service.common.ISms
+import com.softel.mpesa.aspect.annotation.IncrementIt
 
 import java.time.LocalDateTime
 
@@ -82,10 +83,10 @@ class ClientAccountService: IClientAccountService {
                             serviceType = serviceType
                             )
                 )
+        }
 
-    }
 
-
+    @IncrementIt(field="countClients")
     fun createAccount(clientAccount: ClientAccount): ClientAccount{
         val acc = clientAccountRepository.save(clientAccount)
         smsService.sendWelcomeSms(acc)
@@ -96,4 +97,6 @@ class ClientAccountService: IClientAccountService {
     override fun countClientAccounts(): Long{
         return clientAccountRepository.count()
         }
+    
+    
 }
