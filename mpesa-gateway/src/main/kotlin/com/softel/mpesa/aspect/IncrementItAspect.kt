@@ -27,7 +27,7 @@ class IncrementItAspect {
   @Autowired
   lateinit var generalDashboardRepo: GeneralDashboardRepository
 
-  @After(value = "@annotation(com.softel.mpesa.aspect.annotation.IncrementIt)")
+  @AfterReturning(value = "@annotation(com.softel.mpesa.aspect.annotation.IncrementIt)")
   fun incrementIt(joinPoint: JoinPoint) {
 
       System.out.println("===========");

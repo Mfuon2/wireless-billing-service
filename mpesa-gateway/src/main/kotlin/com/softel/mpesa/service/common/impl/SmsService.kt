@@ -7,7 +7,7 @@ import org.springframework.data.domain.Sort;
 import com.softel.mpesa.enums.AccountTransactionType
 import com.softel.mpesa.enums.ServiceTypeEnum
 import com.softel.mpesa.enums.SmsStatus
-
+import org.springframework.scheduling.annotation.Async
 import com.softel.mpesa.entity.VoucherUpload
 import com.softel.mpesa.dto.PackageDto
 
@@ -57,6 +57,7 @@ class SmsService: ISms {
             ResultFactory.getFailResult(msg = "No sms found with the given id")
         }
 
+    @Async
     override fun sendWelcomeSms(clientAccount: ClientAccount){
         val txt = "Welcome to Vuka Wireless. Your account number is " + clientAccount.accountNumber
 
@@ -66,18 +67,29 @@ class SmsService: ISms {
         hashMap.put("username","VUKA")    
         hashMap.put("from","VUKA")    
 
-        val resp: ResponseEntity<String> = smsClient.postSms(hashMap)
+        var resp: ResponseEntity<String> = ResponseEntity<String>("OK", HttpStatus.OK)
 
-        if(resp.statusCode == HttpStatus.OK || resp.statusCode == HttpStatus.CREATED){ //or  getStatusCodeValue , 200 , etc
-            hashMap.put("attemptTime", LocalDateTime.now().toString())
-            hashMap.put("status", "SENT")
+        try{
+            resp = smsClient.postSms(hashMap)
+
+            if(resp.statusCode == HttpStatus.OK || resp.statusCode == HttpStatus.CREATED){ //or  getStatusCodeValue , 200 , etc
+                hashMap.put("attemptTime", LocalDateTime.now().toString())
+                hashMap.put("status", "SENT")
+                }
+            else{
+                hashMap.put("attemptTime", LocalDateTime.now().toString())
+                hashMap.put("status", "PENDING")
+                hashMap.put("apiResponse", resp.statusCode.toString())
+                }
             }
-        else{
+        catch(e: Exception){
             hashMap.put("attemptTime", LocalDateTime.now().toString())
             hashMap.put("status", "PENDING")
-            hashMap.put("apiResponse", resp.statusCode.toString())
+            hashMap.put("apiResponse", e.message.toString())
             }
-        persistSms(hashMap)
+        finally{
+            persistSms(hashMap)
+            }
         }
 
         
