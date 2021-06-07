@@ -86,7 +86,7 @@ class ClientAccountService: IClientAccountService {
         }
 
 
-    @IncrementIt(field="countClients")
+    //@IncrementIt(field="countClients")
     fun createAccount(clientAccount: ClientAccount): ClientAccount{
         val acc = clientAccountRepository.save(clientAccount)
         smsService.sendWelcomeSms(acc)

@@ -69,7 +69,7 @@ import org.springframework.web.reactive.function.client.WebClient
 import com.github.dozermapper.core.Mapper
 import reactor.core.publisher.Mono
 import java.time.LocalDateTime
-
+import com.softel.mpesa.util.DateFormatter
 @Service
 class MpesaC2BService: IMpesaC2BService {
     val logger: Logger = LoggerFactory.getLogger(MpesaC2BService::class.java)
@@ -265,6 +265,7 @@ class MpesaC2BService: IMpesaC2BService {
                 val firstName            = result.firstName
                 val middleName           = result.middleName
                 val lastName             = result.lastName
+                val transTime            = LocalDateTime.parse(result.transTime,DateFormatter.mpesaDateTimeFormatter())
 
                 val client    = clientAccountService.findOrCreateClientAccount(
                         msisdn = msisdn,
@@ -285,6 +286,7 @@ class MpesaC2BService: IMpesaC2BService {
 
                 callbackObject.wallet = wallet
                 callbackObject.callbackType = type
+                callbackObject.transTime = transTime.format(DateFormatter.simpleDateTimeFormatter()).toString()
                 callbackObject.createdAt = LocalDateTime.now()
                 callbackObject.updatedAt = LocalDateTime.now()
 
