@@ -20,7 +20,7 @@ export class AnalyticsComponent implements OnInit {
   faAngleDown = faAngleDown;
   faAngleUp = faAngleUp;
 
-  heading = 'Analytics Dashboard';
+  heading = 'Analytics Dashboard - {Under Development}';
   subheading = 'This is an example dashboard created using build-in elements and components.';
   icon = 'pe-7s-plane icon-gradient bg-tempting-azure';
 

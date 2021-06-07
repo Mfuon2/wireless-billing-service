@@ -1,7 +1,9 @@
 <div (mouseout)="sidebarHover()" (mouseover)="sidebarHover()"
      [class]="'app-sidebar sidebar-shadow ' + (config$ | async).sidebarTheme">
     <div class="app-header__logo">
-        <div class="logo-src"></div>
+        <div class="logo-src">
+            <img width="70" src="assets/images/logo.png">
+        </div>
         <div class="header__pane ml-auto">
             <button (click)="toggleSidebar()" [ngClass]="{'is-active' : globals.toggleSidebar}"
                     class="hamburger close-sidebar-btn hamburger--elastic" type="button">
