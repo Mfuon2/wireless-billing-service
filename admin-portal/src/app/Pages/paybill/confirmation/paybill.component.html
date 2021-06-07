@@ -58,8 +58,8 @@
                             <td>{{data.businessShortCode}}</td>
                             <td>{{data.msisdn}}</td>
                             <td>{{data.transTime}}</td>
-                            <td>{{data.transAmount}}</td>
-                            <td>{{data.orgAccountBalance}}</td>
+                            <td>{{data.transAmount | currency:'Ksh. '}}</td>
+                            <td>{{data.orgAccountBalance | currency:'Ksh. '}}</td>
                             <td style="text-align: center">
                                 <button pButton pRipple type="button" icon="pi pi-external-link"  class="p-button-sm p-button-rounded p-button-info p-button-outlined"></button>
                             </td>

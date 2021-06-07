@@ -1,6 +1,7 @@
 export interface Content {
     id: number;
     serviceType: string;
+    clientAccount: ClientAccount;
     balance: number;
     createdAt: Date;
     updatedAt: Date;
@@ -18,6 +19,16 @@ export interface Pageable {
     sort: string[];
 }
 
+export interface ClientAccount {
+    accountNumber: string;
+    msisdn: string;
+    accountName: string;
+    shortCode: string;
+    emailAddress: string;
+    serviceType: string;
+    createdAt: string;
+    updatedAt: string;
+}
 export interface WalletListingDto {
     totalPages: number;
     totalElements: number;
