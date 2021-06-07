@@ -7,8 +7,8 @@
             <div class="card-header">Balances</div>
             <div class="card-body">
 
-                <p-table #dt
-                         [globalFilterFields]="['balance','serviceType','accountNumber']"
+                <p-table #dt sortField="id" [sortOrder]="-1"
+                         [globalFilterFields]="['balance','serviceType','clientAccount.accountNumber','clientAccount.accountNumber','clientAccount.msisdn','clientAccount.accountName','clientAccount']"
                          [paginator]="true"
                          [rowsPerPageOptions]="[10,15,20,30]"
                          [rows]="10"
@@ -26,9 +26,10 @@
                         <tr>
                             <th>ID</th>
                             <th>SERVICE TYPE</th>
+                            <th>ACC NO</th>
+                            <th>PHONE</th>
+                            <th>NAME</th>
                             <th>BALANCE</th>
-                            <th>CREATED</th>
-                            <th>UPDATED</th>
                             <th>ACTIONS</th>
                         </tr>
 
@@ -54,9 +55,10 @@
                         <tr>
                             <td>{{data.id}}</td>
                             <td>{{data.serviceType}}</td>
+                            <td>{{data.clientAccount.accountNumber}}</td>
+                            <td>{{data.clientAccount.msisdn}}</td>
+                            <td>{{data.clientAccount.accountName}}</td>
                             <td style="text-align: right"> {{ data.balance | currency:'Ksh. '}}</td>
-                            <td>{{data.createdAt}}</td>
-                            <td>{{data.updatedAt}}</td>
                             <td style="text-align: center">
                                 <button pButton pRipple type="button" icon="pi pi-external-link"  class="p-button-rounded p-button-success p-button-outlined"></button>
                             </td>
