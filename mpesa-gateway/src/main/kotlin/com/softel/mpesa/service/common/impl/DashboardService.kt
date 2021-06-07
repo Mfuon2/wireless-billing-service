@@ -53,8 +53,6 @@ class DashboardService: IDashboard {
             totalWalletDeposit = 0,                   //total liability
             )
 
-          
-
         generalDashboardRepo.save(dashboard)
 
         }
