@@ -248,9 +248,6 @@ class MpesaC2BService: IMpesaC2BService {
         val hashMap:HashMap<String,String> = HashMap<String,String>() //define empty hashmap  
         hashMap.put("to",callback.msisdn)
         hashMap.put("message",msg)
-        hashMap.put("username","VUKA")  
-        hashMap.put("from","VUKA")  
-
         smsService.sendAnySms(hashMap)
         }
 

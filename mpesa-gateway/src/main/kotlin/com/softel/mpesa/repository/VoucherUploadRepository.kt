@@ -16,6 +16,5 @@ interface VoucherUploadRepository: JpaRepository<VoucherUpload, Long> {
     @Query(value = "SELECT * FROM voucher_upload v WHERE v.plan=:plan AND (v.claimed_time = '' OR v.claimed_time IS NULL) ORDER BY id ASC LIMIT 1", nativeQuery = true)
     fun findOneUnclaimedTempVoucherByPlan(plan: String): VoucherUpload?
 
-    
 
 }
