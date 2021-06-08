@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   admin-portal:
-    image: zeguru/vuka-admin-portal:beta
+    image: zeguru/vuka-admin-portal:rc6
     container_name: app_admin_portal_vuka
     restart: unless-stopped
     volumes:
@@ -18,7 +18,7 @@ services:
       - app-network
 
   mpesa:
-    image: zeguru/vuka-mpesa-gateway:0.3
+    image: zeguru/vuka-mpesa-gateway:rc11
     container_name: app_mpesa_vuka
     restart: unless-stopped
     ports:

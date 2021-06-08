@@ -26,5 +26,6 @@ interface ISms {
     fun persistSms(smsMap: Map<String,String>): Sms
     fun sendAnySms(smsMap: HashMap<String,String>)
     fun resendById(id: Long): Result<String>
+    fun resendSms(sms: Sms)
 
 }
