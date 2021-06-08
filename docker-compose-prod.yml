@@ -3,7 +3,7 @@ version: '3.9'
 services:
 
   admin-portal:
-    image: zeguru/vuka-admin-portal:rc2
+    image: zeguru/vuka-admin-portal:rc6
     container_name: vuka_admin_portal
     restart: unless-stopped
     volumes:
@@ -17,7 +17,7 @@ services:
       - app-network
 
   mpesa:
-    image: zeguru/vuka-mpesa-gateway:rc6
+    image: zeguru/vuka-mpesa-gateway:rc11
     container_name: vuka_mpesa_gateway
     restart: unless-stopped
     ports:
@@ -27,43 +27,53 @@ services:
     env_file:
       - prod-env/mpesa.env
 
-
   redis:
     image: redis
-    container_name: app_redis_vuka
+    container_name: vuka_redis
     command: [ "redis-server", "--protected-mode", "no" ]
     hostname: redis
     expose: 
       - "6379"
     ports:
-      - "66379:6379"
+      - "6379:6379"
     volumes:
       - $PWD/redis/redis-data:/var/lib/redis
       - $PWD/redis/redis.conf:/usr/local/etc/redis/redis.conf
     networks:
       - app-network
 
-      
   adminer:
-      image: adminer
-      container_name: vuka_adminer
-      restart: always
-      # depends_on:
-        # - db
-      ports:
-        - 8888:8080
-      environment:
-        ADMINER_DEFAULT_DB_DRIVER: pgsql
-        ADMINER_DEFAULT_DB_HOST: db
-        ADMINER_DEFAULT_DB_NAME: mpesa_gateway
-      networks:
-        - app-network
+    image: adminer
+    container_name: vuka_adminer
+    restart: always
+    # depends_on:
+      # - db
+    ports:
+      - 8888:8080
+    environment:
+      ADMINER_DEFAULT_DB_DRIVER: pgsql
+      ADMINER_DEFAULT_DB_HOST: db
+      ADMINER_DEFAULT_DB_NAME: mpesa_gateway
+    networks:
+      - app-network
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: vuka_redis_commander
+    restart: unless-stopped
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - 8081:8081
+    networks:
+      - app-network
 
 volumes:
   node_modules:
   ssl_data_conf:
   ssl_data_www:
-
 
 networks:
   app-network:

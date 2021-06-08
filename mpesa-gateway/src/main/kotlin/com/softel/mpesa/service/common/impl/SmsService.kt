@@ -84,7 +84,7 @@ class SmsService: ISms {
             }
         catch(e: Exception){
             hashMap.put("attemptTime", LocalDateTime.now().toString())
-            hashMap.put("status", "PENDING")
+            hashMap.put("status", "FAILED")
             hashMap.put("apiResponse", e.message.toString())
             }
         finally{
@@ -93,23 +93,62 @@ class SmsService: ISms {
         }
 
         
+    @Async
     override fun sendAnySms(smsMap: HashMap<String,String>){
 
         smsMap.put("username", "VUKA")
         smsMap.put("from", "VUKA")
 
-        val resp: ResponseEntity<String> = smsClient.postSms(smsMap)
+        try{
+            val resp: ResponseEntity<String> = smsClient.postSms(smsMap)
 
-        if(resp.statusCode == HttpStatus.OK || resp.statusCode == HttpStatus.CREATED){ //or  getStatusCodeValue , 200 , etc
-            smsMap.put("attemptedTime", LocalDateTime.now().toString())
-            smsMap.put("status", "SENT")
+            if(resp.statusCode == HttpStatus.OK || resp.statusCode == HttpStatus.CREATED){ //or  getStatusCodeValue , 200 , etc
+                smsMap.put("attemptedTime", LocalDateTime.now().toString())
+                smsMap.put("status", "SENT")
+                }
+            else{
+                smsMap.put("attemptedTime", LocalDateTime.now().toString())
+                smsMap.put("status", "PENDING")
+                smsMap.put("apiResponse", resp.statusCode.toString())
+                }
             }
-        else{
+        catch(e: Exception){
             smsMap.put("attemptedTime", LocalDateTime.now().toString())
-            smsMap.put("status", "PENDING")
-            smsMap.put("apiResponse", resp.statusCode.toString())
+            smsMap.put("status", "FAILED")
+            smsMap.put("apiResponse", e.message.toString())
+
             }
         persistSms(smsMap)
+        }
+
+    @Async
+    override fun resendSms(sms: Sms){
+
+        val hashMap:HashMap<String,String> = HashMap<String,String>() //define empty hashmap  
+        hashMap.put("to",sms.msisdn)
+        hashMap.put("message",sms.message)
+        hashMap.put("username", "VUKA")
+        hashMap.put("from", "VUKA")
+
+        try{
+            val resp: ResponseEntity<String> = smsClient.postSms(hashMap)
+
+            if(resp.statusCode == HttpStatus.OK || resp.statusCode == HttpStatus.CREATED){ //or  getStatusCodeValue , 200 , etc
+                sms.attemptedTime = LocalDateTime.now().toString()
+                sms.status = SmsStatus.SENT
+                }
+            else{
+                sms.attemptedTime = LocalDateTime.now().toString()
+                sms.status = SmsStatus.PENDING
+                }
+            }
+        catch(e: Exception){
+            sms.attemptedTime = LocalDateTime.now().toString()
+            sms.status = SmsStatus.FAILED
+            sms.apiResponse = e.message
+            }
+
+        smsRepository.save(sms)
         }
 
     override fun persistSms(smsMap: Map<String,String>): Sms{
@@ -139,7 +178,6 @@ class SmsService: ISms {
             hashMap.put("message",sms.message)
             hashMap.put("username","VUKA")  
             hashMap.put("from","VUKA")  
-
     
             val resp: ResponseEntity<String> = smsClient.postSms(hashMap)
     

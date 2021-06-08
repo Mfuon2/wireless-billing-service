@@ -33,7 +33,7 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
 #Aftermath
 #========================================
 #Build
-#docker build -t zeguru/vuka-mpesa-gateway:rc9 .
+#docker build -t zeguru/vuka-mpesa-gateway:rc11 .
 
 #Push
-#docker push zeguru/vuka-mpesa-gateway:rc9
+#docker push zeguru/vuka-mpesa-gateway:rc11
