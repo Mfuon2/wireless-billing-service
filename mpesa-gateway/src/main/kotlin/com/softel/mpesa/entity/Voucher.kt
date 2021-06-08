@@ -19,6 +19,7 @@ import javax.persistence.FetchType
 import javax.persistence.CascadeType
 import javax.persistence.JoinColumn
 import org.hibernate.annotations.ColumnTransformer
+import com.softel.mpesa.enums.VoucherClaimReason
 
 @Entity
 @Table( name = "voucher_upload",
@@ -60,3 +61,42 @@ class VoucherUpload(
         @Column(nullable = false, columnDefinition = "timestamp default CURRENT_TIMESTAMP")
         var updatedAt: LocalDateTime = LocalDateTime.now()
 )
+
+
+
+@Entity
+@Table( name = "manual_voucher_claim")
+data class ManualVoucherClaim(
+    
+        @JsonIgnore
+        @Version
+        var version: Long = 0,
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.AUTO)
+        var id: Long = 0,
+
+        @Column(nullable = false)
+        val msisdn: String,
+
+        @Column(nullable = false)
+        var voucherId: String,
+
+        @Column(nullable = false)
+        val reason: VoucherClaimReason,
+
+        @Column(nullable = true)
+        val mpesaMessage: String,        
+
+        @Column(nullable = true)
+        val remarks: String,
+        
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+        @Column(nullable = false, columnDefinition = "timestamp default CURRENT_TIMESTAMP")
+        var createdAt: LocalDateTime = LocalDateTime.now(),
+
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+        @Column(nullable = false, columnDefinition = "timestamp default CURRENT_TIMESTAMP")
+        var updatedAt: LocalDateTime = LocalDateTime.now()
+
+        )

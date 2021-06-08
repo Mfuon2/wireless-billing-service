@@ -91,3 +91,11 @@ enum class SmsStatus{ //TODO refactor to BillingTypeEnum
     DELIVERED,  //updated by AT callback  
     FAILED       
 }
+
+
+enum class VoucherClaimReason(val reason: String) {
+    MISSING_MPESA_LOG("Mpesa not logged in our system"),
+    MISSING_SMS_LOG("Mpesa logged but voucher SMS missing"),
+    SMS_ISSUE("Unable to autosend via SMS"),
+    OTHER("Other")        //Big biz, trusted and very flexible payments... cheque etc
+    }

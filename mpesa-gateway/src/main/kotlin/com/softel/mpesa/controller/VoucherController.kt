@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import com.softel.mpesa.dto.PackageDto
+import com.softel.mpesa.dto.ClaimVoucherDto
 import com.softel.mpesa.entity.VoucherUpload
 import com.softel.mpesa.entity.ClientAccount
 import com.softel.mpesa.service.common.IVoucher
@@ -39,4 +40,11 @@ class VoucherController {
         @Parameter(name = "id",description = "Identifier", required = true)
         @RequestParam id: Long): Result<VoucherUpload?> = voucherService.getTempVoucher(id)
     
+
+    @Operation(summary = "Claim a voucher", description = "Claim an unclaimed voucher and share it via SMS")
+    @PostMapping(value = ["/claim"], produces = ["application/json"])
+    fun claimVoucher(
+        @Parameter(name = "claimDto",description = "Dto", required = true)
+        @Valid @RequestBody voucherClaimDto: ClaimVoucherDto): Result<String> = voucherService.claimById(voucherClaimDto)
+
 }
