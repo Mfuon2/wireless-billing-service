@@ -7,7 +7,7 @@
             <div class="card-header">Confirmation Logs</div>
             <div class="card-body">
 
-                <p-table #dt sortField="transTime" [sortOrder]="-1"
+                <p-table #dt sortField="id" [sortOrder]="-1"
                          [globalFilterFields]="['billRefNumber','msisdn', 'invoiceNumber', 'firstName','middleName','lastName','transAmount']"
                          [loading]="loading"
                          [paginator]="true"
@@ -27,7 +27,6 @@
                         <tr>
                             <th style="width: 20%;">NAME</th>
                             <th>REF NO</th>
-                            <th>INVOICE NO</th>
                             <th>SHORT CODE</th>
                             <th style="width: 10%;">PHONE NO</th>
                             <th style="width: 10%;">TIME</th>
@@ -53,8 +52,8 @@
                     <ng-template let-data pTemplate="body">
                         <tr>
                             <td>{{data.firstName}}, {{data.middleName}} {{data.lastName}}</td>
+                            <td hidden>{{data.id}}</td>
                             <td>{{data.billRefNumber}}</td>
-                            <td>{{data.invoiceNumber}}</td>
                             <td>{{data.businessShortCode}}</td>
                             <td>{{data.msisdn}}</td>
                             <td>{{data.transTime}}</td>
