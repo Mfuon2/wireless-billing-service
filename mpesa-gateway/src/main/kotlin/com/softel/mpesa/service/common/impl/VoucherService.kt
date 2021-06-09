@@ -6,7 +6,7 @@ import org.springframework.data.domain.Sort;
 
 import com.softel.mpesa.enums.AccountTransactionType
 import com.softel.mpesa.enums.ServiceTypeEnum
-
+import com.softel.mpesa.enums.VoucherClaimReason
 import com.softel.mpesa.entity.VoucherUpload
 import com.softel.mpesa.entity.ManualVoucherClaim
 import com.softel.mpesa.dto.PackageDto
@@ -76,7 +76,7 @@ class VoucherService: IVoucher {
                 val manualVoucher: ManualVoucherClaim = ManualVoucherClaim(
                     msisdn = voucherClaimDto.msisdn,
                     voucherId = voucher.voucherId,
-                    reason = voucherClaimDto.reason,
+                    reason = VoucherClaimReason.valueOf(voucherClaimDto.reason),
                     mpesaMessage = voucherClaimDto.mpesaMessage,
                     remarks = voucherClaimDto.remarks,
                     createdAt = LocalDateTime.now(),
