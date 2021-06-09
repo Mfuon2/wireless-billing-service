@@ -1,5 +1,6 @@
 package com.softel.mpesa.dto
 
+import javax.validation.constraints.NotNull
 import javax.validation.constraints.Min
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
@@ -10,18 +11,21 @@ import io.swagger.v3.oas.annotations.media.Schema
 @Schema(name = "ClaimVoucherDto", description = "ClaimVoucherDto push dto")
 data class ClaimVoucherDto(
     
-        // @field:NotBlank(message = "Unique id is required")
+        @NotNull(message = "Voucher unique id is required")
         val id: Long,
 
-        // @field:NotBlank(message = "Mobile number 254736563163")
+        @field:Schema(name = "msisdn", description = "Mobile number starting with 254", example="254736563163")
+        @field:NotBlank(message = "Phone number required")
+        @field:Size(min = 12, max = 13, message = "Phone number must be between 12 and 13 characters")
         val msisdn: String,
 
-        // @field:NotBlank(message = "message is required")
-        val reason: VoucherClaimReason,
+        @field:Schema(name = "VoucherClaimReason", description = "VoucherClaimReason plan. MISSING_MPESA_LOG,MISSING_SMS_LOG,SMS_ISSUE,OTHER", example="MISSING_MPESA_LOG")
+        @field:NotBlank(message = "Reason for claiming a voucher manually is required")
+        val reason: String,
 
-        // @field:NotBlank(username = "Content of original mpesa message")
+        @field:NotBlank(username = "MPESA code is required")
+        @field:Size(min = 5, max = 30, message = "MPESA code should be between 5 and 30 characters")
         val mpesaMessage: String,        
 
-        // @field:NotBlank(from = "remarks for manually raising a voucher")
-        val remarks: String    
+        val remarks: String = ""
         )
