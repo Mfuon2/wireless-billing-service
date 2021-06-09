@@ -45,5 +45,25 @@ export interface VouchersListingDto {
     empty: boolean;
 }
 
+export interface ClaimModel {
+    id: number;
+    msisdn: string;
+    reason: string;
+    mpesaMessage: string;
+    remarks: string;
+}
+
+export interface ClaimedResponse {
+    success: boolean;
+    msg: string;
+    data?: any;
+}
+
+
+
+
+
+
+
 
 

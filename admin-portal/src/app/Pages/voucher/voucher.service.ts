@@ -4,7 +4,8 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {HttpErrorHandler} from '../../HttpErrorHandler';
 import {Observable} from 'rxjs';
 import {catchError, retry} from 'rxjs/operators';
-import {VouchersListingDto} from '../../Models/Voucher/voucher';
+import {ClaimedResponse, VouchersListingDto} from '../../Models/Voucher/voucher';
+import {StkResponseModel} from '../../Models/Mpesa/express-mpesa';
 
 @Injectable({
     providedIn: 'root'
@@ -45,5 +46,13 @@ export class VoucherService {
                 retry(1),
                 catchError(err => this.error.errorHandler(err))
             );
+    }
+
+    ClaimVoucher(voucherData){
+        return this.http.post<ClaimedResponse>(`${this.baseurl}/voucher/claim`,voucherData,this.httpOptions)
+            .pipe(
+                retry(1),
+                catchError(err => this.error.errorHandler(err))
+            )
     }
 }
