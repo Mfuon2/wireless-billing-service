@@ -184,12 +184,17 @@ export class VoucherComponent implements OnInit {
         this.claimDialog = true;
         this.responseModel.mpesaMessage = this.messageToken;
         this.responseModel.msisdn = `+254`;
+        this.responseModel.id = id;
     }
 
     claimVoucherSms() {
+        if(this.responseModel.id === 0){
+            return;
+        }
         this.submitted = true;
         console.log(this.responseModel)
         this.transactionLoadingStatus = true;
+
         if (this.responseModel.msisdn.length < 7 || this.responseModel.mpesaMessage.length < 5 || this.responseModel.remarks.length < 5) {
             this.errorOnCreation = true;
             this.errorMessage = `Fields are required MPesa Code, Phone and Remarks`;
@@ -219,12 +224,7 @@ export class VoucherComponent implements OnInit {
                     this.transactionLoadingStatus = false;
                 }, () => {
                     this.transactionLoadingStatus = false;
-                    this.reload();
                 });
         }
-    }
-
-    private reload() {
-        this.ngOnInit();
     }
 }
