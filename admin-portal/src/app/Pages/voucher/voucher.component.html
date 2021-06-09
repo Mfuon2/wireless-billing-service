@@ -10,7 +10,7 @@
                 <div class="card-header">Vouchers Log</div>
 
                 <div class="card-body">
-                    <p-table #dt
+                    <p-table #dt sortField="id" [sortOrder]="-1"
                              [globalFilterFields]="['voucherId','portal', 'plan', 'creationTime','claimedTime','expiryTime']"
                              [loading]="loading"
                              [paginator]="true"
@@ -32,7 +32,7 @@
 
                         <ng-template let-datasource pTemplate="header">
                             <tr>
-                                <th>VOUCHER ID</th>
+                                <th>VOUCHER CODE</th>
                                 <th>PORTAL</th>
                                 <th>PLAN</th>
                                 <th>CREATION</th>
@@ -63,7 +63,7 @@
                         </ng-template>
                         <ng-template let-data pTemplate="body">
                             <tr >
-                                <td>{{data.id}}</td>
+                                <td>{{data.voucherId}}</td>
                                 <td>{{data.portal}}</td>
                                 <td>{{data.plan}}</td>
                                 <td>{{data.creationTime }}</td>
@@ -194,7 +194,7 @@
 
         <ng-template pTemplate="footer">
             <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="claimVoucherSms()"></button>
+            <button pButton pRipple label="Claim" icon="pi pi-check" class="p-button-text" (click)="claimVoucherSms()"></button>
         </ng-template>
     </p-dialog>
 
