@@ -63,15 +63,16 @@
                         </ng-template>
                         <ng-template let-data pTemplate="body">
                             <tr >
-                                <td>{{data.voucherId}}</td>
+                                <td>{{data.id}}</td>
                                 <td>{{data.portal}}</td>
                                 <td>{{data.plan}}</td>
-                                <td>{{data.creationTime}}</td>
+                                <td>{{data.creationTime }}</td>
                                 <td>{{data.claimedTime}}</td>
-                                <td>{{data.expiryTime}}</td>
-                                <td>{{data.createdAt}}</td>
+                                <td>{{data.expiryTime }}</td>
+                                <td>{{data.createdAt }}</td>
                                 <td style="text-align: center">
-                                    <button pButton pRipple type="button" icon="pi pi-external-link"  class="p-button-rounded p-button-success p-button-outlined"></button>
+                                    <button pButton pRipple type="button" icon="pi pi-external-link"  class="p-button-rounded p-button-success p-button-outlined"></button>&nbsp;
+                                    <button  *ngIf="data.claimedTime == ''" pButton pRipple type="button" icon="pi pi-replay" label="Claim"  class="p-button-success p-button-sm" (click)="claimVoucher(data.id, data.voucherId, data.expiryTime)"></button>
                                 </td>
                             </tr>
                         </ng-template>
@@ -156,6 +157,44 @@
         <ng-template pTemplate="footer">
             <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
             <button *ngIf="records.length > 0" pButton pRipple label="Upload" icon="pi pi-check" class="p-button-text" (click)="onUploadCsvFile()" ></button>
+        </ng-template>
+    </p-dialog>
+
+    <p-dialog [(visible)]="claimDialog" [style]="{width: '450px'}" [contentStyle]="{'overflow':'visible'}" header="Re-Send Voucher" [modal]="true" styleClass="p-fluid">
+        <ng-template pTemplate="content">
+            <p-button *ngIf="submitted && errorOnCreation" label="{{errorMessage}}" icon="pi pi-exclamation-triangle" styleClass="p-button-danger"></p-button>
+            <br>
+            <div class="p-field input-group-sm">
+                <label for="msisdn">Phone Number</label>
+                <input type="text" pInputText id="msisdn" [(ngModel)]="responseModel.msisdn" placeholder="eg. +254701XXXXXX" required autofocus />
+                <small class="p-error" *ngIf="submitted && !responseModel.msisdn">Phone number is required</small>
+            </div>
+            <br>
+            <div class="p-field input-group-sm">
+                <label for="mpesaMessage">Mpesa Code</label>
+                <input type="text" pInputText id="mpesaMessage" (input)="responseModel.mpesaMessage=$event.target.value.toUpperCase()" [(ngModel)]="responseModel.mpesaMessage" placeholder="eg. PODW678HU8"  required autofocus />
+                <small class="p-error" *ngIf="submitted && !responseModel.mpesaMessage">M-Pesa Code is required</small>
+            </div>
+            <br>
+            <div class="p-field">
+                <label for="reason">Reason</label>
+                <p-dropdown [(ngModel)]="responseModel.reason" inputId="reason" id="reason" [options]="claimReason" required autofocus placeholder="Select Reason">
+                    <ng-template let-option pTemplate="item">
+                        <span  [class]="'product-badge status-' + option.value">{{option.label}}</span>
+                    </ng-template>
+                </p-dropdown>
+            </div>
+            <br>
+            <div class="p-field input-group-sm">
+                <label for="remarks">Remarks</label>
+                <input type="text"  pInputText id="remarks" [(ngModel)]="responseModel.remarks" placeholder="Remarks"  required autofocus/>
+                <small class="p-error" *ngIf="submitted && !responseModel.remarks">Remarks is required</small>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="claimVoucherSms()"></button>
         </ng-template>
     </p-dialog>
 
