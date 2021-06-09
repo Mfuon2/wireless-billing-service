@@ -29,13 +29,12 @@ class SmsWorker {
     @Autowired
     lateinit var smsService: ISms
 
-    @Scheduled(fixedDelay = 1000 * 60 * 1)  //Run every 5 minutes
+    @Scheduled(fixedDelay = 1000 * 60 * 5)  //Run every 5 minutes
     @Transactional
     fun resendFailedSms() {
 
         logger.info("Resending failed/pending SMSs" );
 
-        var hashMap:HashMap<String,String> = HashMap<String,String>() //define empty hashmap  
         val smsStream = smsRepository.findPendingAndFailedSms()
         smsStream.forEach{sms -> 
                 smsService.resendSms(sms)
