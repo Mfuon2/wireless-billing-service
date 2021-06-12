@@ -15,6 +15,7 @@
             <div class="modal-dialog" style="max-width: 500px;">
                 <div class="modal-content" style="">
                     <div class="modal-body text-center">
+                        <p-button *ngIf="login && loginError" label="{{errorMessage}}" icon="pi pi-exclamation-triangle" styleClass="p-button-danger"></p-button>
                         <img src="assets/images/logo.png" style="margin: 20px " width="200px">
                         <div class="h5 modal-title text-center">
                             <br>
@@ -24,23 +25,27 @@
                                  id="exampleInputGroup1" role="group">
                                 <div><input aria-describedby="exampleInputGroup1__BV_description_" aria-required="true"
                                             class="form-control" id="exampleInput1"
+                                            [(ngModel)]="username"
                                             placeholder="Username" required="required"
                                             type="email">
                                 </div>
+                                <small class="p-error" *ngIf="login && !username">Username is required</small>
                             </div>
                             <div class="form-group" id="exampleInputGroup2" role="group">
                                 <div>
                                     <input aria-required="true" class="form-control" id="exampleInput2"
                                             placeholder="Password"
+                                           [(ngModel)]="password"
                                             required="required" type="password">
                                 </div>
                             </div>
+                            <small class="p-error" *ngIf="login && !password">Password is required</small>
 
                             <div class="divider"></div>
                             <div class="row">
                                 <div class="col-12" style="margin-bottom: 5px">
                                     <div>
-                                        <button style="width: 100%;" class="btn btn-primary btn-lg" routerLink="/en" type="button">
+                                        <button style="width: 100%;" class="btn btn-primary btn-lg" (click)="Login()" type="button">
                                             Login
                                         </button>
                                     </div>

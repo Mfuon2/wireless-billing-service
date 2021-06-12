@@ -25,6 +25,7 @@ import {ValidationComponent} from './Pages/paybill/validation/validation.compone
 import {EquityComponent} from './Pages/equity/equity.component';
 import {VoucherComponent} from './Pages/voucher/voucher.component';
 import {SmsComponent} from './Pages/sms/sms.component';
+import {AuthGuard} from './auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -37,6 +38,7 @@ const routes: Routes = [
   {
     path: 'en',
     component: BaseLayoutComponent,
+    canActivate: [AuthGuard],
     children: [
 
       // Dashboads

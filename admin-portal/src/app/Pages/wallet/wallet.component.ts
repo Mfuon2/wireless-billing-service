@@ -109,7 +109,6 @@ export class WalletComponent implements OnInit {
             (data) => {
                 this.clientContents = data;
             }).finally(() => {
-            this.log.info(`Done Loading Clients`);
         });
     }
 

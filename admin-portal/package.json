@@ -42,6 +42,7 @@
     "chartjs-plugin-datalabels": "^0.7.0",
     "font-awesome": "^4.7.0",
     "lodash-es": "^4.17.21",
+    "md5": "^2.3.0",
     "ng2-charts": "^2.4.2",
     "ng2-completer": "^9.0.1",
     "ng2-nvd3": "^2.0.0",
