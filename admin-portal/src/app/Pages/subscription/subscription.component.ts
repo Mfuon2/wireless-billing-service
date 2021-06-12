@@ -129,7 +129,6 @@ export class SubscriptionComponent implements OnInit {
                 this.packageContents = data;
             }).finally(() => {
                 this.transactionLoadingStatus = false;
-            this.log.info(`Done Loading Packages`);
         });
     }
 
@@ -138,7 +137,6 @@ export class SubscriptionComponent implements OnInit {
             (data) => {
                 this.clientContents = data;
             }).finally(() => {
-            this.log.info(`Done Loading Clients`);
         });
     }
 
