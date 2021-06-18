@@ -7,8 +7,11 @@ import org.springframework.data.domain.Sort
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
+
 import com.softel.mpesa.dto.WalletPaymentDto
 import com.softel.mpesa.dto.WalletDto
+import com.softel.mpesa.dto.BuyFromWalletDto
+
 import com.softel.mpesa.entity.Wallet
 import com.softel.mpesa.entity.WalletPayment
 // import com.softel.mpesa.service.common.IWalletPaymentService
@@ -47,6 +50,11 @@ class WalletController {
     fun createWallet(@Valid @RequestBody walletDto: WalletDto
     ):Result<Wallet> = walletService.createWallet(walletDto)
 
+
+    @Operation(summary = "Buy from wallet", description = "Allows buying packages from wallet")
+    @PostMapping(value = ["/buy/package"], produces = ["application/json"])      
+    fun buyFromWallet(@Valid @RequestBody buyFromWallet: BuyFromWalletDto
+    ):Result<String> = walletService.buyFromWallet(buyFromWallet)
 
     // @Operation(summary = "Wallet Balance", description = "This Endpoint gets the wallet balance")
     // @GetMapping(value = ["/balance"], produces = ["application/json"])

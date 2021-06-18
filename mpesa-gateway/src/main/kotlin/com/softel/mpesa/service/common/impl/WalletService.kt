@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 
 import com.softel.mpesa.dto.WalletDto
+import com.softel.mpesa.dto.BuyFromWalletDto
 
 import com.softel.mpesa.enums.AccountTransactionType
 import com.softel.mpesa.enums.ServiceTypeEnum
@@ -13,9 +14,13 @@ import com.softel.mpesa.enums.ServiceTypeEnum
 import com.softel.mpesa.entity.Wallet
 import com.softel.mpesa.entity.ClientAccount
 
+import com.softel.mpesa.service.common.ISms
+
 // import com.softel.mpesa.repository.StatementAccountRepository
 import com.softel.mpesa.repository.WalletRepository
 import com.softel.mpesa.repository.ClientAccountRepository
+import com.softel.mpesa.repository.ServicePackageRepository
+import com.softel.mpesa.repository.VoucherUploadRepository
 
 import com.softel.mpesa.service.common.IWalletService
 import com.softel.mpesa.util.Result
@@ -36,6 +41,15 @@ class WalletService: IWalletService {
 
     @Autowired
     lateinit var clientAccountRepo: ClientAccountRepository
+
+    @Autowired
+    lateinit var packageRepository: ServicePackageRepository
+
+    @Autowired
+    lateinit var tempVoucherRepo: VoucherUploadRepository
+
+    @Autowired
+    lateinit var smsService: ISms
 
     @Autowired
     lateinit var mapper: Mapper
@@ -70,6 +84,67 @@ class WalletService: IWalletService {
             ResultFactory.getFailResult(msg = "Could not create wallet")
         }
 
+
+    override fun findOrCreateWallet(clientAccount: ClientAccount, balance: Double, serviceType: ServiceTypeEnum): Wallet {
+        //return walletRepository.findByClientAccount(clientAccount, serviceType)
+        return walletRepository.findByAccountNumber(clientAccount.accountNumber, serviceType)
+                ?: walletRepository.save(
+                        Wallet(
+                                clientAccount   = clientAccount,
+                                balance         = balance,
+                                serviceType     = serviceType
+                        )
+                )
+        }
+
+        
+    override fun buyFromWallet(buyFromWallet: BuyFromWalletDto): Result<String>{
+
+        var msg = "Welcome to vuka wireless"
+
+        //a. validate wallet  
+            //- balance should be greater than package to be purchased
+        val wallet = walletRepository.findByAccountNumber(buyFromWallet.accountNumber, ServiceTypeEnum.valueOf("PRE_PAID"))
+        if(wallet == null)
+            return ResultFactory.getFailResult("Wallet not found. Only PRE_PAID wallets are supported")
+        else{
+            //b. get service package 
+
+            val pack = packageRepository.findByCode(buyFromWallet.servicePackageCode) ?: return ResultFactory.getFailResult(msg = "Package not found")
+
+            if(pack.price > wallet.balance)
+                return ResultFactory.getFailResult("Insufficient balance");
+            else{
+                //c. get voucher
+                val voucher = tempVoucherRepo.findOneUnclaimedTempVoucherByPlan(buyFromWallet.servicePackageCode)
+
+                if(voucher == null){
+                    msg = "There is currently no voucher available for " + buyFromWallet.servicePackageCode + ". Please try again later"
+                    }
+                else{
+                    msg = voucher.plan + " purchase confirmed. Your voucher code is " + voucher.voucherId + ". It will expire on " + voucher.expiryTime 
+                    voucher.claimedTime = LocalDateTime.now().toString()
+                    tempVoucherRepo.save(voucher)
+                    }
+
+                //d. reduce wallet balance 
+                wallet.balance = wallet.balance - pack.price
+                walletRepository.save(wallet)
+
+                //e. send sms
+                val hashMap:HashMap<String,String> = HashMap<String,String>() //define empty hashmap  
+                hashMap.put("to",wallet.clientAccount.msisdn)
+                hashMap.put("message",msg)
+                smsService.sendAnySms(hashMap)    
+
+                return ResultFactory.getSuccessResult("Successfull purchase from wallet")
+                }
+
+            }
+        
+        }
+    
+    
     // @Transactional
     // override fun creditWallet(walletDto: WalletDto) {
     //     var wallet = walletRepository.findByAccountNumber(walletDto.accountNumber, walletDto.serviceType)
@@ -150,16 +225,5 @@ class WalletService: IWalletService {
     //             )
     // }
 
-    override fun findOrCreateWallet(clientAccount: ClientAccount, balance: Double, serviceType: ServiceTypeEnum): Wallet {
-        //return walletRepository.findByClientAccount(clientAccount, serviceType)
-        return walletRepository.findByAccountNumber(clientAccount.accountNumber, serviceType)
-                ?: walletRepository.save(
-                        Wallet(
-                                clientAccount   = clientAccount,
-                                balance         = balance,
-                                serviceType     = serviceType
-                        )
-                )
-        }
 
 }
