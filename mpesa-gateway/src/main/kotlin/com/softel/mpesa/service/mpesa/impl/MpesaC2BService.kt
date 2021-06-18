@@ -164,17 +164,6 @@ class MpesaC2BService: IMpesaC2BService {
 
         var msg = "Welcome to vuka wireless"
 
-        // if(callback.transAmount.toLong() == 1L){
-        //     msg = "This is a test"
-        //     hashMap.put("to",callback.msisdn)
-        //     hashMap.put("message",msg)
-        //     hashMap.put("username","VUKA")  
-
-        //     smsClient.postSms(hashMap)  
-
-        //     return
-        //     }
-
         //preparation locate the wallet
         val client    = clientAccountService.findOrCreateClientAccount(
             msisdn = callback.msisdn,

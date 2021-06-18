@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import com.softel.mpesa.dto.WalletDto
+import com.softel.mpesa.dto.BuyFromWalletDto
 import com.softel.mpesa.enums.ServiceTypeEnum
 import com.softel.mpesa.entity.Wallet
 import com.softel.mpesa.entity.ClientAccount
@@ -18,9 +19,10 @@ interface IWalletService {
     // fun getWalletDetails(accountNumber: String, serviceType: String): Result<Wallet>
 
     fun getWallet(id: Long): Result<Wallet?>
-
     fun findAllPaged(pageable: Pageable): Page<Wallet?>
 
     fun createWallet(walletDto: WalletDto): Result<Wallet>
     fun findOrCreateWallet(clientAccount: ClientAccount, balance: Double, serviceType: ServiceTypeEnum): Wallet
+
+    fun buyFromWallet(buyFromWallet: BuyFromWalletDto): Result<String>
 }
