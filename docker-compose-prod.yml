@@ -17,7 +17,7 @@ services:
       - app-network
 
   mpesa:
-    image: zeguru/vuka-mpesa-gateway:rc15
+    image: zeguru/vuka-mpesa-gateway:rc16
     container_name: vuka_mpesa_gateway
     restart: unless-stopped
     ports:
