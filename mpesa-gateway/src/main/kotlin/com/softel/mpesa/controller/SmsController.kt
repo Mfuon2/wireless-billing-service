@@ -44,9 +44,7 @@ import com.google.gson.JsonObject;
 import com.softel.mpesa.feign.SmsClient
 import com.softel.mpesa.service.common.ISms
 import com.softel.mpesa.dto.AtSms
-import lombok.extern.slf4j.Slf4j
 
-@Slf4j
 @RestController
 @CrossOrigin(origins = ["http://localhost","http://localhost:4200","http://127.0.0.1:4200","http://127.0.0.1", "http://68.183.217.137","http://68.183.217.137:4200" ])
 @RequestMapping("/sms")

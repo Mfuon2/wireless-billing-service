@@ -1,7 +1,5 @@
 package com.softel.mpesa.service.files.impl
 
-//import lombok.extern.slf4j.Slf4j
-
 import java.io.IOException
 import java.net.MalformedURLException
 import java.nio.file.Files
@@ -25,7 +23,6 @@ import org.apache.commons.csv.CSVParser
 import com.softel.mpesa.service.files.IFileStorage
 
 @Service
-//@Slf4j
 class FilesStorageService: IFileStorage {
 
     @Autowired
