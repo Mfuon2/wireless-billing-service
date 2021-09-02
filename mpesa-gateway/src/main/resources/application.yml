@@ -29,7 +29,7 @@ feign:
       default:
         connectTimeout: 5000
         readTimeout: 5000
-        loggerLevel: full
+        loggerLevel: FULL
         #errorDecoder: com.softel.mpesa.feign.FeignErrorDecoder
         # retryer: com.example.SimpleRetryer
         # requestInterceptors:
@@ -60,10 +60,10 @@ logging:
   pattern:
     console: '%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n'
   level:
-    root: INFO
+    root: DEBUG
     org:
       springframework:
-        web: INFO
+        web: DEBUG
       hibernate:
         SQL: ERROR
       type:
