@@ -30,7 +30,7 @@ feign:
         connectTimeout: 5000
         readTimeout: 5000
         loggerLevel: full
-        errorDecoder: com.softel.mpesa.feign.FeignErrorDecoder
+        #errorDecoder: com.softel.mpesa.feign.FeignErrorDecoder
         # retryer: com.example.SimpleRetryer
         # requestInterceptors:
         #   - com.example.FooRequestInterceptor
