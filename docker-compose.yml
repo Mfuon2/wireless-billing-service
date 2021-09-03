@@ -37,7 +37,20 @@ services:
       - app-network
     env_file:
       - mpesa-gateway/mpesa.env
-
+    environment:
+      # - JAVA_TOOL_OPTIONS=-Xmx512M -XX:MaxMetaspaceSize=768M -XX:MaxRAM=1024M 
+      #   -XX:NativeMemoryTracking=summary
+      #   -Dcom.sun.management.jmxremote.ssl=false  
+      #   -Dcom.sun.management.jmxremote.authenticate=false  
+      #   -Dcom.sun.management.jmxremote.port=5000 
+      #   -Dcom.sun.management.jmxremote.rmi.port=5000  
+      #   -Dcom.sun.management.jmxremote.host=0.0.0.0  
+      #   -Djava.rmi.server.hostname=0.0.0.0
+      # - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/pacis_ussd
+      # - SPRING_DATASOURCE_USERNAME=dev_user
+      # - SPRING_DATASOURCE_PASSWORD=nimzo_indian
+      - SPRING_APPLICATION_JSON={"spring.redis.host":"redis", "spring.redis.port":"6379"}
+      # - SPRING_PROFILES_ACTIVE=local
 
   redis:
     image: redis

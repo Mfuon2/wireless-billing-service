@@ -6,7 +6,10 @@ spring:
     name: vuka-mpesa-gateway
   profiles:
     active: dev
-
+  # cache:
+  #   cache-names: "cambiumToken,cache2"
+  #   redis:
+  #     time-to-live: "2m"
 # eureka:
 #    client:
 #       serviceUrl:

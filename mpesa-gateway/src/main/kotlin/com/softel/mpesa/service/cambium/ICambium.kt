@@ -8,7 +8,7 @@ import com.softel.mpesa.entity.cache.GeneralDashboard
 import org.springframework.http.ResponseEntity;
 
 interface ICambium {
-    fun getAccessToken():ResponseEntity<String> 
+    fun getAccessToken():String
     // fun getDevices():ResponseEntity<String> 
 
 }
