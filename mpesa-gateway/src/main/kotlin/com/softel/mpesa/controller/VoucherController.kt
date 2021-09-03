@@ -16,6 +16,9 @@ import com.softel.mpesa.util.Result
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
+import com.softel.mpesa.feign.CambiumFeign
+import com.softel.mpesa.util.Helper
+import com.softel.mpesa.service.cambium.ICambium
 
 //@Hidden
 @RestController
@@ -26,6 +29,9 @@ class VoucherController {
 
     @Autowired
     lateinit var voucherService: IVoucher
+
+    @Autowired
+    lateinit var cambiumService: ICambium
 
     @Operation(summary = "Get paged list", description = "Get a paged list of temporary voucher")
     @GetMapping(value = ["/temp/paged"], produces = ["application/json"])
@@ -47,4 +53,6 @@ class VoucherController {
         @Parameter(name = "claimDto",description = "Dto", required = true)
         @Valid @RequestBody voucherClaimDto: ClaimVoucherDto): Result<String> = voucherService.claimById(voucherClaimDto)
 
+    @GetMapping(value = ["/cambium/token"], produces = ["application/json"])
+    fun getCambiumToken() = cambiumService.getAccessToken()
 }

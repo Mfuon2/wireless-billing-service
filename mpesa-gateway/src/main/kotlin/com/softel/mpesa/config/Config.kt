@@ -116,13 +116,3 @@ fun getJsonObject(data: String?): JSONObject? {
 
 val gson = Gson()
 
-@Configuration
-class FeignConfig {
-
-    @Bean
-    fun clientFeignEncoder(
-        messageConverters: ObjectFactory<HttpMessageConverters?>?
-    ): Encoder? {
-        return SpringFormEncoder(SpringEncoder(messageConverters))
-    }
-}
