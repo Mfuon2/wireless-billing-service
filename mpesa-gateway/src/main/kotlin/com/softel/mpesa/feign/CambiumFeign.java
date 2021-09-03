@@ -23,7 +23,7 @@ import org.springframework.http.ResponseEntity;
 public interface CambiumFeign {
 
     @PostMapping(value = "/access/token", consumes = "application/x-www-form-urlencoded")
-    ResponseEntity<String> getAccessToken(
+    String getAccessToken(
             @RequestHeader("Authorization") String header,
             @RequestBody Map<String, ?> form
             );

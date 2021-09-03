@@ -28,7 +28,8 @@ import com.softel.mpesa.feign.CambiumFeign
 import com.softel.mpesa.util.Helper
 import java.time.LocalDateTime
 import com.softel.mpesa.service.cambium.ICambium
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity
+import org.springframework.cache.annotation.Cacheable
 
 @Service
 class CambiumService: ICambium {
@@ -36,7 +37,8 @@ class CambiumService: ICambium {
     @Autowired
     lateinit var cambiumFeign: CambiumFeign
 
-    override fun getAccessToken(): ResponseEntity<String>{
+    @Cacheable("cambiumToken")
+    override fun getAccessToken(): String{
 
         val appKeySecret        = "t4Yc8sCMeXlUf3Ro:XiHNJ8rKCfk4trI54hqQit35680OO5"
         val bytes: ByteArray    = appKeySecret.toByteArray()
