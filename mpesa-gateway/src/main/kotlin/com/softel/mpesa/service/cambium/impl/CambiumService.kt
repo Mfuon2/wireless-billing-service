@@ -1,9 +1,13 @@
 package com.softel.mpesa.service.cambium.impl
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import com.google.gson.Gson
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
 import com.softel.mpesa.enums.AccountTransactionType
 import com.softel.mpesa.enums.ServiceTypeEnum
 import com.softel.mpesa.enums.VoucherClaimReason
@@ -40,6 +44,8 @@ class CambiumService: ICambium {
     @Cacheable("cambiumToken")
     override fun getAccessToken(): String{
 
+        println("Getting cambium token")
+
         val appKeySecret        = "t4Yc8sCMeXlUf3Ro:XiHNJ8rKCfk4trI54hqQit35680OO5"
         val bytes: ByteArray    = appKeySecret.toByteArray()
         val authString: String   = "Basic " + Helper.encodeToBase64String(bytes)
@@ -54,5 +60,50 @@ class CambiumService: ICambium {
         }
 
 
-    
+    override fun getDevices(): String{
+
+        val jsonObject:JsonObject = JsonParser().parse(getAccessToken()).getAsJsonObject();
+        val authString: String   = "Bearer " + jsonObject.get("access_token").getAsString()
+
+        return cambiumFeign.getDevices(authString) 
+        }
+
+    override fun getAllPortals(): String{
+
+        val jsonObject:JsonObject = JsonParser().parse(getAccessToken()).getAsJsonObject();
+        val authString: String   = "Bearer " + jsonObject.get("access_token").getAsString()
+
+        return cambiumFeign.getAllPortals(authString) 
+        }
+
+    override fun getPortal(portal_id: String): String{
+
+        val jsonObject:JsonObject = JsonParser().parse(getAccessToken()).getAsJsonObject();
+        val authString: String   = "Bearer " + jsonObject.get("access_token").getAsString()
+
+        return cambiumFeign.getPortal(authString, portal_id) 
+        }
+
+    override fun getVouchers(portal_id: String, voucher_plan: String): String{
+
+        val jsonObject:JsonObject = JsonParser().parse(getAccessToken()).getAsJsonObject();
+        val authString: String   = "Bearer " + jsonObject.get("access_token").getAsString()
+
+        return cambiumFeign.getVouchers(authString, portal_id, voucher_plan) 
+        }
+
+    override fun generateVouchers(portal_id: String, voucher_plan: String, num: Int): String{
+
+        val jsonObject:JsonObject = JsonParser().parse(getAccessToken()).getAsJsonObject();
+        val authString: String   = "Bearer " + jsonObject.get("access_token").getAsString()
+
+
+        // val dto = GenerateVoucherDto(
+        //         count = num
+        //     )
+        val dto = "{\"count\": $num}"
+        return cambiumFeign.generateVouchers(authString, portal_id, voucher_plan, dto) 
+        }
+
+
 }
