@@ -32,4 +32,20 @@ class CambiumController {
 
     @GetMapping(value = ["/token"], produces = ["application/json"])
     fun getCambiumToken() = cambiumService.getAccessToken()
-}
+
+    @GetMapping(value = ["/devices/list"], produces = ["application/json"])
+    fun getDevices() = cambiumService.getDevices()
+
+    @GetMapping(value = ["/portal/list"], produces = ["application/json"])
+    fun getAllPortals() = cambiumService.getAllPortals()
+
+    @GetMapping(value = ["/portal/{portal_id}"], produces = ["application/json"])
+    fun getPortal(@PathVariable  portal_id: String) = cambiumService.getPortal(portal_id)
+
+    @GetMapping(value = ["/portal/{portal_id}/vouchers/{voucher_plan}"], produces = ["application/json"])
+    fun getVouchers(@PathVariable  portal_id: String, @PathVariable  voucher_plan: String) = cambiumService.getVouchers(portal_id, voucher_plan)
+
+    @GetMapping(value = ["/portal/{portal_id}/vouchers/{voucher_plan}/generate/{num}"], produces = ["application/json"])
+    fun generateVoucher(@PathVariable  portal_id: String, @PathVariable  voucher_plan: String, @PathVariable num: Int) = cambiumService.generateVouchers(portal_id, voucher_plan, num)
+
+    }

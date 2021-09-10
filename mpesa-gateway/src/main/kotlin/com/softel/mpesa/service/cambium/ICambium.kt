@@ -9,6 +9,10 @@ import org.springframework.http.ResponseEntity;
 
 interface ICambium {
     fun getAccessToken():String
-    // fun getDevices():ResponseEntity<String> 
+    fun getDevices():String
+    fun getAllPortals():String
+    fun getPortal(portal_id: String):String
+    fun getVouchers(portal_id: String, voucher_plan: String):String
+    fun generateVouchers(portal_id: String, voucher_plan: String, count:Int):String
 
-}
+    }

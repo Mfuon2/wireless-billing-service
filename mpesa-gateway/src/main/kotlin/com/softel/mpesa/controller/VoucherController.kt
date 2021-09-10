@@ -53,6 +53,4 @@ class VoucherController {
         @Parameter(name = "claimDto",description = "Dto", required = true)
         @Valid @RequestBody voucherClaimDto: ClaimVoucherDto): Result<String> = voucherService.claimById(voucherClaimDto)
 
-    @GetMapping(value = ["/cambium/token"], produces = ["application/json"])
-    fun getCambiumToken() = cambiumService.getAccessToken()
 }
